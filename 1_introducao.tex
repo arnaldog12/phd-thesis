@@ -1,0 +1,27 @@
+\section{Introduction}
+
+The face has been traditionally used in identity documents for visual recognition of a person and therefore represents one of the most used physical characteristics for biometric recognition \citep{ferrara2012face}. Compared to other physical attributes, the face has some advantages. For instance, the acquisition of facial features via digital photography is non-intrusive, can be performed remotely, and does not require cooperation from the individual or even specialized hardware.
+
+In the context of biometric recognition via identity documents, many efforts have been made to allow machine-assisted verification of an individual's identity over the years. 
+
+
+
+Since the number of requirements defined by the ISO/ICAO standards is high (almost 30), the compliance verification of a single face image is still a challenge to be accomplished. According to \cite{ferrara2012multi}, this task is still performed visually by human experts, sometimes with the support of an automated system. It prevents agility in critical scenarios such as international airports, where this task is performed millions of times a day. Therefore, complete automation of this task is still an ongoing request and may help avoid the need for a human expert and accelerate the document production process.
+
+In recent years, \acfp{dnn} have gained a prominent position in Computer Science due to their high propensity to recognize intricate patterns. One of the main advantages of this technique is the network's inherent ability to extract information from raw data, sometimes with little or even no preprocessing. It allows a generic learning process that does not depend on attributes explicitly chosen or extracted from the data. In computer vision, this task is usually performed by \acfp{cnn}, a particular type of architecture developed for images as input, reducing the number of parameters and improving the training process \citep{goodfellow2016deep}.
+
+
+
+In this paper, we present a Deep Learning-based method for automatic evaluation of the photographic requirements of the \icao standard, called \methodname. Our network is trained from scratch in a Multitask Learning approach and with limited data (approximately 5700 images only). The architecture is based on Autoencoders, but the training is performed in unsupervised (image reconstruction) and supervised (multi-label classification) manners at the same time. An experimental evaluation has shown that our method could outperform algorithms presented in the literature and SDK tools available as commercial solutions for evaluation of most requirements. We also apply \acf{shap} \citep{shap2018}, \acf{pca} \citep{pca}, and t-SNE \citep{tsne} to understand our network predictions related to each requirement presented in the \icao standard.
+
+\subsection{Objectives}	
+
+The general objective of this PhD Thesis is to develop a 
+
+\subsection{Contributions}	
+
+\subsection{Thesis Structure}
+
+The rest of this thesis is structured as follows. First, we present the fundamental concepts used in this work. In Chapter 3, we review the main \acl{mtl} architectures and works published for the \icao standard. Next, in Chapter 4, we describe the materials and methods employed in the proposed work. Chapter 5 presents the preliminary evaluations obtained up to the moment. Finally, we discuss the conclusions and propose a schedule for future works.
+
+% It includes, but it is not limited to, \acl{dl}, \acl{mtl}, and the \icao standard.
