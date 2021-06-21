@@ -114,7 +114,7 @@ The first step of our preprocessing method is face detection. We use a single sh
 
 Since the bounding box of the detected face is limited to the face region (from forehead to chin), we crop a squared region 1.5$\times$ larger than the detected face to include background and other relevant information to assess the requirements. Padded regions are filled with zeros because it generates less undesired artifacts than methods like border reflection, replication, or wrap. We do not apply any image normalization like illumination correction or rotation as it can affect requirements evaluation. 
 
-Finally, the cropped image is resized to 160$\times$160, and all pixels intensities are normalized to the $[0...1]$ range before feeding to \methodname. Again, the size of 160$\times$160 was chosen considering the trade-off between speed and results. More details are provided in Chapter \ref{sec:results}. 
+Finally, the cropped image is resized to 160$\times$160 using the \texttt{INTER\_AREA} method of OpenCV\footnote{\url{https://docs.opencv.org/3.4/da/d54/group__imgproc__transform.html}}, since it is the recommended method for image decimation. Then, all pixels intensities are normalized to the $[0...1]$ range before feeding to \methodname. Again, the size of 160$\times$160 was chosen considering the trade-off between speed and results. More details are provided in Chapter \ref{sec:results}. 
 
 \subsubsection{Architecture}
 
@@ -184,7 +184,7 @@ The network is written in Python using Keras\footnote{\url{https://keras.io}} fr
 
 One last important detail about \methodname training is that we took special care over the experimentation phase. For example, we set the random seed of Python, its \texttt{random} module\footnote{\url{https://docs.python.org/3/library/random.html}}, and Numpy\footnote{\url{https://numpy.org}} and TensorFlow libraries to be the same for all experiments. It assures reproducibility and ensures that the best results of current experiments are not achieved by chance.
 
-\subsubsection{Parameters and Hyperparameters} 
+\subsubsection{Parameters and Hyperparameters} \label{sec:hyperparams}
 
 The base architecture of \methodname -- composed of the three components described earlier (shared network, supervised branch, and unsupervised branch) -- contains a total of 1,980,890 parameters. From these parameters, 1,978,458 are trainable, and the remaining 2,432 are non-trainable parameters related to the mean and variance computed by batch norm layers. In terms of size, the \methodname occupies 22.8 MB in the disk when stored as a \texttt{.hdf5} file.
 
