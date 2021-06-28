@@ -34,7 +34,7 @@ The rest of this section focus on some specific kinds of neural networks and lay
 
 \acfp{cnn}, also known as Convolutional Networks, are a specific kind of feedforward neural network specially developed to process grid-like data. For example, we can think of time-series data as a 1--D grid of time intervals with samples. Likewise, images can be considered as 2--D grid of pixels. In the last years, \acsp{cnn} have achieved exceptional performance in many practical applications. It includes, but it is not limited to, image classification \citep{li2014medical, guo2017simple, paoletti2018new}, object detection \citep{cai2016unified, wu2017squeezedet}, and instance segmentation \citep{wang2020solov2, xu2020convolutional, zhang2020mask}.
 
-The convolution is the basic operation of a \acs{cnn}. In summary, it is a well-known mathematical operation that performs a linear calculation over two functions. It is similar to the cross-correlation, but one of the functions is reversed and shifted. Given the functions $x$ and $w$, the convolution operation between $x$ and $w$ - denoted by $h(t)$ - can be defined as:
+The convolution is the basic operation of a \acs{cnn}. In summary, it is a well-known mathematical operation that performs a linear calculation over two functions. It is similar to the cross-correlation, but one of the functions is reversed and shifted. Given the functions $x$ and $w$, the convolution operation between $x$ and $w$ - denoted by $h(t)$ - can be defined as in \autoref{eq:convolution}:
 
 \begin{equation}
 \label{eq:convolution}
@@ -42,7 +42,7 @@ h(t) = \int_{-\infty }^{\infty} x(\tau)w(t - \tau)\ d\tau
 \end{equation}
 
 \noindent
-Typically, the convolution operation is expressed by an asterisk:
+Typically, the convolution operation is expressed by an asterisk (\autoref{eq:conv_ast}):
 
 \begin{equation}
 \label{eq:conv_ast}
@@ -50,7 +50,7 @@ h(t) = (x * w)(t)
 \end{equation}
 
 \noindent
-where $x$ represent the input, $w$ is the kernel, and $t$ is the moment where the convolution is computed. If $w$ is a valid probability density function, the convolution can be considered as a weighted average of the input at the moment $t$. Also, when working with discretized data (like digital images), the \autoref{eq:convolution} can be rewritten as:
+where $x$ represent the input, $w$ is the kernel, and $t$ is the moment where the convolution is computed. If $w$ is a valid probability density function, the convolution can be considered as a weighted average of the input at the moment $t$. Also, when working with discretized data (like digital images), the \autoref{eq:convolution} can be rewritten as \autoref{eq:conv_discrete}:
 
 \begin{equation}
 \label{eq:conv_discrete}
@@ -82,7 +82,7 @@ There are two common types of pooling methods: \textbf{max pooling} and \textbf{
 \subfigure[Max Pooling]{\includegraphics[width=0.4\linewidth]{images/pool_max.png}}
 \hfill
 \subfigure[Average Pooling]{\includegraphics[width=0.4\linewidth]{images/pool_avg.png}}    
-\caption{Example of Max Pooling and Average Pooling operations performed over a feature map of $4 \times 4$ with $pool\_size=2 \times 2$, $stride=2$, and no padding.}
+\caption{Example of Max Pooling and Average Pooling operations performed over a feature map of $4 \times 4$ with $pool\_size=2 \times 2$, $stride=2$, and no padding. Adapted from \citep{guissousallaeddine2019}.}
 \label{fig:poolings}
 \end{figure*}
 
@@ -120,7 +120,7 @@ Then, the input $x_i$ is normalized by \autoref{eq:bn_norm}:
 \end{equation}
 
 \noindent
-where $x_i$ can be either the input or output of the activation function from the current layer, and $\epsilon$ is a arbitrarily small constant added for numerical stability. The final output $y_i$ of the current layers is given by:
+where $x_i$ can be either the input or output of the activation function from the current layer, and $\epsilon$ is a arbitrarily small constant added for numerical stability. The final output $y_i$ of the current layers is given by \autoref{eq:bn_output}:
 
 \begin{equation}
 \label{eq:bn_output}
@@ -144,14 +144,14 @@ E[x] = E_B[\mu_B]
 Var[x] = \frac{m}{m-1} E_B[\sigma_B^{2}]
 \end{equation}
 
-Therefore, during inference, the input $x_i$ will be normalized by:
+Therefore, during inference, the input $x_i$ will be normalized by \autoref{eq:bn_inf_xi}:
 
 \begin{equation}
 \label{eq:bn_inf_xi}
 \hat{x} = \frac{x_i - E[x]}{\sqrt{Var[x] + \epsilon}}
 \end{equation}
 
-And the output $y$ will be given by:
+And the output $y$ will be given by \autoref{eq:bn_inf_yi}:
 
 \begin{equation}
 \label{eq:bn_inf_yi}
@@ -173,7 +173,7 @@ The architecture of Autoencoders (\autoref{fig:autoencoder}) are usually compose
 \begin{figure}[h]
 \centering
 \includegraphics[width=\linewidth]{images/autoencoder.png}
-\caption{Architecture of an Autoencoder.}
+\caption{Architecture of an Autoencoder. Source: \citep{autoencoder_architecture}}
 \label{fig:autoencoder}
 \end{figure}
 
@@ -187,9 +187,10 @@ Since the exact copy of the input, $g(f(x)) = x$, is not especially useful, Auto
 
 One typical architecture of Autoencoder restricts the embedding dimensions ($h$) to be smaller than the input $x$. Such Autoencoder is called \textbf{undercomplete}. By constraining $h$, the Autoencoder is forced to learn an undercomplete representation and must prioritize the most salient features of the input data during training. Moreover, the reconstructed input $r$ will not be a perfect copy of the input, and the undercomplete Autoencoders can be considered lossy compressors.
 
-The learning process of Autoencoders involves the minimization of a loss function 
+The learning process of Autoencoders involves the minimization of a loss function like \autoref{eq:loss-basic}:
 
 \begin{equation}
+\label{eq:loss-basic}
 L(x, g(f(x)))
 \end{equation}
 
@@ -225,7 +226,7 @@ Historically, \acs{mtl} methods were classified into hard or soft parameter shar
 \subfigure[Hard Parameter Sharing]{\includegraphics[height=0.35\linewidth]{images/mtl_hard.pdf}}
 \hfill
 \subfigure[Soft Parameter Sharing]{\includegraphics[height=0.35\linewidth]{images/mtl_soft.pdf}}    
-\caption{Types of parameter sharing in \acl{mtl}.}
+\caption{Types of parameter sharing in \acl{mtl}. Source: own elaboration.}
 \label{fig:mtl_sharing}
 \end{figure*}
 
@@ -259,7 +260,7 @@ The \acf{shap} is a method to explain the output of any machine learning model u
 
 The basic idea of \acs{shap} comes from the game theory. In summary, the Shapley values try to quantify the contribution that each player brings to a game. In the context of \acl{ml}, the "game" is considered as the outcome of the model, while the "players" are represented by one or more features included in the model. In the case of images, specifically, pixels can be grouped (superpixels) to explain predictions distributed among them. Therefore, the goal of SHAP is to measure the contribution of each feature concerning the model's prediction.
 
-Given the original prediction model $f$ to be explained and the explanation model $g$, the Shapley value explanation is represented as an additive feature attribution method, which is a linear function of binary values:
+Given the original prediction model $f$ to be explained and the explanation model $g$, the Shapley value explanation is represented as an additive feature attribution method (\autoref{eq:shap_add}), which is a linear function of binary values:
 
 \begin{equation}
 \label{eq:shap_add}
@@ -269,9 +270,10 @@ g(z')=\phi_0+\sum_{j=1}^M\phi_jz_j'
 \noindent
 where $z' \in \{0,1\}^M$ is the coalition (subset) vector, $M$ is the number of simplified input features (coalition size) and $\phi \in \mathbb{R}$ is the feature attribution for a feature $j$ (Shapley values). Many methods has explanation models that matches the \autoref{eq:shap_add}, including \acs{lime} \citep{lime} and \textit{DeepLIFT} \citep{deeplift_old, deeplift_new}.
 
-To compute the contribution of each feature ($\phi_i$), the \acs{shap} method requires retraining the model on all subset of features $S \subseteq F$, being $F$ the full set of features. A corresponding importance value will be assigned to each feature to represent the effect on the model prediction when such feature is included. To compute this effect, a model is trained with the presence of that feature ($f_{S \cup \{i\}}$), and another model is trained without that feature ($f_S$). Then, the predictions of the two models are compared for the current input $f_{S \cup \{i\}}(x_{S \cup \{i\}}) - f_S(x_S)$. In this case, $x_S$ denotes the values of the input features in the set $S$. The preceding differences are computed for all possible subsets since the effect of withholding a feature also depends of other features in the model. The Shapley values are the weighted average of all possible differences:
+To compute the contribution of each feature ($\phi_i$), the \acs{shap} method requires retraining the model on all subset of features $S \subseteq F$, being $F$ the full set of features. A corresponding importance value will be assigned to each feature to represent the effect on the model prediction when such feature is included. To compute this effect, a model is trained with the presence of that feature ($f_{S \cup \{i\}}$), and another model is trained without that feature ($f_S$). Then, the predictions of the two models are compared for the current input $f_{S \cup \{i\}}(x_{S \cup \{i\}}) - f_S(x_S)$. In this case, $x_S$ denotes the values of the input features in the set $S$. The preceding differences are computed for all possible subsets since the effect of withholding a feature also depends of other features in the model. The Shapley values are the weighted average of all possible differences (\autoref{eq:shapley-values}):
 
 \begin{equation}
+\label{eq:shapley-values}
 \phi_i = \sum_{S \subseteq F \setminus \{i\}} \frac{\left|S\right|!(\left|F\right| - \left|S\right| - 1)!}{\left|F\right|!}\left[f_{S \cup \{i\}}\right (x_{S \cup \{i\}}) - f_S(x_S)]
 \end{equation}
 
@@ -299,7 +301,7 @@ The \acf{pca} \citep{pca} is an unsupervised \acl{ml} algorithm for dimensionali
 
 The main step of PCA is to compute the \textbf{eigenvectors} (principal components) of the input data. The eigenvectors explain the variance of data along the new axes and determine the direction in the new feature space. In PCA, they are organized into a projection matrix, and each eigenvector is associated with an \textbf{eigenvalue}. The eigenvalue can be interpreted as the magnitude of the corresponding eigenvector. If the eigenvalues have a similar magnitude, it can be considered a valuable indicator that the original data is already in a suitable subspace. Otherwise, if the magnitude of some eigenvalues is much higher than others, the corresponding eigenvectors may be chosen since they contain more information about our data distribution. Likewise, the eigenvalues near zero are less informative and may be discarded in the construction of the new subspace. 
 
-The classical approach of PCA computes the covariance matrix, where each element represents the covariance between two features, computed as below:
+The classical approach of PCA computes the covariance matrix, where each element represents the covariance between two features, computed by \autoref{eq:covariance}:
 
 \begin{equation}
 \label{eq:covariance}
@@ -307,7 +309,7 @@ The classical approach of PCA computes the covariance matrix, where each element
 \end{equation}
 
 \noindent
-which can be rewritten in the matrix form as:
+which can be rewritten in the matrix form as \autoref{eq:covariance2}:
 
 \begin{equation}
 \label{eq:covariance2}
@@ -328,7 +330,7 @@ $$
 \noindent
 where the main diagonal corresponds to the variance of each dimension, and the remaining elements are the covariance between each dimension pair. An interesting property of the covariance matrix is that the sum of the main diagonal is always equal to the sum of eigenvalues.
 
-The eigenvectors and eigenvalues of PCA can also be computed using the correlation matrix. Although the resulting matrices are different, they will results in the same eigenvectors and eigenvalues since the correlation matrix is given by the standardization of the covariance matrix:
+The eigenvectors and eigenvalues of PCA can also be computed using the correlation matrix. Although the resulting matrices are different, they will results in the same eigenvectors and eigenvalues since the correlation matrix is given by the standardization of the covariance matrix (\autoref{eq:correlation}):
 
 \begin{equation}
 \label{eq:correlation}
@@ -382,7 +384,7 @@ The \acs{tsne} algorithm has two main stages. First, the symmetric probability o
 \end{algorithmic}
 \end{algorithm}
 
-Given an object $i$, and each potential neighbor $j$ in the high-dimensional space, the joint probability $p_{ij}$ that computes the pairwise similarity between $i$ and $j$ is defined as:
+Given an object $i$, and each potential neighbor $j$ in the high-dimensional space, the joint probability $p_{ij}$ that computes the pairwise similarity between $i$ and $j$ is defined as in \autoref{eq:tsne_pij}:
 
 \begin{equation}
 \label{eq:tsne_pij}
@@ -397,7 +399,7 @@ d_{ij}^2 = \frac{\left\| x_i - x_j \right\|^2}{2\sigma_i^2}
 \end{equation}
 
 \noindent
-where $\sigma_i$ can be either defined by hand or a binary search that makes the entropy of the distribution over neighbors equal to $log\ Perp$. In this case, $Perp$ is an input parameter of the cost function called "perplexity." The perplexity may be interpreted as a measure of the effective number of neighbors and is defined by:
+where $\sigma_i$ can be either defined by hand or a binary search that makes the entropy of the distribution over neighbors equal to $log\ Perp$. In this case, $Perp$ is an input parameter of the cost function called "perplexity." The perplexity may be interpreted as a measure of the effective number of neighbors and is defined by \autoref{eq:tsne_perp}:
 
 \begin{equation}
 \label{eq:tsne_perp}
@@ -405,7 +407,7 @@ Perp(P_i) = 2^{H(P_i)}
 \end{equation}
 
 \noindent
-where $H(P_i)$ is the Shannon entropy of $P_i$ measured in bits by:
+where $H(P_i)$ is the Shannon entropy of $P_i$ measured in bits by \autoref{eq:tsne_entropy}:
 
 \begin{equation}
 \label{eq:tsne_entropy}
@@ -423,21 +425,21 @@ q_{ij} = \frac{exp(-\left\| y_i - y_j \right\|^2)}{\sum_{k \neq i} exp(-\left\| 
 
 \noindent
 where $y_i$ and $y_j$ represent the low-dimensional counterparts of the
-high-dimensional data points $x_i$ and $x_j$. Usually, for tasks in which the dimensionality of the data is reduced to 2D or 3D, the \textit{t}-Student distribution is applied with one degree of freedom and the \autoref{eq:tsne_qij} can be rewritten as:
+high-dimensional data points $x_i$ and $x_j$. Usually, for tasks in which the dimensionality of the data is reduced to 2D or 3D, the \textit{t}-Student distribution is applied with one degree of freedom and the \autoref{eq:tsne_qij} can be rewritten as \autoref{eq:tsne_qij_1}:
 
 \begin{equation}
 \label{eq:tsne_qij_1}
 q_{ij} = \frac{(1 +\left\| y_i - y_j \right\|^2)^{-1}}{\sum_{k \neq l} (1 +\left\| y_k - y_l \right\|^2)^{-1}}
 \end{equation}
 
-Finally, the \acs{tsne} tries to minimize a single Kullback-Leible divergence between a joint probability distribution $P$ in the high-dimensional space and a joint probability distribution $Q$ in the low-dimensional space:
+Finally, the \acs{tsne} tries to minimize a single Kullback-Leible divergence (\autoref{eq:tsne_cost}) between a joint probability distribution $P$ in the high-dimensional space and a joint probability distribution $Q$ in the low-dimensional space:
 
 \begin{equation}
 \label{eq:tsne_cost}
 C = KL(P||Q) = \sum_i\sum_j p_{ij} log \frac{p_{ij}}{q_{ij}}
 \end{equation}
 
-In contrast to the SNE implementation, the \acs{tsne} is symmetric since $p_{ij} = p_{ji}$ and $q_{ij} = q_{ji}$ for $\forall i,j$. The main advantage of such symmetry is the simpler gradient expression, being faster to compute. The gradient of the cost function $C$ with respect to the point $y_i$ is given by:
+In contrast to the SNE implementation, the \acs{tsne} is symmetric since $p_{ij} = p_{ji}$ and $q_{ij} = q_{ji}$ for $\forall i,j$. The main advantage of such symmetry is the simpler gradient expression, being faster to compute. The gradient of the cost function $C$ with respect to the point $y_i$ is given by \autoref{eq:tsne_grad}:
 
 \begin{equation}
 \label{eq:tsne_grad}
@@ -521,7 +523,7 @@ Since both \acs{npv} and specificity are similar to Precision and Recall, they s
 
 \subsubsection{\acl{mcc}} \label{sec:mcc}
 
-The \acf{mcc}, also known as phi coefficient, is a binary classification metric that takes into account all the four confusion matrix categories: true positives, true negatives, false positives, and false negatives. It was introduced by biochemist Brian W. Matthews in 1975 \citep{matthews1975comparison} and is defined by the Eq. \ref{eq:mcc}.
+The \acf{mcc}, also known as phi coefficient, is a binary classification metric that takes into account all the four confusion matrix categories: true positives, true negatives, false positives, and false negatives. It was introduced by biochemist Brian W. Matthews in 1975 \citep{matthews1975comparison} and is defined by the \autoref{eq:mcc}
 
 \begin{equation}
 \label{eq:mcc}
@@ -564,7 +566,7 @@ Following the ICAO guidelines, the \acf{iso}, together with the \acf{iec}, propo
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\linewidth]{images/icao.png}
-\caption{Examples of non-compliant images for the requirements 8-30 listed in Table \ref{tab:icao}. Source: \cite{maltoni2009biolab}}
+\caption{Examples of non-compliant images for the requirements 8-30 listed in Table \ref{tab:icao}. Source: \cite{maltoni2009biolab}.}
 \label{fig:icao}
 \end{figure}
 
@@ -584,7 +586,7 @@ In 2012, a new benchmark category related to the \icao standard was added to \fv
 \begin{figure}[ht]
     \centering
     \includegraphics[height=3.0in]{images/icao_tokenizable.png}
-    \caption{Geometric characteristics of the token image format. Source: \citep{fvcongoing}}
+    \caption{Geometric characteristics of the token image format. Source: \citep{fvcongoing}.}
     \label{fig:icao_token}
 \end{figure}
 
@@ -594,7 +596,7 @@ All participants that want to submit an algorithm for evaluation in the \acs{fic
 
 Additionally to the submission protocol, the algorithm must still comply with some constraints. For example, the maximum time allowed for the processing of each image is 10 seconds. In case of time violations, the current image evaluation is considered a failure. Also, there is a minimum break of 12 hours between two consecutive submissions by the same participant to the \ficvtest dataset. For the \ficvofficial, this interval is 15 days. However, there are no constraints about memory allocation limit.
 
-Finally, since the requirements \#1 and \#8--30 (see \autoref{tab:icao}) represents different kinds of problems, they are evaluated differently. The \citeReq{\eyecenterlocation} performance is measured by the relative error according to the distances between the expected and the estimated eye positions. This is the same metric introduced by \cite{jesorsky2001robust} and is calculated as follows:
+Finally, since the requirements \#1 and \#8--30 (see \autoref{tab:icao}) represents different kinds of problems, they are evaluated differently. The \citeReq{\eyecenterlocation} performance is measured by the relative error according to the distances between the expected and the estimated eye positions. This is the same metric introduced by \cite{jesorsky2001robust} and is calculated as follows (\autoref{eq:icao-eyes}):
 
 \begin{equation}
 \label{eq:icao-eyes}

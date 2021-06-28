@@ -67,28 +67,28 @@ To better understand the ad hoc dataset, we performed some analysis of the image
 The \autoref{fig:labels_by_sample} shows the number of images with 0 or more compliant/non-compliant labels in the ad hoc dataset. As pointed out earlier, there are 177 fully compliant images (i.e., the number of non-compliant labels equals zero). Also, we can notice that most images have 2 to 6 non-compliant requirements, but there are images with up to 14 non-compliant requirements.
 
 \begin{figure*}
-    \centering
-    \includegraphics[width=\linewidth]{images/labels_by_sample.pdf}
-    \caption{Number of images according to the count of compliant/non-compliant labels}
-    \label{fig:labels_by_sample}
+\centering
+\includegraphics[width=\linewidth]{images/labels_by_sample.pdf}
+\caption{Number of images according to the count of compliant/non-compliant labels. Source: own elaboration.}
+\label{fig:labels_by_sample}
 \end{figure*}
 
 In \autoref{fig:reqs_distribution}, we can easily visualize the labels distribution by requirement presented earlier in \autoref{tab:req-dist}. As can be seen, the requirements \citeReq{\inkmarked}, \citeReq{\washedout}, \citeReq{\framestooheavy}, and \citeReq{\otherfacesortoys} are the most unbalanced ones. Also, the \citeReq{\unnaturalskintone} is the only requirement where the number of non-compliant samples is greater than the compliant.
 
 \begin{figure*}
-    \centering
-    \includegraphics[width=\linewidth]{images/reqs_distribution.pdf}
-    \caption{Labels distribution per requirement.}
-    \label{fig:reqs_distribution}
+\centering
+\includegraphics[width=\linewidth]{images/reqs_distribution.pdf}
+\caption{Labels distribution per requirement. Source: own elaboration. Source: own elaboration.}
+\label{fig:reqs_distribution}
 \end{figure*}
 
 The \autoref{fig:reqs_correlation} shows the correlation between non-compliant requirements. In other words, it measures how many images has two different non-compliant requirements occurring together. As expected, we can notice a strong correlation between eyes-related characteristics, e.g., \citeReq{\lookingaway}, \citeReq{\hairacrosseyes}, \citeReq{\eyesclosed}, \citeReq{\redeyes}, \citeReq{\darktintedlenses}, and \citeReq{\framecoveringeyes}. These are mainly caused by the dummy requirements that were converted to non-compliant. Moreover, considerable correlations can be observed between requirements associated to skin, for instance \citeReq{\unnaturalskintone} and \citeReq{\flashskin}. 
 
 \begin{figure*}
-    \centering
-    \includegraphics[width=\linewidth]{images/reqs_correlation.pdf}
-    \caption{Correlation between non-compliant requirements.}
-    \label{fig:reqs_correlation}
+\centering
+\includegraphics[width=\linewidth]{images/reqs_correlation.pdf}
+\caption{Correlation between non-compliant requirements. Source: own elaboration.}
+\label{fig:reqs_correlation}
 \end{figure*}
 
 According to our analysis, we came up with some conclusions. Firstly, since the dimensions of the images are different across the dataset, an approach to normalize images is required. It must avoid undesired normalization effects (like blur and pixelation) when possible and consider the trade-off between the input image quality and processing speed by the network. Regarding labels, the proposed method must consider the dataset unbalancing, and the most unbalance requirements might need special attention. Furthermore, the correlation between some requirements can be leveraged by a mechanism that shares features, like Autoencoders.
@@ -104,10 +104,10 @@ In the next section, we describe in detail the proposed method, called \methodna
 Since the ad hoc dataset images have an extensive range of size dimensions (from 362$\times$362 to 4608$\times$3456), a preprocessing step was required to standardize the input image to \methodname. \autoref{fig:preprocessing} summarizes the preprocessing method applied in this work. A detailed explanation is provided as follows.
 
 \begin{figure}
-    \centering
-    \includegraphics[width=\linewidth]{images/preprocessing.pdf}
-    \caption{Preprocessing step of \methodname}
-    \label{fig:preprocessing}
+\centering
+\includegraphics[width=\linewidth]{images/preprocessing.pdf}
+\caption{Preprocessing step of \methodname. Source: own elaboration.}
+\label{fig:preprocessing}
 \end{figure}
 
 The first step of our preprocessing method is face detection. We use a single shot multi-box detector based on MobileNet \citep{yeephycho} and trained on the WIDER FACE dataset \citep{yang2016wider}. This face detector has been chosen because it has a fair balance between speed and accurate results. According to our benchmarks, it was able to detect 98.99\% of all faces with an average of 1.6s per image in CPU. Moreover, this detector is compatible with TensorFlow 1.X versions used by the proposed method. 
@@ -121,10 +121,10 @@ Finally, the cropped image is resized to 160$\times$160 using the \texttt{INTER\
 The overall architecture of \methodname can be seen in Figure \ref{fig:icaonet}. The architecture is composed of an Autoencoder in combination with a dense network branch. While the Autoencoder is employed for unsupervised learning of a highly discriminative embeddings space, the dense layer performs multi-label classification. 
 
 \begin{figure*}
-    \centering
-    \includegraphics[width=\linewidth]{images/icaonet.pdf}
-    \caption{Architecture of \methodname.}
-    \label{fig:icaonet}
+\centering
+\includegraphics[width=\linewidth]{images/icaonet.pdf}
+\caption{Architecture of \methodname. Source: own elaboration.}
+\label{fig:icaonet}
 \end{figure*}
 
 The main idea behind the proposed architecture is to employ a multi and collaborative learning approach for the \icao requirements. It is multi-learning (also called multitasking) because the network solves both regression (image reconstruction) and multi-label classification (compliance prediction for each requirement) tasks at the same time. In contrast to \acfp{gan}, since both tasks are optimized together in training time, the learning process must also be collaborative. Hence, both branches must collaborate to learn an appropriate representation to solve both tasks. Additionally, we can assign different weights for each task to determine their importance during the optimization step (more details are given later).

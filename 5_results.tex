@@ -14,7 +14,7 @@ A more detailed analysis of our loss curves show that \methodname presented a re
 \hfill
 \ContinuedFloat
 \subfigure[supervised]{\includegraphics[width=0.8\linewidth]{images/graphs/loss_supervised.png}}
-\caption{Loss of training and validation sets for (a) unsupervised and (b) supervised branches.}
+\caption{Loss of training and validation sets for (a) unsupervised and (b) supervised branches. Source: own elaboration.}
 \label{fig:losses}
 \end{figure}
 
@@ -43,7 +43,7 @@ We highlight the substantial differences in \acs{eer} between both datasets in \
 \subfigure{\includegraphics[width=0.23\linewidth]{images/washed_out/AR_w-018-1_C40.png}}
 \hfill
 \subfigure{\includegraphics[width=0.23\linewidth]{images/washed_out/AR_w-054-1_C40.png}}
-\caption{Example of preprocessed non-compliant images from the \citeReq{\washedout} requirement.}
+\caption{Example of preprocessed non-compliant images from the \citeReq{\washedout} requirement. Source: own elaboration.}
 \label{fig:washedout}
 \end{figure}
 
@@ -52,7 +52,7 @@ We highlight the substantial differences in \acs{eer} between both datasets in \
 \subfigure[original image]{\includegraphics[height=1.5in]{images/varied_background/visio_icao_expotec_56.png}}
 \hspace{0.5in}
 \subfigure[preprocessed image]{\includegraphics[height=1.5in]{images/varied_background/visio_icao_expotec_56_preprocessed.png}}
-\caption{Example of a non-compliant image from the \citeReq{\variedbackground} requirement before and after the preprocessing step.}
+\caption{Example of a non-compliant image from the \citeReq{\variedbackground} requirement before and after the preprocessing step. Source: own elaboration.}
 \label{fig:variedbgd}
 \end{figure}
 
@@ -61,7 +61,7 @@ We highlight the substantial differences in \acs{eer} between both datasets in \
 \subfigure[before resize (1715x1715)]{\includegraphics[height=2in]{images/hair_across_eyes/Fall2003_04853d17_preprocessed.jpg}}
 \hspace{0.5in}
 \subfigure[after resize (160x160)]{\includegraphics[height=2in]{images/hair_across_eyes/Fall2003_04853d17_resized.jpg}}
-\caption{Example of a non-compliant image from the \citeReq{\hairacrosseyes} requirement before and after the resizing operation performed by the preprocessing step.}
+\caption{Example of a non-compliant image from the \citeReq{\hairacrosseyes} requirement before and after the resizing operation performed by the preprocessing step. Source: own elaboration.}
 \label{fig:hairacrosseyes}
 \end{figure}
 
@@ -70,7 +70,7 @@ The \autoref{fig:eer_unbalancing} shows the \acs{eer} in both FICV datasets (as 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=0.8\linewidth]{images/graphs/eer_unbalancing.pdf}
-\caption{EER by the proportion of non-compliant images for each requirement in ascending order.}
+\caption{EER by the proportion of non-compliant images for each requirement in ascending order. Source: own elaboration.}
 \label{fig:eer_unbalancing}
 \end{figure}
 
@@ -92,9 +92,9 @@ A visualization of the embeddings learned by \methodname is shown in the 3D plot
 
 \begin{figure}[ht]
 \centering
-\subfigure[PCA]{\includegraphics[width=0.8\linewidth]{images/pca.png}}
-\subfigure[t-SNE]{\includegraphics[width=0.8\linewidth]{images/tsne.png}}    
-\caption{Visualization of the embeddings learned by \methodname. Original embeddings dimensions were reduced to 3D using (a) PCA and (b) t-SNE.}
+\subfigure[PCA]{\includegraphics[width=0.75\linewidth]{images/pca.png}}
+\subfigure[t-SNE]{\includegraphics[width=0.75\linewidth]{images/tsne.png}}    
+\caption{Visualization of the embeddings learned by \methodname. Original embeddings dimensions were reduced to 3D using (a) PCA and (b) t-SNE. Source: own elaboration.}
 \label{fig:embviz}
 \end{figure}
 
@@ -104,9 +104,9 @@ However, we can notice the network was not able to learn relevant patterns in so
 
 \begin{landscape}
 \begin{figure*}[t]
-    \centering
-    \includegraphics[width=\linewidth]{images/shap.png}
-    \caption{Visual explanation of \methodname's output using SHAP. The first three images of the first column represent fully-compliant images from AR, FRGC, and PUT databases. The remaining rows are composed of images with at least one non-compliant requirement. The higher the SHAP value, the higher the compliance level for that requirement, and vice-versa. SHAP values near zero (white regions) means no contribution.}
+\centering
+\includegraphics[width=\linewidth]{images/shap.png}
+\caption{Visual explanation of \methodname's output using SHAP. The first three images of the first column represent fully-compliant images from AR, FRGC, and PUT databases. The remaining rows are composed of images with at least one non-compliant requirement. The higher the SHAP value, the higher the compliance level for that requirement, and vice-versa. SHAP values near zero (white regions) means no contribution. Source: own elaboration.}
     \label{fig:shap}
 \end{figure*}
 \end{landscape}
