@@ -505,6 +505,17 @@ In the example cited above, the f-measure of model $A$ is 40\%, while the model 
 
 By definition, the f-measure is considered the harmonic mean between Precision and Recall. It is harmonic because, in contrast to the arithmetic mean, the metric cannot be made arbitrarily large by changing only Precision or Recall to a bigger value (while keeping the other metric unchanged). Therefore, to increase f-measure considerably, both Precision and Recall must be higher at the same time.
 
+\subsubsection{F-Beta}
+
+The F-Beta is a generalization of the F-measure. It adds a $\beta$ term to weight how much Recall is more important than Precision. The F-Beta is defined by \autoref{eq:f-beta}:
+
+\begin{equation}
+\label{eq:f-beta}
+F_\beta = \frac{(1 + \beta^2) \cdot P \cdot R}{\beta^2 \cdot P + R}
+\end{equation}
+
+As can be noticed, when $\beta=1$, we have the original formula of f1-score. Another typical value is $\beta=2$, generating the f2-score. In this case, we are considering that recall has a higher weight than precision. In other words, achieving a better Recall is more important for the classifier than Precision. It is useful when we want to make sure that the classifier is better identifying the positive class, even though it might generate more false positives. In the detection example cited before, the detector would try to detect as many real faces as possible, but probably returning more false positives (detections which are not real faces).
+
 \subsubsection{Negative Predictive Value \& Specificity}
 
 The metrics specificity and \acf{npv} are equivalent to Recall and Precision, respectively, but for the negative class. In analogy to Precision and Recall, the specificity answers the question "\textit{given the negative samples, how many predictions were correct?}", while the \acs{npv} answers "\textit{given the negative predictions, how many were correct?}". The metrics are defined by Equations \ref{eq:specificity} and \ref{eq:npv}:
@@ -551,7 +562,14 @@ FRR(\tau) = \int_{\tau}^{\infty} p(s|genuine)\ ds
 \noindent
 where $p(s|impostor)$ and $p(s|genuine)$ correspond to the probability distributions of a score $s$ under genuine and impostor conditions, appropriately, and $\tau$ is a threshold to define if a given individual is genuine or an impostor.
 
-Finally, the \acs{eer} is designated by the point where the \acs{far} and \acs{frr} curves intercept each other. Therefore, the \acs{eer} represents the rate at which both acceptance and rejections errors are equal, i.e., $FAR = FRR$ or $p(s|impostor) = p(s|genuine)$. All the mentioned metrics (\acs{far}, \acs{frr}, and \acs{eer}) are inversely proportional to the performance of the biometric system (the lower, the better).
+Finally, the \acs{eer} is designated by the point where the \acs{far} and \acs{frr} curves intercept each other (see \autoref{fig:eer}). Therefore, the \acs{eer} represents the rate at which both acceptance and rejections errors are equal, i.e., $FAR = FRR$ or $p(s|impostor) = p(s|genuine)$. All the mentioned metrics (\acs{far}, \acs{frr}, and \acs{eer}) are inversely proportional to the performance of the biometric system (the lower, the better).
+
+\begin{figure}[hb]
+\centering
+\includegraphics[height=2.1in]{images/EER.pdf}
+\caption{The typical curves of the \acs{far} and \acs{frr} error rates, plotted side by side, in relation to the threshold $\tau$ configured for the system. The \acs{eer} is represented by the intersection point of the curves. Source: own elaboration.}
+\label{fig:eer}
+\end{figure}
 
 Since \acs{far} and \acs{frr} are computed for a given threshold $\tau$, the biometric systems can be calibrated by manually choosing the threshold that best fit the desired needs. However, it represents a trade-off between convenience and security. For example, when security issues are critical (e.g., banking systems), the threshold $\tau$ may be adjusted in a way that the \acs{far} is minimal. However, genuine users may have their access blocked until the system is entirely sure about their profile. On the other side, if $\tau$ is fine-tuned to improve users' convenience, the system can allow access of non-legitimate users.
 

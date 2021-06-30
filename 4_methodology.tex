@@ -30,13 +30,22 @@ Moreover, the following information is given for each image:
     \end{enumerate}
 \end{itemize}
 
-In total, 310 images are fully compliant (i.e., compliant to all the requirements), and 5278 images have one or more requirements that are non-compliant. A representative subset of 720 images, called \ficvtest, is publicly available to the participants of the FICV competition and can be used for parameter setup and training. It contains 50 fully compliant images and 670 images not compliant to one or more characteristics. The remaining images are used as the private image set used for the benchmark of submitted algorithms. The private database is referred to as \ficvofficial by the FICV. In this thesis, we also call such a database the official database of the FICV or \fvcongoing. 
+In total, 310 images are fully compliant (i.e., compliant to all the requirements), and 5278 images have one or more requirements that are non-compliant. A representative subset of 720 images, called \ficvtest, is publicly available to the participants of the FICV competition and can be used for parameter setup and training. It contains 50 fully compliant images and 670 images not compliant to one or more characteristics. The remaining images are used as the private image set used for the benchmark of submitted algorithms. The private database is referred to as \ficvofficial by the FICV. In this thesis, we also call it the official dataset of the FICV or \fvcongoing. 
 
 Since some of the images of \ficvtest belong to public datasets and cannot be directly distributed to third parties, only the ground-truth data of each image is provided for the participants. Nevertheless, the \fvcongoing provides a utility tool with instructions to generate the training set. Therefore, the participants must first download the images of the public datasets (i.e., AR, FRGC, and PUT) from their respective websites and then use the utility tool to produce the training set. By using this tool, however, we were able to get only 571 annotated images out of the supposed 720 images in total. We contacted the person responsible for the FICV competition, but it was informed that the remaining images belong to the set of images internally acquired, and these could not be shared.
 
-\autoref{tab:req-dist-ficv-test} shows the distribution of images for each requirement in the \ficvtest database. It is possible to see that some requirements have no non-compliant or dummy images (e.g., \citeReq{\inkmarked} or \citeReq{\framestooheavy}). Therefore, we decided to increase the \ficvtest dataset using an ad hoc approach. More details are given in the next subsection.
+\autoref{tab:req-dist-ficv-test} shows the distribution of images for each requirement in the \ficvtest database. It is possible to see that some requirements does not have non-compliant or dummy images (e.g., \citeReq{\inkmarked} or \citeReq{\framestooheavy}). Therefore, we decided to increase the \ficvtest dataset using an ad hoc approach. More details are given in the next subsection.
 
 \input{tables/table_req_dist_ficvtest}
+
+As indicated in the FICV competition webpage, there are dependencies between some requirements. For instance, when a person is wearing veil (i.e., \citeReq{\veiloverface} is non-compliant), the evaluation of requirement \citeReq{\mouthopen} may be impossible. In that case, this requirement would be considered as dummy. Therefore, we analyzed the \ficvtest dataset to figure out the dependencies between non-compliant and dummy requirements. The diagram with these dependencies can be seen in \autoref{fig:icao_dependencies}.
+
+\begin{figure}
+\centering
+\includegraphics[width=\linewidth]{images/icao_dependencies.pdf}
+\caption{Diagram of dependencies between non-compliant and dummy requirements. An arrow indicates that when the parent requirement is labeled as non-compliant, the children requirements are considered as dummy. A light gray arrow indicates that such relationship is not always true.}
+\label{fig:icao_dependencies}
+\end{figure}
 
 \subsubsection{Ad hoc Dataset}
 
