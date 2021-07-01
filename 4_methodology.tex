@@ -34,16 +34,16 @@ In total, 310 images are fully compliant (i.e., compliant to all the requirement
 
 Since some of the images of \ficvtest belong to public datasets and cannot be directly distributed to third parties, only the ground-truth data of each image is provided for the participants. Nevertheless, the \fvcongoing provides a utility tool with instructions to generate the training set. Therefore, the participants must first download the images of the public datasets (i.e., AR, FRGC, and PUT) from their respective websites and then use the utility tool to produce the training set. By using this tool, however, we were able to get only 571 annotated images out of the supposed 720 images in total. We contacted the person responsible for the FICV competition, but it was informed that the remaining images belong to the set of images internally acquired, and these could not be shared.
 
-\autoref{tab:req-dist-ficv-test} shows the distribution of images for each requirement in the \ficvtest database. It is possible to see that some requirements does not have non-compliant or dummy images (e.g., \citeReq{\inkmarked} or \citeReq{\framestooheavy}). Therefore, we decided to increase the \ficvtest dataset using an ad hoc approach. More details are given in the next subsection.
+\autoref{tab:req-dist-ficv-test} shows the distribution of images for each requirement in the \ficvtest database. It is possible to see that some requirements do not have non-compliant or dummy images (e.g., \citeReq{\inkmarked} or \citeReq{\framestooheavy}). Therefore, we decided to increase the \ficvtest dataset using an ad hoc approach. More details are given in the next subsection.
 
 \input{tables/table_req_dist_ficvtest}
 
-As indicated in the FICV competition webpage, there are dependencies between some requirements. For instance, when a person is wearing veil (i.e., \citeReq{\veiloverface} is non-compliant), the evaluation of requirement \citeReq{\mouthopen} may be impossible. In that case, this requirement would be considered as dummy. Therefore, we analyzed the \ficvtest dataset to figure out the dependencies between non-compliant and dummy requirements. The diagram with these dependencies can be seen in \autoref{fig:icao_dependencies}.
+As indicated in the FICV competition webpage, there are dependencies between some requirements. For instance, when a person is wearing veil (i.e., \citeReq{\veiloverface} is non-compliant), the evaluation of requirement \citeReq{\mouthopen} may be impossible. In that case, this requirement would be considered as a dummy. Therefore, we analyzed the \ficvtest dataset to figure out the dependencies between non-compliant and dummy requirements. The diagram with these dependencies can be seen in \autoref{fig:icao_dependencies}.
 
 \begin{figure}
 \centering
 \includegraphics[width=\linewidth]{images/icao_dependencies.pdf}
-\caption{Diagram of dependencies between non-compliant and dummy requirements. An arrow indicates that when the parent requirement is labeled as non-compliant, the children requirements are considered as dummy. A light gray arrow indicates that such relationship is not always true.}
+\caption{Diagram of dependencies between non-compliant and dummy requirements. An arrow indicates that when the parent requirement is labeled as non-compliant, the children requirements are considered as dummy. A light gray arrow indicates that such relationship is not always true. Source: own elaboration.}
 \label{fig:icao_dependencies}
 \end{figure}
 
@@ -200,5 +200,3 @@ The base architecture of \methodname -- composed of the three components describ
 One important detail to mention about the proposed architecture refers to the unsupervised branch, which is used during training only. Once the network is trained, the unsupervised branch is detached from the model as the reconstruction task is not valuable for ICAO assessment and can be ignored. In this case, the number of parameters is reduced to 1,000,727. Furthermore, after model \textit{freezing}\footnote{Freezing is a typical operation in Keras/TensorFlow models. It removes unnecessary data for prediction from the model file, e.g., the optimizer, metrics, metadata, gradients, and many others.}, the model size is reduced to only 3.83 MB in the disk. It helps speed up the running time considerably.
 
 The \methodname was trained by 100 epochs and a batch size of 32. All layers are randomly initialized by Xavier initialization \citep{glorot2010understanding}. To prevent overfitting and improve generalization, we use Early Stopping with 30 epochs of patience. In layers where Dropout is applied, we keep 50\% of neurons. The Adaptive Momentum Estimation (Adam) is applied as optimizer with learning rates $\alpha=10^{-3}$, $\beta_1=0.9$, $\beta_2=0.999$, and $\epsilon=10^{-7}$. For the loss function (\autoref{eq:loss-final}), we use $\lambda=1.0$ and $\gamma=2.0$.
-
-% achar um termo melhor pra freezing
