@@ -159,7 +159,7 @@ The unsupervised branch uses the Mean Squared Error (MSE) to measure the image r
 \mathcal{L}_1 = \frac{1}{N} \sum_h^H \sum_w^W ({I_{h,w} - \hat{I}_{h,w}})^2
 \end{equation}
 
-\noindent where $N$ represents the number of pixels; $H$ and $W$, the image dimensions; $I$ and $\hat{I}$ are the input image and the reconstructed image, respectively. Since the same input image $I$ is used in the reconstruction task as ground-truth, this task is considered unsupervised (sometimes also called semi-supervised). During training, the unsupervised branch will minimize the squared difference between the input image $I$ and the reconstructed image $\hat{I}$.
+\noindent where $N$ represents the number of pixels; $H$ and $W$, the image dimensions; $I$ and $\hat{I}$ are the input image and the reconstructed image, respectively. Since the same input image $I$ is used in the reconstruction task as a ground-truth, this task is considered unsupervised (sometimes also called semi-supervised). During training, the unsupervised branch will minimize the squared difference between the input image $I$ and the reconstructed image $\hat{I}$.
 
 \paragraph{Supervised Branch}
 

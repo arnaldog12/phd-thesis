@@ -6,7 +6,7 @@ In this chapter, we summarize this proposal in terms of the research and its res
 
 This work presented a deep learning-based method developed to evaluate photographic requirements of \icao standard, called \methodname. We extend undercomplete Convolutional Autoencoders to employ a multi-learn approach in a collaborative fashion. The architecture has three main components: (i) an encoder to encode the input image into a proper 256-D representation shared by (ii) an unsupervised branch to reconstruct the input image; and (iii) a supervised branch to assess the requirements as a multi-label problem. 
 
-We evaluated our method using a small amount of unbalanced, but stratified, data. It comprises a subset of the \ficvtest dataset in conjunction with an ad-hoc dataset built especially for ICAO requirements. The network was trained from scratch, and a custom loss function was used in the network optimization process. It balances the two different tasks solved by the method, i.e., regression (image reconstruction) and multi-label classification (requirements assessment). Additionally, the training was monitored to preserve the model with the highest F-beta score.
+We evaluated our method using a small amount of unbalanced but stratified data. It comprises a subset of the \ficvtest dataset in conjunction with an ad-hoc dataset built especially for ICAO requirements. The network was trained from scratch, and a custom loss function was used in the network optimization process. It balances the two different tasks solved by the method, i.e., regression (image reconstruction) and multi-label classification (requirements assessment). Additionally, the training was monitored to preserve the model with the highest F-beta score.
 
 \subsection{Preliminary Results}
 
