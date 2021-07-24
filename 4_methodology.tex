@@ -63,7 +63,7 @@ As indicated in the FICV competition webpage, there are dependencies between som
 \item 2551 newly acquired images of size from 976$\times$1301 to 4608$\times$3456 pixels
 \end{itemize}
 
-Our dataset has 177 fully compliant images and 5568 images with one or more non-compliant requirements. One important detail to notice is that, although the ad hoc dataset has the label dummy in the ground truth, we decided to merge dummy and non-compliant labels. We did it for two reasons. First, according to the FICV protocol, only compliant and non-compliant images are considered for benchmark of each requirement (see section \ref{sec:fvcongoing} of Chapter \ref{sec:background}). Furthermore, the dataset imbalance is diminished by combining these two labels, and the intra-class variance of non-compliant images is increased. Therefore, it can help the network define a better decision boundary between compliant and non-compliant requirements and improve performance. Our tests corroborated such an effect. Finally, the distribution of labels per requirement can be seen in Table \ref{tab:req-dist}. 
+Our dataset has 177 fully compliant images and 5568 images with one or more non-compliant requirements. One important detail to notice is that, although the ad hoc dataset has the label dummy in the ground truth, we decided to merge dummy and non-compliant labels. We did it for two reasons. First, according to the FICV protocol, only compliant and non-compliant images are considered for benchmark of each requirement (see section \ref{sec:fvcongoing} of Chapter \ref{sec:background}). Furthermore, the dataset imbalance is diminished by combining these two labels, and the intra-class variance of non-compliant images is increased. Therefore, it can help the network define a better decision boundary between compliant and non-compliant requirements and improve performance. Our tests corroborated such an effect. However, This decision was made aiming at the FICV competition. In other contexts, the dummy information may be relevant. Finally, the distribution of labels per requirement can be seen in Table \ref{tab:req-dist}. 
 
 % essa decisão foi uma consequencia da competicao. Em outro contexto, o dummy pode ser importante.
 
@@ -71,7 +71,7 @@ To better understand the ad hoc dataset, we performed some analysis of the image
 
 \input{tables/table_req_dist}
 
-\subsubsection{Ad Hoc Dataset Analysis}
+\subsubsection{Ad hoc Dataset Analysis}
 
 The \autoref{fig:labels_by_sample} shows the number of images with 0 or more compliant/non-compliant labels in the ad hoc dataset. As pointed out earlier, there are 177 fully compliant images (i.e., the number of non-compliant labels equals zero). Also, we can notice that most images have 2 to 6 non-compliant requirements, but there are images with up to 14 non-compliant requirements.
 

@@ -1,10 +1,10 @@
 \section{Literature Review} \label{sec:literature}
 
-In this chapter, we start by reviewing deep \acl{mtl} techniques applied in computer vision problems. We focus on different types of deep Multitask architectures and the most famous works published for each category. Additionally, we provide a complete historical review of the methods that addressed the \icao standard, including the methods published in the \fvcongoing website. Finally, we conclude this chapter by discussing relevant findings of the literature review of both topics.
+In this chapter, we start by reviewing deep \acl{mtl} techniques applied in computer vision problems. We focus on different types of deep Multitask architectures and the most relevant works published for each category. Additionally, we provide a complete historical review of the methods that addressed the \icao standard, including the methods published in the \fvcongoing website. Finally, we conclude this chapter by discussing relevant findings of the literature review of both topics.
 
 \subsection{Multitask Learning}
 
-A variety of techniques and architectures for \acs{mtl} has been proposed in the literature of Deep Learning. Usually, Deep Multitask Architectures may be divided into encoder-focused and decoded-focused architectures \citep{vandenhende2021multi}. The main characteristic of the encoder-focused architectures \citep{kendall2018multi, chen2018gradnorm, sener2018multi} is the presence of an off-the-shelf backbone network, usually called an encoder. The goal of the encoder is to learn a generic representation that will be shared by a set of independent task-specific heads. Differently, the decoder-focused architectures also exchange information during the decoding stage \citep{xu2018pad, zhang2018joint, vandenhende2020mti}. In the following subsections, we discuss the most relevant Deep \acl{mtl} architectures.
+A variety of techniques and architectures for \acs{mtl} has been proposed in the literature of Deep Learning. Usually, Deep Multitask Architectures may be divided into encoder-focused and decoded-focused architectures \citep{vandenhende2021multi}. The main characteristic of the encoder-focused architectures \citep{kendall2018multi, chen2018gradnorm, sener2018multi} is the presence of an off-the-shelf backbone network, usually called an encoder. The goal of the encoder is to learn a generic representation that will be shared by a set of independent task-specific heads. Differently, the decoder-focused architectures also flow information during the decoding stage \citep{xu2018pad, zhang2018joint, vandenhende2020mti}. In the following subsections, we discuss the most relevant Deep \acl{mtl} architectures.
 
 \subsubsection{Encoder-focused Architectures}
 
@@ -32,7 +32,7 @@ By using this equation, the Cross-stitch networks can decide the degree to which
 
 The \textbf{Multitask Attention Networks} (MTAN) \citep{liu2019end} are a encoder-focused design that combine the encoder with task-specific attention modules in the backbone network. While the encoder is responsible for computing a general pool of features, the task-specific attention module chooses features from the general pool by applying a soft attention mask. Regular convolutional layers with sigmoids are used to implement the attention mechanism. Compared to cross-stitch networks and NDDR-CNNs, the MTAN model is also limited to local information to produce the attention mask but is less prone to scalability issues.
 
-\subsubsection{Decoder-focused architectures}
+\subsubsection{Decoder-focused Architectures}
 
 One of the first decoder-focused architectures published in the literature was \textbf{PAD-Net} \citep{xu2018pad}. Although the input image is still handled by an off-the-shelf backbone network, the backbone features are further processed by task-specific heads that produce initial predictions for each task. The task-specific heads contain a per-task feature representation of the input image and are recombined by a multi-modal distillation. The main goal of the distillation unit is to extract cross-task information by using a spatial attention mechanism. The output features $F_k^o$ for a given task $k$ are computed by the \autoref{eq:padnet}:
 
@@ -54,7 +54,7 @@ The task features of a task $j$ are refined by the cross-task information matrix
 
 The \textbf{Joint Task-Recursive Learning} (JTRL), proposed by \cite{zhang2018joint}, recursively predicts two tasks by increasing higher scales to refine the results of past states gradually. Compared to PAD-Net and PAP-Net, there is also a multi-modal mechanism that combines information from earlier task predictions, which are used to refine the later ones. However, the JTRL model is only able to predict two tasks sequentially and in an intertwined approach. Moreover, the main drawback of the JTRL model is that it is not simple, or even possible, to extend the architecture to more than two tasks because of the intertwined approach to refine predictions.
 
-\subsection{Methods for the \icao standard}
+\subsection{Methods for the \icao Standard}
 
 One of the first studies to address the ICAO requirements was proposed by \citet{sang2009face}. It presents methods to evaluate requirements related to illumination conditions and facial pose based on Gabor wavelet features. Furthermore, a method to evaluate the image blur is proposed through the Discrete Cosine Transform (DCT). The authors assess their methods using images from CMU-PIE and FERET datasets. However, only analytical results are presented.
 

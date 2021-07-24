@@ -1,12 +1,30 @@
 \section{Concluding Remarks}
 
+In this chapter, we summarize this proposal in terms of the research and its results. We start by describing the problem and the solution proposal. Then, we present the preliminary evaluation results. Finally, we recap the activities developed until now and propose a schedule to be elaborated up to the end of this Doctoral research.
+
+\subsection{Summary of the Proposed Research}
+
 This work presented a deep learning-based method developed to evaluate photographic requirements of \icao standard, called \methodname. We extend undercomplete Convolutional Autoencoders to employ a multi-learn approach in a collaborative fashion. The architecture has three main components: (i) an encoder to encode the input image into a proper 256-D representation shared by (ii) an unsupervised branch to reconstruct the input image; and (iii) a supervised branch to assess the requirements as a multi-label problem. 
 
-We evaluated our method using a small amount of unbalanced data. It comprises a subset of the \ficvtest dataset in conjunction with an ad-hoc dataset built especially for ICAO requirements. The network was trained from scratch, and a custom loss function was used in the network optimization process. It balances the two different tasks solved by the method, i.e., regression (image reconstruction) and multi-label classification (requirements assessment). Additionally, the training was monitored to preserve the model with the highest F-beta score.
+We evaluated our method using a small amount of unbalanced, but stratified, data. It comprises a subset of the \ficvtest dataset in conjunction with an ad-hoc dataset built especially for ICAO requirements. The network was trained from scratch, and a custom loss function was used in the network optimization process. It balances the two different tasks solved by the method, i.e., regression (image reconstruction) and multi-label classification (requirements assessment). Additionally, the training was monitored to preserve the model with the highest F-beta score.
+
+\subsection{Preliminary Results}
 
 Individually, the \methodname was able to achieve significant results. In training, most of the metrics evaluated have a score greater than 90\%. Through the analysis of these metrics, we were able to notice interesting patterns in the method predictions. For example, it is better to predict the positive class, but the \aclp{fp} are more troublesome than \aclp{fn}. Additionally, in the FICV competition, the method presented a substantial performance in most of the requirements. Nevertheless, three requirements had unacceptable performance in terms of \acs{eer} ($> 40\%$) and will require particular treatment to improve their results.
 
 Compared to other methods evaluated by the FICV benchmark, the \methodname achieved state-of-art results in 9 out of 23 requirements with a median EER of 3.3\%. Therefore, the proposed work has the highest amount of best results in a single method compared to all the works presented in the literature or private SDK tools. Regarding the EER, the \methodname has the second-best median EER compared to methods that evaluate all requirements. Furthermore, the proposed method is also the fastest one to evaluate all requirements on CPU, taking only 1.8s to evaluate an input image. However, our running time still has a spot for improvement since it is highly influenced by the face detector used as preprocessing. The architecture proposed by itself takes only 0.15s to run in the CPU.
+
+\subsection{Schedule of Activities}
+
+Until the present moment, the following activities were developed for this thesis proposal:
+
+\begin{itemize}
+\item Literature Review regarding methods for \acl{mtl} and the \icao standard.
+\item Research and development of techniques for image preprocessing.
+\item Training of Neural Network architectures for assessment of the \icao standard.
+\item Writing of technical-scientific reports and articles for academic publication.
+\item Write of this proposal.
+\end{itemize}
 
 As future works, we intend to concentrate efforts on three different aspects to improve the results:
 
@@ -22,14 +40,14 @@ We also have plans to add another branch to our network to predict the \citeReq{
 
 \input{tables/table_schedule}
 
-Lastly, the table \autoref{tab:schedule} present the schedule of main activities to be developed until the end of the this Doctoral research. The activities are described as follows:
+Lastly, the \autoref{tab:schedule} present the schedule of main activities to be developed until the end of the this Doctoral research. The activities are described as follows:
 
 \begin{itemize}
 \item \textbf{Activity 1}: Bibliography Review.
 \item \textbf{Activity 2}: Review of dataset labels.
 \item \textbf{Activity 3}: Analysis of different face detectors.
 \item \textbf{Activity 4}: Research and development of new pre-processing method.
-\item \textbf{Activity 5}: 
-\item \textbf{Activity 6}: Writing of technical-scientific reports and articles for academic publication
-\item \textbf{Activity 7}: Write and defense of Doctoral research
+\item \textbf{Activity 5}: Research and development of a network to predict the \citeReq{\eyecenterlocation} requirements.
+\item \textbf{Activity 6}: Writing of technical-scientific reports and articles for academic publication.
+\item \textbf{Activity 7}: Write and defense of Doctoral research.
 \end{itemize}
