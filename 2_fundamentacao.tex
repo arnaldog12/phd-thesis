@@ -50,7 +50,7 @@ h(t) = (x * w)(t)
 \end{equation}
 
 \noindent
-where $x$ represent the input, $w$ is the kernel, and $t$ is the moment where the convolution is computed. If $w$ is a valid probability density function, the convolution can be considered as a weighted average of the input at the moment $t$. Also, when working with discretized data (like digital images), the \autoref{eq:convolution} can be rewritten as \autoref{eq:conv_discrete}:
+where $x$ represent the input, $w$ is the kernel, and $t$ is the point where the convolution is computed. If $w$ is a valid probability density function, the convolution can be considered as a weighted average of the input at the point $t$. Also, when working with discretized data (like digital images), the \autoref{eq:convolution} can be rewritten as \autoref{eq:conv_discrete}:
 
 \begin{equation}
 \label{eq:conv_discrete}
@@ -130,7 +130,7 @@ y_i = \gamma\hat{x}_i + \beta
 \noindent
 where $\gamma$ and $\beta$ are new learnable parameters introduced by batch normalization. 
 
-One important aspect to notice is the fact that the batch normalization operation is reversible by itself. I.e., if the network during training realizes that the input $x_i$ does not need to be normalized, it can set $\gamma=1$ and $\beta=0$, so the input $x_i$ remains unchanged.
+One important aspect to notice is the fact that the batch normalization operation can be automatically avoided by the network. I.e., if the network during training realizes that the input $x_i$ does not need to be normalized, it can set $\gamma=1$ and $\beta=0$, so the input $x_i$ remains unchanged.
 
 During the training phase, the normalization steps are computed based on mini-batches to ensure reliable and efficient training. On the other hand, during inference, the network is generally asked to perform prediction given a single sample. For this reason, the normalization step is performed with the population statistics estimated. The population mean and variance are estimated during training and are defined by Equations \ref{eq:bn_pop_mean} and \ref{eq:bn_pop_var}, respectively: 
 
@@ -144,11 +144,11 @@ E[x] = E_B[\mu_B]
 Var[x] = \frac{m}{m-1} E_B[\sigma_B^{2}]
 \end{equation}
 
-Therefore, during inference, the input $x_i$ will be normalized by \autoref{eq:bn_inf_xi}:
+Therefore, during inference, the input $x$ will be normalized by \autoref{eq:bn_inf_xi}:
 
 \begin{equation}
 \label{eq:bn_inf_xi}
-\hat{x} = \frac{x_i - E[x]}{\sqrt{Var[x] + \epsilon}}
+\hat{x} = \frac{x - E[x]}{\sqrt{Var[x] + \epsilon}}
 \end{equation}
 
 And the output $y$ will be given by \autoref{eq:bn_inf_yi}:
@@ -158,7 +158,7 @@ And the output $y$ will be given by \autoref{eq:bn_inf_yi}:
 y = \frac{\gamma}{\sqrt{Var[x] + \epsilon}} \cdot \hat{x} + \left( \beta - \frac{\gamma E[x]}{\sqrt{Var[x] + e}} \right)
 \end{equation}
 
-The implementation of batch normalization for \aclp{cnn} is slightly different in comparison to the fully connected networks. Since the output of \acs{cnn} layers can have multiple channels, batch normalization is carried out for each of these channels. In other words, each channel will have a single mean and standard deviation as well scale ($\gamma$) and shift ($\beta$) parameters. Again, they are scalar values learned during the optimization process. Similarly, the batch normalization procedure can be applied before or after the non-linear activation function of the correspondent convolutional layer.
+The implementation of batch normalization for \aclp{cnn} is slightly different in comparison to the fully connected networks. Since the output of \acs{cnn} layers can have multiple channels, batch normalization is carried out for each of these channels. In other words, each channel will have a single mean and standard deviation as well as scale ($\gamma$) and shift ($\beta$) parameters. Again, they are scalar values learned during the optimization process. Similarly, the batch normalization procedure can be applied before or after the non-linear activation function of the correspondent convolutional layer.
 
 Besides reducing the internal covariate shift, batch normalization also has some other valuable advantages. Firstly, it can speed up training since we can use higher learning rates without vanishing or exploding the gradients. Secondly, it can make the network more robust to different initialization schemes and learning rates. Finally, since batch normalization is a regularization technique, it helps the network improve in terms of generalization and diminish overfitting. As pointed out earlier, batch normalization can replace other regularization methods like Dropout.
 
@@ -178,7 +178,7 @@ The architecture of Autoencoders (\autoref{fig:autoencoder}) is usually composed
 \end{figure}
 
 \begin{enumerate}
-\item \textbf{Encoder}: responsible to learn an useful representation of the input, also called \textbf{embeddings} or \textbf{latent representation} or even \textbf{code}. It can be formulated as an encoder function $h = f(x)$, where $x$ is the input and $h$ corresponds to the codification of the input in the latent space ($h: \mathbb{R}^D \rightarrow \mathbb{R}^K$)
+\item \textbf{Encoder}: responsible to learn an useful representation of the input, also called \textbf{embeddings} or \textbf{latent representation} or even \textbf{code}. It can be formulated as an encoder function $h = f(x)$, where $x$ is the input and $h$ corresponds to the codification of the input in the latent space ($h: \mathbb{R}^D \rightarrow \mathbb{R}^K$, where $D$ and $K$ represent the dimensionality of the input and the latent space, respectively).
 
 \item \textbf{Decoder}: maps the learned latent representation $h$ back to the original input space ($\mathbb{R}^K \rightarrow \mathbb{R}^D$). It can be described as a reconstruction function $r = g(h)$, where $r$ is the reconstructed input.
 \end{enumerate}
@@ -252,7 +252,7 @@ Compared to the case where each task of a multitask problem is solved individual
 
 \subsubsection{Network Explainability and Visualization}
 
-For some time, the Deep Learning-based method was considered a black box since the interpretation of its outputs was hard to explain. To overcome this problem, some methods to visualize and explain predictions of Neural Networks have been proposed in the specialized literature. Some of the most well-known methods includes GradCam \citep{gradcam}, LIME \citep{lime}, DeepLIFT \citep{deeplift_old, deeplift_new}, and \acs{shap} \citep{shap2018}. In this section, we focus on detailing \acs{shap} since it is used to analyze the predictions of the proposed method. Furthermore, we cite other variations of \acs{shap} and highlight its advantages.
+For some time, Deep Learning methods were considered black boxes since the interpretation of its outputs was hard to explain. To overcome this problem, some methods to visualize and explain predictions of Neural Networks have been proposed in the specialized literature. Some of the most well-known methods includes GradCam \citep{gradcam}, LIME \citep{lime}, DeepLIFT \citep{deeplift_old, deeplift_new}, and \acs{shap} \citep{shap2018}. In this section, we focus on detailing \acs{shap} since it is used to analyze the predictions of the proposed method. Furthermore, we cite other variations of \acs{shap} and highlight its advantages.
 
 \paragraph{SHAP}
 
@@ -277,7 +277,7 @@ To compute the contribution of each feature ($\phi_i$), the \acs{shap} method re
 \phi_i = \sum_{S \subseteq F \setminus \{i\}} \frac{\left|S\right|!(\left|F\right| - \left|S\right| - 1)!}{\left|F\right|!}\left[f_{S \cup \{i\}}\right (x_{S \cup \{i\}}) - f_S(x_S)]
 \end{equation}
 
-Since a model is trained for every subset of $S$, the exact computation of Shapley values is computationally expensive. For $F$ features, there is a total of $2^F$ subsets of S. However, in the paper of \acs{shap} \citep{shap2018}, the authors propose a model-agnostic approach to approximate them, called Kernel SHAP, and other four model-type-specific approximation methods: Linear SHAP, Low-Order SHAP, Max SHAP, and Deep SHAP. The Deep SHAP is a specific version of \acs{shap} especially designed for Deep Networks. The method is based on DeepLift \citep{deeplift_old, deeplift_new}, which approximates SHAP values by considering the input features as independent of each other and the deep model as linear. In Deep SHAP, the SHAP values of the whole network are a combination of SHAP values computed for smaller components of the network. It generates an effective linearization from the SHAP values computed for each component. Please, refer to the original paper for further explanations on the other methods.
+Since a model is trained for every subset of $S$, the exact computation of Shapley values is computationally expensive. For $\left|F\right|$ features, there is a total of $2^{\left|F\right|}$ subsets of S. However, in the paper of \acs{shap} \citep{shap2018}, the authors propose a model-agnostic approach to approximate them, called Kernel SHAP, and other four model-type-specific approximation methods: Linear SHAP, Low-Order SHAP, Max SHAP, and Deep SHAP. The Deep SHAP is a specific version of \acs{shap} especially designed for Deep Networks. The method is based on DeepLift \citep{deeplift_old, deeplift_new}, which approximates SHAP values by considering the input features as independent of each other and the deep model as linear. In Deep SHAP, the SHAP values of the whole network are a combination of SHAP values computed for smaller components of the network. It generates an effective linearization from the SHAP values computed for each component. Please, refer to the original paper for further explanations on the other methods.
 
 The SHAP method has the four properties of classical Shapley values:
 
@@ -305,11 +305,11 @@ The classical approach of PCA \citep{pca} computes the covariance matrix, where 
 
 \begin{equation}
 \label{eq:covariance}
-\sigma_{jk} = \frac{1}{n-1}\sum_{i-1}^{N}(x_{ij} - \bar{x_j})(x_{ik} - \bar{x}_k)
+\sigma_{jk} = \frac{1}{n-1}\sum_{i=1}^{n}(x_{ij} - \bar{x_j})(x_{ik} - \bar{x}_k)
 \end{equation}
 
 \noindent
-which can be rewritten in the matrix form as \autoref{eq:covariance2}:
+which can be rewritten in matrix form as \autoref{eq:covariance2}:
 
 \begin{equation}
 \label{eq:covariance2}
@@ -337,21 +337,18 @@ The eigenvectors and eigenvalues of PCA can also be computed using the correlati
 corr(x,y) = \frac{cov(x,y)}{\sigma_x \sigma_y}
 \end{equation}
 
-Given the projection matrix $W$ computed by PCA, we can project our original data $X$ into the new subspace $S$ by applying the \autoref{eq:pca_transform}:
+Given the projection matrix $W$ computed by PCA, we can project our original data $x$ into the new subspace $S$ by applying the \autoref{eq:pca_transform}:
 
 \begin{equation}
 \label{eq:pca_transform}
-S = (X-\mu_X) \times W
+S = (x-\bar{x}) \times W
 \end{equation}
 
-\noindent
-where $\mu_X$ represents the mean of each feature column in $X$.
-
-Note that we can rollback to our original space $X$ by application of \autoref{eq:pca_inverse}:
+Note that we can rollback to our original space $x$ by application of \autoref{eq:pca_inverse}:
 
 \begin{equation}
 \label{eq:pca_inverse}
-X = (S \times W^{-1}) + \mu_X
+x = (S \times W^{-1}) + \bar{x}
 \end{equation}
 
 Finally, the \acf{lda} \citep{izenman2013linear} is a similar dimensionality reduction technique. In contrast to \acs{pca}, the \acs{lda} is a supervised method that maximizes the component axes for class-separation. Although it looks like \acs{lda} performs better than \acs{pca} in reducing dimensionality for classification problems, this is not always true. Performance comparison in terms of accuracy for image recognition problems has shown that \acs{pca} has performed better than \acs{lda} if the number of samples per class is relatively low \citep{martinez2001pca}.
@@ -367,11 +364,11 @@ The \acs{tsne} algorithm has two main stages. First, the symmetric probability o
 \label{alg:tsne}
 \begin{algorithmic}
     \State \textbf{Data:} data set $X = \{x_1, x_2, ..., x_n\}$,
-    \State cost function parameter: perplexity $Perp$,
+    \State cost function parameter: perplexity $\rho$,
     \State optimization parameters: number of iteration $T$, learning rate $\eta$, momentum $\alpha(t)$.
     \State \textbf{Result:} low-dimensional data representation $\gamma^{(T)} = \{y_1, y_2, ..., y_n\}$.
     \Begin 
-        \State compute pairwise affinities $p_{j|i}$ with perplexity $Perp$ (using \autoref{eq:tsne_pij})
+        \State compute pairwise affinities $p_{j|i}$ with perplexity $\rho$ (using \autoref{eq:tsne_pij})
         \State set $p_{ij} = \frac{p_{j|i} + p_{i|j}}{2n}$
         \State sample initial solution $\gamma^{(0)} = \{y_1, y_2, ..., y_n\}$ from $\mathcal{N}(0, 10^{-4}I)$
         \For{i=1}{T}
@@ -399,11 +396,11 @@ d_{ij}^2 = \frac{\left\| x_i - x_j \right\|^2}{2\sigma_i^2}
 \end{equation}
 
 \noindent
-where $\sigma_i$ can be either defined by hand or via a binary search that makes the entropy of the distribution over neighbors equal to $log\ Perp$. In this case, $Perp$ is an input parameter of the cost function called ``perplexity.'' The perplexity may be interpreted as a measure of the effective number of neighbors and is defined by \autoref{eq:tsne_perp}:
+where $\sigma_i$ can be either defined by experimentation or via a binary search that makes the entropy of the distribution over neighbors equal to $log\ \rho$. In this case, $\rho$ is an input parameter of the cost function called ``perplexity.'' The perplexity may be interpreted as a measure of the effective number of neighbors and is defined by \autoref{eq:tsne_perp}:
 
 \begin{equation}
 \label{eq:tsne_perp}
-Perp(P_i) = 2^{H(P_i)}
+\rho(P_i) = 2^{H(P_i)}
 \end{equation}
 
 \noindent
@@ -465,7 +462,7 @@ There is a variety of performance measures to evaluate algorithms in binary clas
 
 \subsubsection{Accuracy}
 
-Accuracy is one of the most used metrics to evaluate binary classifiers. In simple terms, it measures how many predictions were correct among all samples in a given dataset. The output of this metric a score $\in [0, 1]$ which is interpreted as the proportion of correct predictions (i.e., true positives and true negatives) among the total number of samples analyzed. The Accuracy is described by the \autoref{eq:accuracy}:
+Accuracy is one of the most used metrics to evaluate binary classifiers. In simple terms, it measures how many predictions were correct among all samples in a given dataset. The output of this metric is a score $\in [0, 1]$ which is interpreted as the proportion of correct predictions (i.e., true positives and true negatives) among the total number of samples analyzed. The Accuracy is described by the \autoref{eq:accuracy}:
 
 \begin{equation}
 \label{eq:accuracy}
@@ -498,7 +495,7 @@ The f-measure, also called f-score or f1-score, is a metric to balance the value
 
 \begin{equation}
 \label{eq:f-measure}
-F{-}Measure = 2\frac{Precision \cdot Recall}{Precision + Recall}
+F1 = 2\frac{Precision \cdot Recall}{Precision + Recall}
 \end{equation}
 
 In the example cited above, the f-measure of model $A$ is 40\%, while the model $B$ is 33.3\%. Therefore, the model $A$ can be considered a better model for this case since it has a higher f-measure and consequently a better equilibrium between Precision and Recall.
@@ -534,16 +531,16 @@ Since both \acs{npv} and specificity are similar to Precision and Recall, they s
 
 \subsubsection{\acl{mcc}} \label{sec:mcc}
 
-The \acf{mcc}, also known as phi coefficient, is a binary classification metric that takes into account all the four confusion matrix categories: true positives, true negatives, false positives, and false negatives. It was introduced by biochemist Brian W. Matthews in 1975 \citep{matthews1975comparison} and is defined by the \autoref{eq:mcc}
+The \acf{mcc}, also known as phi coefficient, is a binary classification metric that takes into account all four categories: true positives, true negatives, false positives, and false negatives. It was introduced by biochemist Brian W. Matthews in 1975 \citep{matthews1975comparison} and is defined by the \autoref{eq:mcc}
 
 \begin{equation}
 \label{eq:mcc}
 MCC = \frac{TP \times TN - FP \times FN}{\sqrt{(TP + FP)(TP + FN)(TN + FP)(TN + FN)}}
 \end{equation}
 
-The \acs{mcc} is considered a balanced metric and can be used even in highly unbalanced datasets. The output of \acs{mcc} is normalized coefficient between $-1$ and $+1$. A coefficient of $+1$ means a perfect prediction, while $-1$ represents a total disagreement between prediction and ground truth. Also, a coefficient of $0$ represents that the predictions are no better than random guesses. 
+The \acs{mcc} is considered a balanced metric and can be used even in highly unbalanced datasets. The output of \acs{mcc} is a normalized coefficient between $-1$ and $+1$. A coefficient of $+1$ means a perfect prediction, while $-1$ represents a total disagreement between prediction and ground truth. Also, a coefficient of $0$ represents that the predictions are no better than random guesses. 
 
-Since the \acs{mcc} takes into account the four possible results of binary classification problems, it presents some advantages in comparison to other classification metrics. For example, given a trained classifier with a confusion matrix of TP = 90, \acs{fp} = 5, TN = 1, and FN = 4, in this case the Accuracy is 91\% and the f-measure is 95.24\%. On the other hand, the \acs{mcc} gives a score of 0.14, which means the algorithm is basically predicting the most frequent class and performing similarly to random guessing. As suggested by \cite{chicco2017ten}, the \acs{mcc} must be used to evaluate the performance in the test set of any binary classification problem.
+Since the \acs{mcc} takes into account the four possible results of binary classification problems, it presents some advantages in comparison to other classification metrics. For example, given a trained classifier with a confusion matrix of TP = 90, \acs{fp} = 5, TN = 1, and FN = 4, in this case the Accuracy is 91\% and the f-measure is 95.24\%. On the other hand, the \acs{mcc} gives a score of 0.14, which means the algorithm is basically predicting the most frequent class and performing similarly to random guessing. As suggested by \cite{chicco2017ten}, the use of \acs{mcc} is highly encouraged to evaluate the performance in the test set of any binary classification problem.
 
 \subsubsection{Equal Error Rate}
 

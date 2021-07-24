@@ -82,7 +82,7 @@ The \autoref{fig:labels_by_sample} shows the number of images with 0 or more com
 \label{fig:labels_by_sample}
 \end{figure*}
 
-In \autoref{fig:reqs_distribution}, we can easily visualize the labels distribution by requirement presented earlier in \autoref{tab:req-dist}. As can be seen, the requirements \citeReq{\inkmarked}, \citeReq{\washedout}, \citeReq{\framestooheavy}, and \citeReq{\otherfacesortoys} are the most unbalanced ones. Also, the \citeReq{\unnaturalskintone} is the only requirement where the number of non-compliant samples is greater than the compliant.
+In \autoref{fig:reqs_distribution}, we can visualize the labels distribution by requirement presented earlier in \autoref{tab:req-dist}. As can be seen, the requirements \citeReq{\inkmarked}, \citeReq{\washedout}, \citeReq{\framestooheavy}, and \citeReq{\otherfacesortoys} are the most unbalanced ones. Also, the \citeReq{\unnaturalskintone} is the only requirement where the number of non-compliant samples is greater than the compliant.
 
 \begin{figure*}
 \centering
@@ -91,7 +91,7 @@ In \autoref{fig:reqs_distribution}, we can easily visualize the labels distribut
 \label{fig:reqs_distribution}
 \end{figure*}
 
-The \autoref{fig:reqs_correlation} shows the correlation between non-compliant requirements. In other words, it measures how many images has two different non-compliant requirements occurring together. As expected, we can notice a strong correlation between eyes-related characteristics, e.g., \citeReq{\lookingaway}, \citeReq{\hairacrosseyes}, \citeReq{\eyesclosed}, \citeReq{\redeyes}, \citeReq{\darktintedlenses}, and \citeReq{\framecoveringeyes}. These are mainly caused by the dummy requirements that were converted to non-compliant. Moreover, considerable correlations can be observed between requirements associated to skin, for instance \citeReq{\unnaturalskintone} and \citeReq{\flashskin}. 
+\autoref{fig:reqs_correlation} shows the correlation between non-compliant requirements. In other words, it measures how many images has two different non-compliant requirements occurring together. As expected, we can notice a strong correlation between eyes-related characteristics, e.g., \citeReq{\lookingaway}, \citeReq{\hairacrosseyes}, \citeReq{\eyesclosed}, \citeReq{\redeyes}, \citeReq{\darktintedlenses}, and \citeReq{\framecoveringeyes}. These are mainly caused by the dummy requirements that were converted to non-compliant. Moreover, considerable correlations can be observed between requirements associated to skin, for instance \citeReq{\unnaturalskintone} and \citeReq{\flashskin}. 
 
 \begin{figure*}
 \centering
@@ -159,7 +159,7 @@ The unsupervised branch uses the Mean Squared Error (MSE) to measure the image r
 \mathcal{L}_1 = \frac{1}{N} \sum_h^H \sum_w^W ({I_{h,w} - \hat{I}_{h,w}})^2
 \end{equation}
 
-\noindent where $N$ represents the number of pixels; $H$ and $W$, the image dimensions; $I$ and $\hat{I}$ are the input image and the reconstructed image, respectively. Since the same input image $I$ is used in the reconstruction task as ground-truth, this task is considered unsupervised (or semi-supervised). During training, the unsupervised branch will minimize the squared difference between the input image $I$ and the reconstructed image $\hat{I}$.
+\noindent where $N$ represents the number of pixels; $H$ and $W$, the image dimensions; $I$ and $\hat{I}$ are the input image and the reconstructed image, respectively. Since the same input image $I$ is used in the reconstruction task as ground-truth, this task is considered unsupervised (sometimes called semi-supervised). During training, the unsupervised branch will minimize the squared difference between the input image $I$ and the reconstructed image $\hat{I}$.
 
 \paragraph{Supervised Branch}
 
