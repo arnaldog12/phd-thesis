@@ -591,7 +591,7 @@ The \acf{fvc} is an event organized by four main institutions: \textit{Biometric
 
 After 2006, the organizers of \acs{fvc} decided to create the \fvcongoing. It turned the original biannual \acs{fvc} into an ongoing competition, i.e., every participant could register and submit new algorithms in a continuous fashion. Moreover, new competitions regarding fingerprints were added to \fvcongoing, like fingerprint orientation extraction, fingerprint indexing, and minutiae matching.
 
-In 2012, a new benchmark category related to the \icao standard was added to \fvcongoing \citep{ferrara2012face}, called \textit{\acl{ficv}} (\acs{ficv}). The main goal of this benchmark is to evaluate algorithms that assess the compliance of face images to ISO standard. In total, 24 out of 30 requirements are evaluated by the \acs{ficv}: the \citeReq{\eyecenterlocation} and all the photographic and pose-specific tests (8--30) - see \autoref{tab:icao}. Moreover, the \acs{ficv} also evaluates if the image can be converted to a Token Format (see Section 9.2.3 in \citep{iso-iec}) based on the eye positions predicted by a submitted algorithm. In short, an image is considered \textit{tokenizable} (without padding) if:
+In 2012, a new benchmark category related to the \icao standard was added to \fvcongoing \citep{ferrara2012face}, called \textit{\acl{ficv}} (\acs{ficv}). The main goal of this benchmark is to evaluate algorithms that assess the compliance of face images to ISO standard. In total, 24 out of 30 requirements are evaluated by the \acs{ficv}: the \eyecenterlocation and all the photographic and pose-specific tests (8--30) - see \autoref{tab:icao}. Moreover, the \acs{ficv} also evaluates if the image can be converted to a Token Format (see Section 9.2.3 in \citep{iso-iec}) based on the eye positions predicted by a submitted algorithm. In short, an image is considered \textit{tokenizable} (without padding) if:
 
 \begin{itemize}
 \item the distance ($E_{Dist}$) between eyes is at least 60 pixels;
@@ -611,7 +611,7 @@ All participants that want to submit an algorithm for evaluation in the \acs{fic
 
 Additionally to the submission protocol, the algorithm must still comply with some constraints. For example, the maximum time allowed for the processing of each image is 10 seconds. In case of time violations, the current image evaluation is considered a failure. Also, there is a minimum break of 12 hours between two consecutive submissions by the same participant to the \ficvtest dataset. For the \ficvofficial, this interval is 15 days. However, there are no constraints about memory allocation limit.
 
-Finally, since the requirements \#1 and \#8--30 (see \autoref{tab:icao}) represents different kinds of problems, they are evaluated differently. The \citeReq{\eyecenterlocation} performance is measured by the relative error according to the distances between the expected and the estimated eye positions ($d_{eye}$). This is the same metric introduced by \cite{jesorsky2001robust} and is calculated as follows (\autoref{eq:icao-eyes}):
+Finally, since the requirements \#1 and \#8--30 (see \autoref{tab:icao}) represents different kinds of problems, they are evaluated differently. The \eyecenterlocation performance is measured by the relative error according to the distances between the expected and the estimated eye positions ($d_{eye}$). This is the same metric introduced by \cite{jesorsky2001robust} and is calculated as follows (\autoref{eq:icao-eyes}):
 
 \begin{equation}
 \label{eq:icao-eyes}
@@ -628,7 +628,7 @@ Furthermore, to evaluate the performance of the photographic and pose-specific r
 \item $FAR_{100}$: the lowest FRR for FAR $\leq$ 1\%;
 \item $Zero_{FAR}$: the lowest FRR for FAR=0\%;
 \item $Zero_{FRR}$: the lowest FAR for FRR=0\%;
-\item $Rejection$: percentage of images where the algorithm did not evaluate the requirement;
+\item $Rejection Rate$: percentage of images where the algorithm did not evaluate the requirement;
 \item $Impostor$ and $Genuine$ score distributions;
 \item $FAR(\tau) / FRR(\tau)$ curves, where $\tau$ represents the acceptance threshold; and
 \item $DET(\tau)$ curve: the Detection Error Tradeoff, which plot the \acl{frr} vs. the \acl{far}.
