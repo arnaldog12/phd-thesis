@@ -25,7 +25,7 @@ Moreover, the following information is given for each image:
 \item the \textbf{compliance to the photographic and pose requirements} expressed as one of three possible values:     
     \begin{enumerate}[i]
     \item \textbf{compliant}: when a specific requirement is declared compliant for an image, it means that such image is ``OK'' for that characteristic. In theory, only fully compliant images should be considered for a later face recognition process. In the ground truth, the compliant is represented by integer 1;
-    \item \textbf{non-compliant}: represented by the label 0 in the ground-truth, means the opposite of compliant. I.e., for a given image, the specific requirement is ``not-OK''; and
+    \item \textbf{non-compliant}: represented by the label 0 in the ground-truth, means the opposite of compliant, i.e., for a given image, the specific requirement is ``not-OK''; and
     \item \textbf{dummy}: used for uncertainty cases. For example, when the person wears glasses with dark tinted lenses, it is hard to evaluate whether the eyes are open even for human experts. It is represented by the integer $-1$ in the ground-truth.
     \end{enumerate}
 \end{itemize}
@@ -63,7 +63,7 @@ As indicated in the FICV competition webpage, there are dependencies between som
 \item 2551 newly acquired images of sizes from 976$\times$1301 to 4608$\times$3456 pixels
 \end{itemize}
 
-Our dataset has 177 fully compliant images and 5568 images with one or more non-compliant requirements. One important detail to notice is that, although the \adhoc dataset has the label dummy in the ground truth, we decided to merge dummy and non-compliant labels. We did this for two reasons. First, according to the FICV protocol, only compliant and non-compliant images are considered for benchmark of each requirement (see Section \ref{sec:fvcongoing} of Chapter \ref{sec:background}). Furthermore, the dataset imbalance is diminished by combining these two labels, and the intra-class variance of non-compliant images is increased. Therefore, it can help the network define a better decision boundary between compliant and non-compliant requirements and improve performance. Our tests corroborated such an effect. However, This decision was made aiming at the FICV competition. In other contexts, the dummy information may be relevant. Finally, the distribution of labels per requirement can be seen in Table \ref{tab:req-dist}. 
+Our dataset has 177 fully compliant images and 5586 images with one or more non-compliant requirements. One important detail to notice is that, although the \adhoc dataset has the label dummy in the ground truth, we decided to merge dummy and non-compliant labels. We did this for two reasons. First, according to the FICV protocol, only compliant and non-compliant images are considered for benchmark of each requirement (see Section \ref{sec:fvcongoing} of Chapter \ref{sec:background}). Furthermore, the dataset imbalance is diminished by combining these two labels, and the intra-class variance of non-compliant images is increased. Therefore, it can help the network define a better decision boundary between compliant and non-compliant requirements and improve performance. Our tests corroborated such an effect. However, This decision was made aiming at the FICV competition. In other contexts, the dummy information may be relevant. Finally, the distribution of labels per requirement can be seen in Table \ref{tab:req-dist}. 
 
 \input{tables/table_req_dist}
 
@@ -71,7 +71,7 @@ To better understand the \adhoc dataset, we performed some analysis of the image
 
 \subsubsection{\textit{Ad hoc} Dataset Analysis}
 
-The \autoref{fig:labels_by_sample} shows the number of images with 0 or more compliant/non-compliant labels in the \adhoc dataset. As pointed out earlier, there are 177 fully compliant images (i.e., the number of non-compliant labels equals zero). Also, we can notice that most images have 2 to 6 non-compliant requirements, but there are images with up to 14 non-compliant requirements.
+The \autoref{fig:labels_by_sample} shows the number of images with a certain amount of compliant/non-compliant labels in the \adhoc dataset. As pointed out earlier, there are 177 fully compliant images (i.e., the number of non-compliant labels equals zero). Also, we can notice that most images have 2 to 6 non-compliant requirements, but there are images with up to 14 non-compliant requirements.
 
 \begin{figure*}
 \centering
@@ -94,7 +94,7 @@ In \autoref{fig:reqs_distribution}, we can visualize the labels distribution by 
 \begin{figure*}
 \centering
 \includegraphics[width=\linewidth]{images/reqs_correlation.pdf}
-\caption{Correlation between non-compliant requirements. Source: own elaboration.}
+\caption{Correlation between non-compliant requirements. The numbers indicate the amount of images with both requirements non-compliant and are normalized by row. Source: own elaboration.}
 \label{fig:reqs_correlation}
 \end{figure*}
 
@@ -183,7 +183,7 @@ Since the network has two branches (supervised and unsupervised) and they are op
 
 \subsubsection{Training} 
 
-To train \methodname, the \ficvtest dataset is split into training and validation sets only. We consider the private dataset of the FICV competition (\ficvofficial) as the test set, and the benchmark results are reported as our final results. Both training and validation sets are randomly divided using a stratified multi-label approach. Thus, the compliant and non-compliant proportions seen in Table \ref{tab:req-dist} are preserved. Approximately 10\% of the dataset (580 images) is used as the validation set, while the remaining images are selected for network training.
+To train \methodname, the \adhoc dataset is split into training and validation sets only. We consider the private dataset of the FICV competition (\ficvofficial) as the test set, and the benchmark results are reported as our final results. Both training and validation sets are randomly divided using a stratified multi-label approach. Thus, the compliant and non-compliant proportions seen in Table \ref{tab:req-dist} are preserved. Approximately 10\% of the dataset (580 images) is used as the validation set, while the remaining images are selected for network training.
 
 Regarding the architecture, since most of the \methodname structure is based on undercomplete Autoencoders, there was no need to employ many regularization techniques during training. However, we still apply batch normalization before activation functions in the Convolutional layers and Dropouts in some dense layers of the supervised branch. The Early Stopping technique is also employed to prevent overfitting, and the patience hyperparameter is based on the \acf{mcc}, as presented in \autoref{eq:mcc}. The MCC was chosen because it is a robust metric for unbalanced datasets (see Section \ref{sec:mcc} of Chapter \ref{sec:background}) and it performed better than \acs{eer} in our experiments. All metrics described in Section \ref{sec:measures} of Chapter \ref{sec:background} are evaluated at the end of each epoch and will be reported in the results chapter.
 

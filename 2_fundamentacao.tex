@@ -1,6 +1,6 @@
 \section{Background} \label{sec:background}
 
-In this chapter, we explain the essential concepts used in this work. We start by introducing Deep Learning and its main aspects. Then, we present \aclp{cnn} and Autoencoders, two types of Deep Architectures used by the proposed method. Also, an explanation about \acl{mtl} and its variants are presented. Later, we detail methods to explain Deep Networks, like \acs{shap}, and for dimensionality reduction, like \acl{pca} and \acs{tsne}. Next, the metrics proposed to evaluate the proposed work are detailed. Finally, the \icao standard is described, as well the \fvcongoing competition and its protocol.
+In this chapter, we explain the essential concepts used in this work. We start by introducing Deep Learning and its main aspects. Then, we present \aclp{cnn} and Autoencoders, two types of Deep Architectures used by the proposed method. Also, an explanation about \acl{mtl} and its variants is presented. Later, we detail methods to explain Deep Networks, like \acs{shap}, and for dimensionality reduction, like \acl{pca} and \acs{tsne}. Next, the metrics used to evaluate the proposed work are detailed. Finally, the \icao standard is described, as well the \fvcongoing competition and its protocol.
 
 \subsection{Deep Learning}
 
@@ -226,7 +226,7 @@ Historically, \acs{mtl} methods were classified into hard or soft parameter shar
 \subfigure[Hard Parameter Sharing]{\includegraphics[height=0.35\linewidth]{images/mtl_hard.pdf}}
 \hfill
 \subfigure[Soft Parameter Sharing]{\includegraphics[height=0.35\linewidth]{images/mtl_soft.pdf}}    
-\caption{Types of parameter sharing in \acl{mtl}. Source: own elaboration.}
+\caption{Types of parameter sharing in \acl{mtl}. The network backbone is represented in blue, while the task-specific heads are indicated in green. Source: own elaboration.}
 \label{fig:mtl_sharing}
 \end{figure*}
 
@@ -429,7 +429,7 @@ high-dimensional data points $x_i$ and $x_j$. Usually, for tasks in which the di
 q_{ij} = \frac{(1 +\left\| y_i - y_j \right\|^2)^{-1}}{\sum_{k \neq l} (1 +\left\| y_k - y_l \right\|^2)^{-1}}
 \end{equation}
 
-Finally, the \acs{tsne} tries to minimize a single Kullback-Leible divergence (\autoref{eq:tsne_cost}) between a joint probability distribution $P$ in the high-dimensional space and a joint probability distribution $Q$ in the low-dimensional space:
+Finally, the \acs{tsne} tries to minimize a single Kullback-Leibler divergence (\autoref{eq:tsne_cost}) between a joint probability distribution $P$ in the high-dimensional space and a joint probability distribution $Q$ in the low-dimensional space:
 
 \begin{equation}
 \label{eq:tsne_cost}
@@ -443,7 +443,7 @@ In contrast to the SNE implementation, the \acs{tsne} is symmetric since $p_{ij}
 \frac{\partial C}{\partial y_i} = 4 \sum_j (p_{ij} - q_{ij})(y_i - y_j)
 \end{equation}
 
-And the set $\gamma^{(t)} = \{y_1, y_2, ..., y_N\}$ will be updated by a momentum term given by \autoref{eq:tsne_update}:
+And the set $\gamma^{(t)} = \{y_1, y_2, ..., y_N\}$ is updated by a momentum term given by \autoref{eq:tsne_update}:
 
 \begin{equation}
 \label{eq:tsne_update}
@@ -458,7 +458,7 @@ In comparison to \acs{pca}, the \acs{tsne} does not conserve the distances or th
 
 \subsection{Performance Measures} \label{sec:measures}
 
-There is a variety of performance measures to evaluate algorithms in binary classification problems. In common, most of these metrics takes into account some of/all the four possible results presents in the binary confusion matrix: \acfp{tp}, \acfp{tn}, \acfp{fp}, and \acfp{fn}. In this subsection, we describe the evaluation metrics used in this work. Comments about the advantages and disadvantages of each one are also made when appropriate. 
+There is a variety of performance measures to evaluate algorithms in binary classification problems. In common, most of these metrics takes into account some of/all the four possible results present in the binary confusion matrix: \acfp{tp}, \acfp{tn}, \acfp{fp}, and \acfp{fn}. In this subsection, we describe the evaluation metrics used in this work. Comments about the advantages and disadvantages of each one are also made when appropriate. 
 
 \subsubsection{Accuracy}
 
@@ -487,7 +487,7 @@ Recall = \frac{TP}{TP + FN}
 
 Even though the Precision and Recall metrics are considered more robust than Accuracy to evaluate binary classifiers, both metrics present some drawbacks. First, they are purpose-specific. For example, Precision is a better choice when we want to trust the prediction of the positive class. However, if a model is optimized to maximize Precision only, it can bias the classifier to avoid uncertain positive samples, increasing the false negatives. On the other hand, Recall is more pertinent when we need a classifier that may correctly identify the positive samples, although it can generate more false positives. Hence, in case of a problem where Precision and Recall are equally important, the f-measure may be computed to generate a balanced score between these two metrics. The f-measure is better described in the following subsection.
 
-Secondly, by taking a closer looker at the Equations \ref{eq:precision} and \ref{eq:recall}, we can notice that they do not take into account the True Negatives. Therefore, both metrics are more appropriate when the positive class is more important than the negative class. It is the case of detection problems, for example, where identifying the negative class (usually background) is less important than the positive class (object of interest). Nevertheless, for some classification problems, this is not always true. For instance, we can cite the fraud detection problems, where the correct prediction of the True Negatives has a higher priority over the True Positives. For these cases, we can compute the negative predictive value and specificity metrics, which are described later.
+Secondly, by taking a closer looker at the Equations \ref{eq:precision} and \ref{eq:recall}, we can notice that they do not take into account the True Negatives. Therefore, both metrics are more appropriate when the positive class is more important than the negative class. It is the case of detection problems, for example, where identifying the negative class (usually background) is less important than the positive class (object of interest). Nevertheless, for some classification problems, this is not always true. For instance, we can cite the fraud detection problems, where the correct prediction of the True Negatives has a higher priority over the True Positives. For these cases, we can compute the negative predictive value and Specificity metrics, which are described later.
 
 \subsubsection{F-measure}
 
@@ -515,7 +515,7 @@ As can be noticed, when $\beta=1$, we have the original formula of f1-score. Ano
 
 \subsubsection{Negative Predictive Value \& Specificity}
 
-The metrics specificity and \acf{npv} are equivalent to Recall and Precision, respectively, but for the negative class. In analogy to Precision and Recall, the specificity answers the question ``\textit{given the negative samples, how many predictions were correct?}'', while the \acs{npv} answers ``\textit{given the negative predictions, how many were correct?}''. The metrics are defined by Equations \ref{eq:specificity} and \ref{eq:npv}:
+The metrics Specificity and \acf{npv} are equivalent to Recall and Precision, respectively, but for the negative class. In analogy to Precision and Recall, the Specificity answers the question ``\textit{given the negative samples, how many predictions were correct?}'', while the \acs{npv} answers ``\textit{given the negative predictions, how many were correct?}''. The metrics are defined by Equations \ref{eq:specificity} and \ref{eq:npv}:
 
 \begin{equation}
 \label{eq:specificity}
@@ -527,7 +527,7 @@ Specificity = \frac{TN}{TN + FP}
 NPV = \frac{TN}{TN + FN}
 \end{equation}
 
-Since both \acs{npv} and specificity are similar to Precision and Recall, they share the same problems of these metrics described in Section \ref{precision-recall}. Hence, \acs{npv} and specificity are purpose-specific (but, for the negative class) and, analogously, do not take into consideration the positive class.
+Since both \acs{npv} and Specificity are similar to Precision and Recall, they share the same problems of these metrics described in Section \ref{precision-recall}. Hence, \acs{npv} and Specificity are purpose-specific (but, for the negative class) and, analogously, do not take into consideration the positive class.
 
 \subsubsection{\acl{mcc}} \label{sec:mcc}
 
