@@ -4,6 +4,8 @@ This chapter presents and discusses the preliminary results accomplished by the 
 
 \subsection{Training Performance}
 
+\subsubsection{Requirements}
+
 We start by presenting the results of \methodname during the training phase. The \autoref{fig:losses} shows the loss in training and validation sets for unsupervised and supervised branches individually. As can be seen, the loss of unsupervised branch was lower and smoother than the supervised during the whole training. It was expected since (i) the reconstruction task performed by the unsupervised branch is theoretically more straightforward than the multi-label classification carried out by the supervised branch, and (ii) the unsupervised loss has a higher weight during training (see section \ref{sec:hyperparams} and \autoref{eq:loss-final}). 
 
 A more detailed analysis of our loss curves shows that \methodname presented an appropriate balance between bias and variance. In the case of the unsupervised branch, both train and validation loss are approximately zero and similar to each other. Therefore, the network achieved a notable performance in reconstructing the input image from the shared embeddings. Similarly, even though the losses from the supervised branch are more significant than the unsupervised, they are still close to zero. However, we can notice a more noisy loss curve regarding the validation set. Although such loss curves present a more considerable variance, they keep near the training curve through the epochs. Furthermore, the overfitting was prevented by the regularization techniques employed during training—for example, batch normalization, dropout layers, early stopping, and the architecture itself.
@@ -22,6 +24,8 @@ The final metrics of \methodname can be seen \autoref{tab:metrics}. It can show 
 
 \input{tables/table_metrics}
 
+\subsubsection{Eye Location Accuracy}
+
 \subsection{Results in the FICV Competition} \label{sec:ficv_results}
 
 In \autoref{tab:icaonet-ficv}, we can see the \acl{eer} and Rejection Rate for each FICV dataset. In the \ficvtest, the method proposed was able to achieve a perfect \acs{eer} in eight requirements (08, 11, 12, 16, 23, 24, 28, and 29). In the \ficvofficial dataset, it happened only in the \veiloverface, even though most of the other results are considerably low. 
@@ -32,7 +36,7 @@ Three requirements had an \acs{eer} greater than 40\% (10, 14, and 30) in both d
 
 In terms of Rejection Rates, only four requirements had images rejected during evaluation (08, 15, 17, and 18). According to our implementation, we only reject images for evaluation when a face is not detected. Therefore, such rejections represent the false negatives from the face detector used to preprocess input images (see section \ref{sec:preprocessing} of Chapter \ref{sec:method}). Furthermore, by analyzing these requirements, all of them may hamper face detection in extreme cases. 
 
-We highlight the substantial differences in \acs{eer} between both datasets in \autoref{tab:icaonet-ficv} for requirements 13, 15, and 17. In the case of \washedout, we believe it is caused because all the non-compliant images of this requirement in the \ficvtest belong to the AR database (see \autoref{fig:washedout}). Therefore the pattern learned by the network might not have been generalized to the official database. For the \variedbackground requirement, it may be affected by the cropping applied during preprocessing step of our method (see \autoref{fig:preprocessing}). The cropping can either (i) generate black borders to the input image or (ii) exclude artifacts that introduce variability to the background. According to our analysis to understand our network's output, we could observe that the black borders do not substantially influence the predictions (more details are provided further in section \ref{sec:netviz}). Thus, as can be seen in \autoref{fig:variedbgd}, the artifacts excluded by crop can have a noticeable effect on network learning. Lastly, one possible reason for the \hairacrosseyes requirement can be the resizing operation performed by the preprocessing step. Since the \adhoc dataset images are mostly of high resolution and they are reduced to 160x160, it can affect the images where thin locks of hair are crossing the eyes region. These cases are not rare to occur in the dataset and, even using the recommended method for image decimation (see section \ref{sec:preprocessing}), the resize may be contributing negatively to the patterns of this requirement. 
+We highlight the substantial differences in \acs{eer} between both datasets in \autoref{tab:icaonet-ficv} for requirements 13, 15, and 17. In the case of \washedout, we believe it is caused because all the non-compliant images of this requirement in the \ficvtest belong to the AR database (see \autoref{fig:washedout}). Therefore the pattern learned by the network might not have been generalized to the official database. For the \variedbackground requirement, it may be affected by the cropping applied during preprocessing step of our method (see \autoref{fig:preprocessing}). The cropping can either (i) generate black borders to the input image or (ii) exclude artifacts that introduce variability to the background. According to our analysis to understand our network's output, we could observe that the black borders do not substantially influence the predictions (more details are provided further in section \ref{sec:netviz}). Thus, as can be seen in \autoref{fig:variedbgd}, the artifacts excluded by crop can have a noticeable effect on network learning. Lastly, one possible reason for the \hairacrosseyes requirement can be the resizing operation performed by the preprocessing step (see \autoref{fig:hairacrosseyes}). Since the \adhoc dataset images are mostly of high resolution and they are reduced to 160x160, it can affect the images where thin locks of hair are crossing the eyes region. These cases are not rare to occur in the dataset and, even using the recommended method for image decimation (see section \ref{sec:preprocessing}), the resize may be contributing negatively to the patterns of this requirement. 
 
 \begin{figure}[t]
 \centering
@@ -73,6 +77,12 @@ The \autoref{fig:eer_unbalancing} shows the \acs{eer} in both FICV datasets (as 
 \caption{EER by the proportion of non-compliant images for each requirement in ascending order. Source: own elaboration.}
 \label{fig:eer_unbalancing}
 \end{figure}
+
+\subsubsection{Analysis of the Worst Requirements}
+
+% Trazer análise dos piores resultados para cá (linha 35: Three requirements had an \acs{eer} greater than 40\%) 
+% e mencionar as tentativas de melhoria
+% colocar um asterisco no resultado de Pixelation da tabela 6 com uma nota de rodapé, indicando que aquele resultado foi melhorado e citando esse seção
 
 \subsection{Comparison Against Other Methods}
 

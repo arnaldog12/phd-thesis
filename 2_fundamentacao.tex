@@ -204,7 +204,7 @@ Although the training of Autoencoders is similar to regular Neural Networks, som
 \begin{itemize}
 \item \textbf{Embedding size}: the size of the latent representation represents a trade-off between compression and accurate reconstruction. Smaller size results in more compression, but the Autoencoder may be forced to drop relevant features for reconstruction. On the other hand, the higher the embedding size, the more likely is the Autoencoder to simply memorize or overfit the training data. Usually, this effect can be diminished by adding a term to the loss function that discourages memorization/overfitting (for instance, a regularizer).
 
-\item \textbf{Number of Layers}: Vanilla Autoencoders are trained with a single hidden layer. However, training multilayer Autoencoders offers many advantages. First, depth can exponentially reduce the computation cost associated with representing some function. Furthermore, depth can also decrease the amount of training data needed to train a useful Autoencoder \citep{lecun2015deep}. Finally, experiments have shown that deep Autoencoders yield much better compression than equivalent shallow or linear Autoencoders \citep{hinton2006reducing}.
+\item \textbf{Number of Layers}: Vanilla Autoencoders are trained with a single hidden layer. However, training multilayer Autoencoders offers many advantages. First, depth can exponentially reduce the computation cost associated with representing some function1. Furthermore, depth can also decrease the amount of training data needed to train a useful Autoencoder \citep{goodfellow2016deep}. Finally, experiments have shown that deep Autoencoders yield much better compression than equivalent shallow or linear Autoencoders \citep{hinton2006reducing}.
 
 \item \textbf{Number of nodes per layer}: usually, Autoencoders have symmetric architecture. The number of nodes per layer in the encoder is the same as the decoder part but inverse. In the case of undercomplete Autoencoders, described earlier, the number of neurons per layer decreases at each layer and increases back in the decoder. In fact, symmetric architecture is not a mandatory rule but is commonly adopted in practice.
 
@@ -619,7 +619,7 @@ d_{eye} = \frac{max(\left\| C_l - \hat{C_l} \right\|, \left\| C_r -\hat{C_r}|\ri
 \end{equation}
 
 \noindent
-where $C_{l/r}$ and $\hat{C_{l/r}}$ represent the ground truth and the positions returned by the algorithm regarding the left and right eyes, respectively. This measure is scale-independent and allows to compare datasets with different image resolutions.
+where $C_{l/r}$ and $\hat{C_{l/r}}$ represent the ground truth and the positions returned by the algorithm regarding the left and right eyes, respectively. This measure is scale-independent and allows to compare datasets with different image resolutions. In the \acs{ficv} competition, the $d_{eye}$ is also evaluated using four different intervals: $d_{eye} \in [0;0.1[$, $d_{eye} \in [0.1;0.2[$, $d_{eye} \in [0.2;0.3[$, and $d_{eye} \geq 0.3$.
 
 Furthermore, to evaluate the performance of the photographic and pose-specific requirements, the benchmark datasets are divided into 23 different subsets, each related to a specific requirement. Also, each subset contains the same amount of compliant and non-compliant images. Then, for each requirement, the following performance metrics are computed and reported:
 
