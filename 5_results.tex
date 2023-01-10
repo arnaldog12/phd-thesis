@@ -4,6 +4,8 @@ This chapter presents and discusses the preliminary results accomplished by the 
 
 \subsection{Training Performance}
 
+In this subsection, we discuss the training performance regarding the \icao requirements followed by the results of eye landmarks detection. We focus on analysing  the loss charts and values of metrics described in Chapter \ref{sec:measures}.
+
 \subsubsection{Requirements}
 
 We start by presenting the results of \methodname during the training phase. The \autoref{fig:losses} shows the loss in training and validation sets for unsupervised and supervised branches individually. As can be seen, the loss of unsupervised branch was lower and smoother than the supervised during the whole training. It was expected since (i) the reconstruction task performed by the unsupervised branch is theoretically more straightforward than the multi-label classification carried out by the supervised branch, and (ii) the unsupervised loss has a higher weight during training (see section \ref{sec:hyperparams} and \autoref{eq:loss-final}). 
@@ -25,6 +27,10 @@ The final metrics of \methodname can be seen \autoref{tab:metrics}. It can show 
 \input{tables/table_metrics}
 
 \subsubsection{Eye Location Accuracy}
+
+In contrast to the intuition, the detection of eye landmarks revealed to be a harder task than the assessment of \icao requirements. Although we tried different approaches, loss functions, and datasets, \methodname was not able to learn detecting the landmarks accurately as other methods. In \autoref{tab:eyes}, we summarize the different aspects we evaluated to train \methodname in the task of landmark detection. All these approaches have in common a new supervised branch added on top of embeddings layer similar to the requirements branch.
+
+\input{tables/table_eyes}
 
 \subsection{Results in the FICV Competition} \label{sec:ficv_results}
 
@@ -77,6 +83,8 @@ The \autoref{fig:eer_unbalancing} shows the \acs{eer} in both FICV datasets (as 
 \caption{EER by the proportion of non-compliant images for each requirement in ascending order. Source: own elaboration.}
 \label{fig:eer_unbalancing}
 \end{figure}
+
+\input{tables/table_comp_eyes}
 
 \subsubsection{Analysis of the Worst Requirements}
 
