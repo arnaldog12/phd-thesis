@@ -3,17 +3,17 @@
 % \usepackage{graphicx}
 \begin{table}[]
 \centering
-\caption{Results of different approaches evaluated to train a landmark detector in \methodname. The $d_{eye}$ reported represent the $d_{eye} \in [0;0.1[$ (described in Chapter \ref{sec:fvcongoing}).}
+\caption{Results of different approaches evaluated to train a landmark detector in \methodname. The $d_{eye}$ reported represent the $d_{eye} \in [0;0.1[$ evaluated by \acs{ficv} competition (described in Chapter \ref{sec:fvcongoing}). Also, the \adhoc* dataset is a subset without non-compliant images of the \darktintedlenses requirement.}
 \label{tab:eyes}
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{@{}ccccc@{}}
 \toprule
 \textbf{Loss Function} & \textbf{Early Stop Metric} & \textbf{Train Set} & \textbf{Validation Set} & \textbf{$d_{eye}$} \\ \midrule
-MSE       & MSE       & \adhoc     & \adhoc & 37.90\% \\
-MSE       & $d_{eye}$ & \adhoc     & \adhoc & 41.99\% \\
-Wing Loss & $d_{eye}$ & \adhoc     & \adhoc & 40.21\% \\
-Wing Loss & $d_{eye}$ & \adhoc     & \adhoc & 43.59\% \\
-$d_{eye}$ & $d_{eye}$ & Celeb Face & \adhoc & 0\%     \\ \bottomrule
+MSE       & MSE       & \adhoc     & \adhoc  & 37.90\% \\
+MSE       & $d_{eye}$ & \adhoc     & \adhoc  & 41.99\% \\
+Wing Loss & $d_{eye}$ & \adhoc     & \adhoc  & 40.21\% \\
+Wing Loss & $d_{eye}$ & \adhoc*    & \adhoc* & 43.59\% \\
+$d_{eye}$ & $d_{eye}$ & Celeb Face & \adhoc* & 0\%     \\ \bottomrule
 \end{tabular}%
 }
 \end{table}

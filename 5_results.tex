@@ -28,7 +28,14 @@ The final metrics of \methodname can be seen \autoref{tab:metrics}. It can show 
 
 \subsubsection{Eye Location Accuracy}
 
-In contrast to the intuition, the detection of eye landmarks revealed to be a harder task than the assessment of \icao requirements. Although we tried different approaches, loss functions, and datasets, \methodname was not able to learn detecting the landmarks accurately as other methods. In \autoref{tab:eyes}, we summarize the different aspects we evaluated to train \methodname in the task of landmark detection. All these approaches have in common a new supervised branch added on top of embeddings layer similar to the requirements branch.
+In contrast to the intuition, the detection of eye landmarks revealed to be a harder task than the assessment of \icao requirements. Although we tried different approaches, loss functions, and datasets, \methodname was not able to learn detecting the landmarks accurately as other methods. In \autoref{tab:eyes}, we summarize the different aspects we evaluated to train \methodname in the task of landmark detection. All these approaches have in common a new supervised branch added on top of embeddings layer similar to the requirements branch. 
+
+As can be seen in \autoref{tab:eyes}, by using an approach similar to general regression problems (i.e., \acs{mse} as loss function and the metric for Early Stop), we achieved $d_{eye} \in [0;0.1[ = 37.9\%$. Then, we changed the Early Stop metric to be the same as in the \acs{ficv} competition. It improved the results to $41.99\%$. Later, the loss functions was replaced by the Wing Loss, which is a more advanced metric for the problem of landmark detection according to the specialized literature. However, the $d_{eye}$ decreased to $40.21\%$.
+
+We decided to appraise changes in the training and validation datasets as well. First, we removed non-compliant images of \darktintedlenses from the \adhoc dataset. It was done because, for these images, the landmark detector applied to label the dataset (see Section \ref{sec:databaseadhoc}) makes less accurate detections or, in some cases, does not detect the eye landmarks. We can notice in the penultimate row of \autoref{tab:eyes} that it helped to improve the results, but by a small margin.
+
+
+
 
 \input{tables/table_eyes}
 

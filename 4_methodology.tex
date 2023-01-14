@@ -47,7 +47,7 @@ As indicated in the FICV competition webpage, there are dependencies between som
 \label{fig:icao_dependencies}
 \end{figure}
 
-\subsubsection{\textit{Ad hoc} Dataset}
+\subsubsection{\textit{Ad hoc} Dataset} \label{sec:databaseadhoc}
 
 Usually, \acl{dl}-based methods require a large dataset for the learning process, primarily if the training is performed from scratch. Techniques like Transfer Learning or Data Augmentation can be employed in the case of low-size datasets. However, they presume some assumptions. For example, Transfer Learning works well when the original network was trained in a similar domain compared to the new problem. Likewise, to improve results with Data augmentation, we need to have significant intraclass variance in samples. Moreover, traditional Data Augmentation does not change the distributions of labels in a dataset since the random transformations are applied uniformly. 
  
