@@ -28,16 +28,47 @@ The final metrics of \methodname can be seen \autoref{tab:metrics}. It can show 
 
 \subsubsection{Eye Location Accuracy}
 
-In contrast to the intuition, the detection of eye landmarks revealed to be a harder task than the assessment of \icao requirements. Although we tried different approaches, loss functions, and datasets, \methodname was not able to learn detecting the landmarks accurately as other methods. In \autoref{tab:eyes}, we summarize the different aspects we evaluated to train \methodname in the task of landmark detection. All these approaches have in common a new supervised branch added on top of embeddings layer similar to the requirements branch. 
+In contrast to the intuition, the detection of eye landmarks revealed to be a harder task than the assessment of \icao requirements. The \autoref{fig:eye-training} presents the Wing loss and eye location accuracy ($d_{eye} \in [0;0.1[$) in training and validation sets. In contrast to the supervised branch for requirements, we can notice the presence of bias in the loss graph during training (the loss is far away from zero), indicating the network was not able to learn useful patterns and detect eye landmarks accurately. Such behaviour also happens in the validation set. Nonetheless, these results also reflect in the eye location accuracy metric, which reach the maximum value of $46.18\%$ in the \adhoc dataset. A sample of images with the landmarks predicted by \methodname is shown in \autoref{fig:eyes_detection}. 
 
-As can be seen in \autoref{tab:eyes}, by using an approach similar to general regression problems (i.e., \acs{mse} as loss function and the metric for Early Stop), we achieved $d_{eye} \in [0;0.1[ = 37.9\%$. Then, we changed the Early Stop metric to be the same as in the \acs{ficv} competition. It improved the results to $41.99\%$. Later, the loss functions was replaced by the Wing Loss, which is a more advanced metric for the problem of landmark detection according to the specialized literature. However, the $d_{eye}$ decreased to $40.21\%$.
+\begin{figure}[h]
+\centering
+\subfigure[Wing Loss]{\includegraphics[width=0.8\linewidth]{images/graphs/loss_eyes.png}}
+\subfigure[Eye Localization Accuracy]{\includegraphics[width=0.8\linewidth]{images/graphs/eyes_location_accuracy.png}}
+\caption{Results of eye localization for training and validation sets: (a) wing loss and (b) $d_{eye} \in [0;0.1[$. Source: own elaboration.}
+\label{fig:eye-training}
+\end{figure}
 
-We decided to appraise changes in the training and validation datasets as well. First, we removed non-compliant images of \darktintedlenses from the \adhoc dataset. It was done because, for these images, the landmark detector applied to label the dataset (see Section \ref{sec:databaseadhoc}) makes less accurate detections or, in some cases, does not detect the eye landmarks. We can notice in the penultimate row of \autoref{tab:eyes} that it helped to improve the results, but by a small margin.
+We analysed the network predictions for eye landmarks to understand the bias mentioned. In \autoref{fig:heatmap_eyes}, we can see a heatmap of landmarks in the validation set. As can be noticed, there are two noticeable clusters for each eye, indicating that the networks is essentially predicting landmarks over the same regions regardless the input image. We suppose this behaviour is caused mainly by the preprocessing step, which centers the face in the input image.
 
+We presume the low performance in eye landmark localization can be explained by one or more reasons from below:
 
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.6\linewidth]{images/eyes/heatmap_eyes_v0.914.png}
+\caption{Heatmap of detected eye landmarks in the \adhoc dataset.}
+\label{fig:heatmap_eyes}
+\end{figure}
 
+\begin{enumerate}[i]
+\item \textbf{Preprocessing}: our preprocessing method centralize the face by creating a region around it (see Section \ref{sec:preprocessing}). Therefore, the network can be inducted to predict the mean of landmark positions to minimize the loss function. However, we tried to apply different levels of image augmentation in other experiments. Although the predictions were more distributed over the image, there was no significant changes in the loss and location accuracy.
 
-\input{tables/table_eyes}
+\item \textbf{Dataset}: our \adhoc image dataset is mostly composed by images with frontal faces with little variation in face poses and alignment. In addition, the amount of images (approximately five thousand) is noticeably low in comparison with other landmarks datasets. For example, there are more than 200 thousand images with labeled landmarks in the 300-VW \citep{tzimiropoulos2015project} or CelebFaces \citep{yang2015facial} datasets. In fact, we ran some experiments with a subset of CelebFaces dataset as our training set (and left the entire \adhoc dataset as validation). In all of them, overfitting was achieved (i.e., high performance in training, but low performance in validation). We believe it comes from the fact that the patterns found in CelebFaces dataset are even easier than in ours. All faces are centered and with corrected orientation (the last is not carried out by our preprocessing step). Again, as mentioned before, we tried data augmentation, but it did not help to improve overall performance.
+
+\item \textbf{Embeddings}: when training the branch for detection of eye landmarks, the remaining parts of \methodname architecture was frozen, including the encoder and corresponding embeddings. We could argue that (i) the embeddings does not contain helpful representation of the eyes that can be relevant for landmark detection; and (it) it can be harmful to the landmarks branch since it would not have the chance to update the embeddings. Despite of it, we already had empirical evidence that the embeddings contains useful information of the eyes before training the landmarks branch. Later is this work, we will see the regions closer to eyes are important for requirements assessment (see Section \ref{sec:netviz}).
+
+\item \textbf{Training Components}: we ran tests with \acs{mse}, Wing Loss, and $d_{eye}$ as both loss functions and metrics for early stopping.  After all, \methodname was not able to predict the landmarks accurately. It goes against to other works found in the literature that also applies multitask learning for facial landmarks prediction (e.g., \citep{zhang2014facial, ranjan2017hyperface, zhang2015learning}. On the other hand, we could have leveraged the use of more advanced losses and models. It will be left for future works though.
+
+\end{enumerate}
+
+In conclusion, considering the scope of the possible reasons mentioned above, we suspect the dataset is the main problem for the low performance on eye localization accuracy. Therefore, by improving the data with more variations in face pose, location and orientations, the results may be improved. Nevertheless, further investigation must be conducted to verify this hypothesis.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth]{images/eyes/detections.pdf}
+\caption{Results of eyes landmarks detection by \methodname. The ground-truth annotations are shown in green, while network predictions are in yellow.}
+\label{fig:eyes_detection}
+\end{figure}
+
 
 \subsection{Results in the FICV Competition} \label{sec:ficv_results}
 
