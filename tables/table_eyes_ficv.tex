@@ -1,0 +1,34 @@
+% Please add the following required packages to your document preamble:
+% \usepackage{booktabs}
+% \usepackage{graphicx}
+\begin{table}[]
+\centering
+\caption{Results of eye localization accuracy for \methodname in the official datasets of FICV competition.}
+\label{tab:eyes_ficv}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}rrrrrrr@{}}
+\toprule
+\textbf{} &
+  \textbf{$d_{eye} \in [0;0.1[$} &
+  \textbf{$d_{eye} \in [0.1;0.2[$} &
+  \textbf{$d_{eye} \in [0.2;0.3[$} &
+  \textbf{$d_{eye} \geq 0.3$} &
+  \textbf{Rejected} &
+  \textbf{Tokenizable} \\ \midrule
+\ficvtest &
+  43.59\% &
+  46.80\% &
+  4.80\% &
+  4.80\% &
+  0.00\% &
+  88.97\% \\
+\ficvofficial &
+  \% &
+  \% &
+  \% &
+  \% &
+  \% &
+  \% \\ \bottomrule
+\end{tabular}%
+}
+\end{table}
