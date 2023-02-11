@@ -4,6 +4,23 @@ In this chapter, we start by reviewing Deep \acl{mtl} techniques applied in comp
 
 \subsection{Multitask Learning}
 
+\acl{mtl} can be defined as a technique to learn multiple tasks \textit{jointly} instead of learning each task independently. It has been studied since the 90's, initially focused on Neural Network models \citep{ thrun1998learning, Caruana1997, baxter2000model}. More recent approaches have been based on structured sparsity and convex optimization \citep{argyriou2006multi}, kernel methods \citep{evgeniou2005learning}, among others.
+
+A similar, but more difficult, problem that is closely related to \acs{mtl} is the \acf{ltl}, also known as inductive bias learning or transfer learning \citep{maurer2016benefit}. The main idea behind \acs{ltl} is to learn to perform a new task through the exploitation of knowledge acquired from previous tasks experiences. It has been proposed by \citep{thrun1998learning}, showing that a common representation which is able to perform well on training tasks will also generalize to new tasks retrieved from the same ``environment''. Recent papers has also shown dimension independent bounds \citep{maurer2013sparse, pontil2013excess, pentina2014pac}.
+
+A seminal line of research in the field of \acl{mtl} and Transfer Learning is centered around the concept that tasks are related by means of a shared low-dimensional representation that is jointly learned along with the task parameters \citep{maurer2016benefit}. This approach was first endorsed by the works of \cite{Caruana1997, thrun1998learning, baxter2000model} and later reexamined from a convex optimization and sparsity regularization perspective in \citep{argyriou2006multi}. Representation Learning is also a crucial aspect of \acl{ai}, leading to renewed interest in the development of nonlinear hierarchical representation through \aclp{dnn}. In the literature, some works have demonstrated the efficacy of the approach, specially in the fields of \acf{nlp} (CITE PAPERS) and Computer Vision (CITE PAPERS). Since then, the interest about \acf{mtrl} has increased as it is a core component of \acsp{dnn}.
+
+Historically, \acs{mtl} methods were classified into hard or soft parameter sharing techniques \citep{vandenhende2021multi}. In the hard parameter sharing, initially proposed by \cite{Caruana1997}, the network parameters are divided into shared and task-specific parameters. Typically, \acs{mtl} models using hard parameter sharing contain a shared encoder with task-specific branches \citep{kendall2018multi, chen2018gradnorm, sener2018multi}. As proved by \cite{baxter1997bayesian}, the risk of overfitting in hard parameter sharing is order $N$ smaller than overfitting the task-specific branches, where $N$ is the number of tasks. Intuitively, since it is harder for a model to find a shared representation for all tasks, the less likely is the chance of overfitting. On the other hand, in soft parameter sharing, the parameters of each task are handled by a feature sharing mechanism \citep{ruder2019latent, gao2019nddr, liu2019end}. In this case, each task has a specific model, and the parameters of each model are regularized to be similar. \autoref{fig:mtl_sharing} visually explains the differences between hard and soft parameters sharing.
+
+\begin{figure*}[ht]
+\centering
+\subfigure[Hard Parameter Sharing]{\includegraphics[height=0.35\linewidth]{images/mtl_hard.pdf}}
+\hfill
+\subfigure[Soft Parameter Sharing]{\includegraphics[height=0.35\linewidth]{images/mtl_soft.pdf}}    
+\caption{Types of parameter sharing in \acl{mtl}. The network backbone is represented in blue, while the task-specific heads are indicated in green. Source: own elaboration.}
+\label{fig:mtl_sharing}
+\end{figure*}
+
 A variety of techniques and architectures for \acs{mtl} has been proposed in the literature of Deep Learning. Usually, Deep Multitask Architectures may be divided into encoder-focused and decoder-focused architectures \citep{vandenhende2021multi}. The main characteristic of the encoder-focused architectures \citep{kendall2018multi, chen2018gradnorm, sener2018multi} is the presence of an off-the-shelf backbone network, usually called an encoder. The goal of the encoder is to learn a generic representation that will be shared by a set of independent task-specific heads. Differently, the decoder-focused architectures also exchange information during the decoding stage \citep{xu2018pad, zhang2018joint, vandenhende2020mti}. In the following subsections, we discuss the most relevant Deep \acl{mtl} architectures.
 
 \subsubsection{Encoder-focused Architectures}
