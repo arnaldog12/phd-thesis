@@ -77,7 +77,7 @@ Besides convolution, the pooling layers are one of the essential components of \
 
 There are two common types of pooling methods: \textbf{max pooling} and \textbf{average pooling}. They compute the maximum and the average value for each patch of the feature map, respectively. An example of both operations can be seen in \autoref{fig:poolings}.
 
-\begin{figure*}[ht]
+\begin{figure*}[tb]
 \centering
 \subfigure[Max Pooling]{\includegraphics[width=0.4\linewidth]{images/pool_max.png}}
 \hfill
@@ -170,7 +170,7 @@ Autoencoders represent a specific type of neural network capable of discovering 
 
 The architecture of Autoencoders (\autoref{fig:autoencoder}) is usually composed of two parts:
 
-\begin{figure}[h]
+\begin{figure}[tb]
 \centering
 \includegraphics[width=\linewidth]{images/autoencoder.png}
 \caption{Architecture of an Autoencoder. Source: \citep{autoencoder_architecture}}
@@ -588,7 +588,7 @@ where $p(s|impostor)$ and $p(s|genuine)$ correspond to the probability distribut
 
 Finally, the \acs{eer} is designated by the point where the \acs{far} and \acs{frr} curves intercept each other (see \autoref{fig:eer}). Therefore, the \acs{eer} represents the rate at which both acceptance and rejections errors are equal, i.e., $FAR = FRR$ or $p(s|impostor) = p(s|genuine)$. All the mentioned metrics (\acs{far}, \acs{frr}, and \acs{eer}) are inversely proportional to the performance of the biometric system (the lower, the better).
 
-\begin{figure}[hb]
+\begin{figure}[tb]
 \centering
 \includegraphics[height=2.1in]{images/EER.pdf}
 \caption{The typical curves of the \acs{far} and \acs{frr} error rates, plotted side by side, in relation to the threshold $\tau$ configured for the system. The \acs{eer} is represented by the intersection point of the curves. Source: own elaboration.}
@@ -605,7 +605,7 @@ Following the ICAO guidelines, the \acf{iso}, together with the \acf{iec}, propo
 
 \input{tables/table_icao}
 
-\begin{figure}[ht]
+\begin{figure}[tb]
 \centering
 \includegraphics[width=\linewidth]{images/icao.png}
 \caption{Examples of non-compliant images for the requirements 8-30 listed in Table \ref{tab:icao}. Source: \cite{maltoni2009biolab}.}
@@ -625,7 +625,7 @@ In 2012, a new benchmark category related to the \icao standard was added to \fv
 \item the rectangular region of size $W \times H$ (with $W=4\cdot E_{Dist}$ and $H=W \cdot 4/3$), determined so that the eyes are horizontally aligned and their center is in position $C_E=(W\cdot1/2,W\cdot3/5)$, is totally enclosed in the original image (see \autoref{fig:icao_token}).
 \end{itemize}
 
-\begin{figure}[ht]
+\begin{figure}[tb]
     \centering
     \includegraphics[height=3.0in]{images/icao_tokenizable.png}
     \caption{Geometric characteristics of the token image format. Source: \citep{fvcongoing}.}
