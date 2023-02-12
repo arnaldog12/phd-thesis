@@ -213,7 +213,7 @@ Although the training of Autoencoders is similar to regular Neural Networks, som
 
 As pointed by \cite{lecun2015deep}, the lower-dimensional representations of Autoencoders have some benefits, like (i) it can improve the performance of tasks such as classification; (ii) fewer parameters require less memory and runtime; and (iii) the hints provided by the lower-dimensional space aid generalization.
 
-\subsubsection{Representation Learning}
+\subsection{Representation Learning}
 
 The success of an \acs{ml} system is closely tied to the choice and quality of the data representation (commonly referred as features) used for training. While the criteria for useful features depends on the task, it is widely acknowledged that there are sets of features that are representative of a dataset and can be applied to many downstream classifiers or predictors. Focusing on learning representations can yield significant benefits, especially in scenarios where a labeled dataset for a task is limited and the use of a larger unlabeled dataset is desirable to enhance the performance of the learning system.
 
@@ -229,9 +229,9 @@ The success of an \acs{ml} system is closely tied to the choice and quality of t
 \item \textbf{Disentangled representation}: a well-designed representation should effectively capture the relevant factors of the data while retaining as much information as possible. At the same time, it is desirable to disentangle the factors, as this allows to reuse the learned features in other learning systems and may be beneficial for explainability. 
 \end{itemize}
 
+\acf{nlp} is probably one of the areas that most benefited from the Representation Learning. With the advent of \acl{dl}, more useful representation were obtained with embeddings computed from large corpus of texts. In this case, the embeddings represent a mapping from words represented as one-hot vectors to a distributed representation of real-valued numbers. Other examples of commonly used methods for word embeddings includes bag-of-words, skip-grams, and global vectors (GloVe) \citep{pennington2014glove, mikolov2013efficient}.
 
-
-\subsubsection{Multitask Learning}
+\subsection{Multitask Learning}
 
 \acf{mtl} is a recent \acl{ml} technique in which multiple tasks are solved simultaneously, exploring common aspects and differences between them. This technique is inspired by the human learning process, where the knowledge obtained in previous problems is applied to learn the pattern of a new problem \citep{zhang2017survey}. Through \acs{mtl}, the network can use relevant information in related tasks to improve generalization in all tasks. Besides, this technique can achieve comparable or even better performance in comparison to the corresponding single-task counterparts using much less training samples \citep{domhan2017using, singla2018multi}.
 
@@ -277,7 +277,7 @@ When compared to Transfer Learning, the setting of \acs{mtl} is similar, but it 
 
 We can also compare \acs{mtl} with other ways to represent problems. For example, in Continual Learning the tasks are learned one by one sequentially, while in \acs{mtl} all tasks are learned together. Additionaly, In multi-label problems, including multi-output regression, each data point is assigned to multiple categorical/numeric labels. In these cases, if each label is considered as an individual task, they can be considered a special case of \acl{mtl} where different tasks always share the same data during both training and testing phases. Finally, in multi-view learning, a newer paradigm in \acl{ml}, each data point is represented with multiple views, each of which coming from a particular set of features. However, all the views are used together to learn the same task. Therefore, multi-view learning can be seen as single-task learning with multiple sets of features. It is, by definition, unlike \acs{mtl}.
 
-\subsubsection{Network Explainability and Visualization}
+\subsection{Network Explainability and Visualization}
 
 For some time, Deep Learning methods were considered black boxes since the interpretation of its outputs was hard to explain. To overcome this problem, some methods to visualize and explain predictions of Neural Networks have been proposed in the specialized literature. Some of the most well-known methods includes GradCam \citep{gradcam}, \acf{lime} \citep{lime}, DeepLIFT \citep{deeplift_old, deeplift_new}, and \acs{shap} \citep{shap2018}. In this section, we focus on detailing \acs{shap} since it is used to analyze the predictions of the proposed method. Furthermore, we cite other variations of \acs{shap} and highlight its advantages.
 
@@ -596,6 +596,30 @@ Finally, the \acs{eer} is designated by the point where the \acs{far} and \acs{f
 \end{figure}
 
 Since \acs{far} and \acs{frr} are computed for a given threshold $\tau$, the biometric systems can be calibrated by manually choosing the threshold that best fit the desired needs. However, it represents a trade-off between convenience and security. For example, when security issues are critical (e.g., banking systems), the threshold $\tau$ may be adjusted in a way that the \acs{far} is minimal. However, genuine users may have their access blocked until the system is entirely sure about their profile. On the other side, if $\tau$ is fine-tuned to improve users' convenience, the system can allow access of non-legitimate users.
+
+\subsubsection{Wing Loss}
+
+Wing loss is recently proposed loss function especially designed for facial landmark localization. It was introduced as an alternative to the commonly used \acs{mse} and \acs{mae} losses. The function is named after its shape, which resembles a wing (see \autoref{fig:wing_loss}). It was created by \citep{wingloss} and can be defined by \autoref{eq:wingloss}: 
+
+\begin{equation}
+\label{eq:wingloss}
+wing(x) = \begin{cases}
+w\ln(1 + \left | x \right | / \epsilon) & if\ \left | x \right | < w\\ 
+\left | x \right | - C & otherwise 
+\end{cases}
+\end{equation}
+
+\noindent
+where $w$ is a non-negative constant that defines the range of the nonlinear part to $(-w, w)$, $\epsilon$ limits the curvature of the nonlinear region, and $C = w - w\ln(1 + w / \epsilon)$ is another constant that smoothly links the piecewise-defined linear and nonlinear parts. One important detail about Wing Loss is that $\epsilon$ may not be set to a very small value since it makes the training very unstable and cause the explosion of gradients.
+
+\begin{figure}[htb]
+\centering
+\includegraphics[width=0.8\linewidth]{images/wing_loss.png}
+\caption{Wing loss function (\autoref{eq:wingloss}) plotted for different settings of $w$ and $\epsilon$}.
+\label{fig:wing_loss}
+\end{figure}
+
+The main characteristic about Wing loss is that it amplifies the impact of the samples with small and medium ranges error during the training step. In fact, the influence of small errors are enhanced by $\ln$ component in the formula. Also, in case of large errors, the Wing loss promote a fast recovery behaving as L1, being robust to outliers.
 
 \subsection{The \icao Standard}
 
