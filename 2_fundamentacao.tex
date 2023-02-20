@@ -597,7 +597,7 @@ Finally, the \acs{eer} is designated by the point where the \acs{far} and \acs{f
 
 Since \acs{far} and \acs{frr} are computed for a given threshold $\tau$, the biometric systems can be calibrated by manually choosing the threshold that best fit the desired needs. However, it represents a trade-off between convenience and security. For example, when security issues are critical (e.g., banking systems), the threshold $\tau$ may be adjusted in a way that the \acs{far} is minimal. However, genuine users may have their access blocked until the system is entirely sure about their profile. On the other side, if $\tau$ is fine-tuned to improve users' convenience, the system can allow access of non-legitimate users.
 
-\subsubsection{Wing Loss}
+\subsubsection{Wing Loss} \label{sec:wingloss}
 
 Wing loss is recently proposed loss function especially designed for facial landmark localization. It was introduced as an alternative to the commonly used \acs{mse} and \acs{mae} losses. The function is named after its shape, which resembles a wing (see \autoref{fig:wing_loss}). It was created by \citep{wingloss} and can be defined by \autoref{eq:wingloss}: 
 

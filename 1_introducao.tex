@@ -16,7 +16,18 @@ In \acf{ml}, commonly a model is optimized regarding a single metric, usually a 
 
 Compared to the case where each task of a multitask problem is solved individually by a specific network, the multitask networks present several advantages. First, the amount of parameters and memory used by the model is considerably reduced due to the inherent layer sharing. Secondly, the inference speed increases since such networks avoid the recomputation of features in the shared layers. Finally, such networks can improve performance if the related tasks share complementary information or act as a regularizer for one another \citep{vandenhende2021multi}. In the context of the \icao standard, the \acs{mtl} can solve all requirements in parallel, reducing the processing time and increasing the success rates.
 
-In this thesis proposal, we present a Deep Learning-based method for automatic evaluation of the photographic requirements of the \icao standard, called \methodname. Our network is trained from scratch in a Multitask Learning approach and with limited data (approximately 5700 images only). The architecture is based on Autoencoders, but the training is performed in unsupervised (image reconstruction) and supervised (multi-label classification) manners at the same time. An experimental evaluation has shown that our method could outperform algorithms presented in the literature and SDK tools available as commercial solutions for the evaluation of most requirements. We also apply \acf{shap} \citep{shap2018}, \acf{pca} \citep{pca}, and t-SNE \citep{tsne} to understand our network predictions related to each requirement presented in the \icao standard.
+In this thesis proposal, we present a Deep Learning-based method for automatic evaluation of the photographic requirements of the \icao standard, called \methodname. Our network is trained from scratch in a Multitask Learning approach and with limited data (approximately 5700 images only). The architecture is based on Autoencoders, but the training is performed in unsupervised (image reconstruction) and supervised (multi-label classification and landmark localization) manners at the same time. An experimental evaluation has shown that our method could outperform algorithms presented in the literature and SDK tools available as commercial solutions for the evaluation of most requirements. We also apply \acf{shap} \citep{shap2018}, \acf{pca} \citep{pca}, and t-SNE \citep{tsne} to understand our network predictions related to each requirement presented in the \icao standard.
+
+To summarize, the main contributions of this thesis are:
+\begin{enumerate}
+\item To the best of our knowledge, this is the first work that employs a Multitask Learning approach for assessment of the \icao requirements.
+
+\item We present the first Deep Learning-based work that evaluates all photographic requirements in a single method. All other published works apply specific methods for each requirement assessment separately or evaluate only a subset of requirements.
+
+\item Our method achieved state-of-the-art results in 9 out of the 23 photographic requirements of the \icao standard, being the method with the majority of best results.
+
+\item We extended undercomplete Autoencoders to employ a multi-and-collaborative learning approach, where supervised and unsupervised learning are performed concurrently and collaboratively.
+\end{enumerate}
 
 \subsection{Objectives}	
 
