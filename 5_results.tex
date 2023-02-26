@@ -79,7 +79,7 @@ In \autoref{tab:icaonet-ficv}, we can see the \acl{eer} and Rejection Rate for e
 
 \input{tables/table_icaonet_ficv}
 
-Three requirements had an \acs{eer} greater than 40\% (10, 14, and 30) in both datasets. In common, they all have a high level of unbalancing (as presented in \autoref{tab:req-dist}). However, other requirements with similar or even worse unbalancing achieved better performance (e.g., 25, 13, or 28). In the case of \pixelation, we credit this bad result to the preprocessing since some high-resolution images are pixelated after the resizing step. Moreover, to easily improve the results of the \otherfacesortoys, we could automatically decrease the score of images with two or more detected faces by our detector. However, the development of post-processing methods is not the primary objective of this work, but it could be considered a future work or be released in the next versions of \methodname.
+Three requirements had high values of \acs{eer} (10, 14, and 30) in both datasets. In common, they all have a high level of unbalancing (as presented in \autoref{tab:req-dist}). However, other requirements with similar or even worse unbalancing achieved better performance (e.g., 25, 13, or 28). In the case of \pixelation, we credit this bad result to the preprocessing since some high-resolution images are pixelated after the resizing step. Moreover, to easily improve the results of the \otherfacesortoys, we could automatically decrease the score of images with two or more detected faces by our detector. However, the development of post-processing methods is not the primary objective of this work, but it could be considered a future work or be released in the next versions of \methodname.
 
 In terms of Rejection Rates, only four requirements had images rejected during evaluation (08, 15, 17, and 18). According to our implementation, we only reject images for evaluation when a face is not detected. Therefore, such rejections represent the false negatives from the face detector used to preprocess input images (see section \ref{sec:preprocessing} of Chapter \ref{sec:method}). Furthermore, by analyzing these requirements, all of them may hamper face detection in extreme cases. 
 
@@ -131,11 +131,31 @@ Regarding the eye location accuracy, the results in \acs{ficv} can be seen in \a
 
 \subsubsection{Analysis of the Worst Requirements}
 
-The \methodname achieved high values of \acs{eer} for three requirements: \inkmarked, \pixelation, and \otherfacesortoys. 
+The \methodname achieved non-competitive values of \acs{eer} for three requirements: \inkmarked, \pixelation, and \otherfacesortoys. We performed some analysis to understand what could be helpful for these requirements. Additionally, experiments were conducted to try improving the results. The deliberations regarding each requirement are provided as follows.
 
-% Trazer análise dos piores resultados para cá (linha 35: Three requirements had an \acs{eer} greater than 40\%) 
-% e mencionar as tentativas de melhoria
-% colocar um asterisco no resultado de Pixelation da tabela 6 com uma nota de rodapé, indicando que aquele resultado foi melhorado e citando esse seção
+As discussed in Section \ref{sec:ficv_results}, the \pixelation requirement is primarily influenced by the preprocessing step. Because the high-resolution images presented in the dataset are resized to $160 \times 160$ pixels, they can generate artificial pixelation effects that may harm the network. In fact, the pixelation branch of \methodname was placed in shallow layers for this purpose. Thus, the network can use more high-level features from an input image. According to our experiments, without the pixelation branch, our best result for this requirement was 42.7\% in terms of \acs{eer}. However, with the pixelation branch, we could improve \acs{eer} to 29\%. Although such a result is still not competitive, it helped decrease our mean \acs{eer} from 9.3\% to 8.8\%.
+
+Regarding the \inkmarked requirement, the high level of imbalance is the main factor for the poor result in this requirement. Hence, the dataset was improved using data augmentation techniques. We manually collected almost 40 stamp images with a transparent background across the internet. Then, for approximately half of the dataset, an arbitrary stamp with random affine transformations (i.e., rotation, zoom, and horizontal/vertical flip) was added to the input image via alpha blending. \autoref{fig:inkmarked_samples} shows some examples of augmented images. However, in our experiments, there were no significant improvements in this requirement. Thus, in this case, our main hypothesis is that images from the competition have a different distribution or pattern in comparison to the generated images.
+
+\begin{figure}[htb]
+\centering
+\includegraphics[width=\linewidth]{images/inkmarked/inkmarked_samples.pdf}
+\caption{Example of images augmented with random stamps for \inkmarked requirement. Source: own elaboration.}
+\label{fig:inkmarked_samples}
+\end{figure}
+
+Lastly, the \otherfacesortoys requirement is also influenced by the preprocessing step. As a reminder, the input image was cropped around the facial region. Therefore, if the other faces are too far from the foreground face, they may not be available in the input image of the network. Moreover, there was a case in which the face detected with the highest score was not in the foreground. Therefore, such errors were caused by the face detector itself. As mentioned before, we can use the number of detected faces to improve the results of such a requirement, but this will be left for future work.
+
+One alternative that could work for both \pixelation and \otherfacesortoys requirements is to divide the original high-resolution image into grids. This can be achieved by applying convolutional layers with strides equal to the filter’s size in the first layer. In this case, the problems discussed regarding the preprocessing step are diminished, and the results can be improved for these requirements. However, for training, such an approach consumes considerably more memory and takes longer. On the other hand, for inference, these differences may not be significant. Again, this hypothesis should be verified in further work.
+
+\begin{figure}[htbp]
+\centering
+\subfigure[]{\includegraphics[width=0.45\linewidth]{images/other_faces/other_faces_1.pdf}}
+\hfill
+\subfigure[]{\includegraphics[width=0.45\linewidth]{images/other_faces/other_faces_2.pdf}}    
+\caption{Examples of images affected by preprocessing step for \otherfacesortoys requirement. The original image is on the left while the preprocessed image is on the right side. (a) Second face cut off by preprocessing step. (b) Wrongly detected face in the background. Source: own elaboration.}
+\label{fig:otherface_errors}
+\end{figure}
 
 \subsection{Comparison Against Other Methods}
 

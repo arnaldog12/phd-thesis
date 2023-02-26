@@ -1,10 +1,6 @@
 \section{Concluding Remarks}
 
-In this chapter, we summarize this proposal in terms of the research and its results. We start by describing the problem and the solution proposal. Then, we present the preliminary evaluation results. Finally, we recap the activities developed until now and propose a schedule to be elaborated up to the end of this Doctoral research.
-
-\subsection{Summary of the Proposed Research}
-
-This proposal presented a deep learning-based method developed to the evaluate photographic requirements of \icao standard, called \methodname. Our method extends undercomplete Convolutional Autoencoders with a supervised branch that performs multi-label classification in a collaborative fashion with unsupervised learning. The architecture has three main components: (i) an encoder to encode the input image into a proper 256-D representation shared by (ii) an unsupervised branch to reconstruct the input image; and (iii) a supervised branch to assess the requirements as a multi-label problem. 
+This proposal presented a deep learning-based method developed to the evaluate photographic requirements and eye location accuracy of \icao standard, called \methodname. Our method extends undercomplete Convolutional Autoencoders with supervised branches that performs multi-label classification and landmark regression in a collaborative fashion with unsupervised learning. The architecture has three main components: (i) an encoder to encode the input image into a proper 256-D representation shared by (ii) an unsupervised branch to reconstruct the input image; and (iii) supervised branches to assess the requirements as a multi-label problem, determine the eye-center positions as a regression problem, and classify the specific \pixelation requirement as a binary classification task.
 
 We evaluated our method using a small amount of unbalanced but stratified data. It comprises a subset of the \ficvtest dataset in conjunction with an \adhoc dataset built especially for ICAO requirements. The network was trained from scratch, and a custom loss function was used in the network optimization process. This function balances the two tasks solved by the method, i.e., regression (image reconstruction) and multi-label classification (requirements assessment). Additionally, the training was monitored to preserve the model with the highest F-Beta score.
 
