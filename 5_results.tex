@@ -146,6 +146,8 @@ Regarding the \inkmarked requirement, the high level of imbalance is the main fa
 
 Lastly, the \otherfacesortoys requirement is also influenced by the preprocessing step. As a reminder, the input image was cropped around the facial region. Therefore, if the other faces are too far from the foreground face, they may not be available in the input image of the network. Moreover, there was a case in which the face detected with the highest score was not in the foreground. Therefore, such errors were caused by the face detector itself. As mentioned before, we can use the number of detected faces to improve the results of such a requirement, but this will be left for future work.
 
+% possível solução: pegar maior face detectada
+
 One alternative that could work for both \pixelation and \otherfacesortoys requirements is to divide the original high-resolution image into grids. This can be achieved by applying convolutional layers with strides equal to the filter’s size in the first layer. In this case, the problems discussed regarding the preprocessing step are diminished, and the results can be improved for these requirements. However, for training, such an approach consumes considerably more memory and takes longer. On the other hand, for inference, these differences may not be significant. Again, this hypothesis should be verified in further work.
 
 \begin{figure}[htbp]
