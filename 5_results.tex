@@ -13,11 +13,11 @@ We start by presenting the results of \methodname during the training phase. The
 
 A more detailed analysis of our loss curves shows that \methodname presented an appropriate balance between bias and variance. In the unsupervised branch, both train and validation loss are approximately zero and similar to each other. Therefore, the network achieved a notable performance in reconstructing the input image from the shared embeddings. Similarly, even though the losses from the supervised branch are more significant than the unsupervised one, they are still close to zero. However, we can notice a noisier loss curve regarding the validation set. Although such loss curves present a higher variance, they keep near the training curve through the epochs. Furthermore, the overfitting was prevented by the regularization techniques employed during training, i.e., batch normalization, dropout layers, Early Stopping, and the architecture itself (as detailed in Section \ref{sec:hyperparams}).
 
-\begin{figure}[tb]
+\begin{figure}[htb]
 \centering
 \subfigure[unsupervised]{\includegraphics[width=0.8\linewidth]{images/graphs/loss_unsupervised.png}}
 \hfill
-\ContinuedFloat
+% \ContinuedFloat
 \subfigure[supervised]{\includegraphics[width=0.8\linewidth]{images/graphs/loss_supervised.png}}
 \caption{Loss of training and validation sets for (a) unsupervised and (b) supervised branches. Source: own elaboration.}
 \label{fig:losses}
@@ -31,17 +31,18 @@ The final metrics of \methodname are given in \autoref{tab:metrics}. These are t
 
 In contrast to the intuition, the detection of eye landmarks revealed to be a harder task than the assessment of \icao requirements. The \autoref{fig:eye-training} presents the Wing loss and eye location accuracy ($d_{eye} \in [0;0.1[$) in training and validation sets. In contrast to the supervised branch for requirements, we can notice the presence of bias in the loss graph during training (the loss is far away from zero), indicating the network was not able to learn useful patterns and detect eye landmarks accurately. Such behaviour also happens in the validation set. Nonetheless, these results also reflect in the eye location accuracy metric, which reach the maximum value of $46.18\%$ in the \adhoc dataset. 
 
-\begin{figure}[tb]
+\begin{figure}[htb]
 \centering
-\subfigure[Wing Loss]{\includegraphics[width=0.8\linewidth]{images/graphs/loss_eyes.png}}
-\subfigure[Eye Localization Accuracy]{\includegraphics[width=0.8\linewidth]{images/graphs/eyes_location_accuracy.png}}
-\caption{Results of eye localization for training and validation sets: (a) wing loss and (b) $d_{eye} \in [0;0.1[$. Source: own elaboration.}
+\subfigure[Wing Loss]{\includegraphics[height=1.5in]{images/graphs/loss_eyes.png}}
+\hfill
+\subfigure[Eye Localization Accuracy]{\includegraphics[height=1.5in]{images/graphs/eyes_location_accuracy.png}}
+\caption{Results of eye localization for training (blue) and validation (orange) sets: (a) wing loss and (b) $d_{eye} \in [0;0.1[$. Source: own elaboration.}
 \label{fig:eye-training}
 \end{figure}
 
 A sample of images with the landmarks predicted by \methodname is shown in \autoref{fig:eyes_detection}. In the first two rows, there are arbitrary examples of most precise detections (i.e., $d_{eye} \in [0;0.1[$). We can observe that \methodname can perform accurate detections for frontal face images even with the presence of requirements that could potentially harm accurate localization of the landmarks. For example, we can see the presence of images with \framecoveringeyes and \toodarklight. On the other hand, in the last two rows, there are samples of the worst detections, i.e. $d_{eye} \geq 0.3$. In this case, an evident pattern of highly rotated face images (\rollpitchyaw) is perceptible. Furthermore, the presence of other requirements can be noticed (e.g, \blurred and \framestooheavy).
 
-\begin{figure}[tb]
+\begin{figure}[htb]
 \centering
 \includegraphics[width=\linewidth]{images/eyes/detections.pdf}
 \caption{Results of eyes landmarks detection by \methodname. The first two rows contains images with $d_{eye} \in [0;0.1[$, and the last rows are for $d_{eye} \geq 0.3$. The ground-truth annotations are shown in green, while network predictions are in yellow.}
@@ -52,7 +53,7 @@ We analysed the network predictions for eye landmarks to understand the bias obs
 
 Moreover, we presume the low performance in eye landmark localization can be explained by one or more reasons from below:
 
-\begin{figure}[tb]
+\begin{figure}[htb]
 \centering
 \includegraphics[width=0.6\linewidth]{images/eyes/heatmap_eyes_v0.914.png}
 \caption{Heatmap of detected eye landmarks in the \adhoc dataset.}
@@ -85,40 +86,40 @@ In terms of Rejection Rates, only four requirements had images rejected during e
 
 We highlight the substantial differences in \acs{eer} between both datasets in \autoref{tab:icaonet-ficv} for requirements 13, 15, and 17. In the case of \washedout, we believe it is caused because all the non-compliant images of this requirement in the \ficvtest belong to the AR database (see \autoref{fig:washedout}). Therefore the pattern learned by the network might not have been generalized to the official database. For the \variedbackground requirement, it may be affected by the cropping applied during preprocessing step of our method (see \autoref{fig:preprocessing}). The cropping can either (i) generate black borders to the input image or (ii) exclude artifacts that introduce variability to the background. According to our analysis to understand our network's output, we could observe that the black borders do not substantially influence the predictions (more details are provided further in section \ref{sec:netviz}). Thus, as can be seen in \autoref{fig:variedbgd}, the artifacts excluded by crop can have a noticeable effect on network learning. Lastly, one possible reason for the \hairacrosseyes requirement can be the resizing operation performed by the preprocessing step (see \autoref{fig:hairacrosseyes}). Since the \adhoc dataset images are mostly of high resolution and they are reduced to 160x160, it can affect the images where thin locks of hair are crossing the eyes region. These cases are not rare to occur in the dataset and, even using the recommended method for image decimation (see section \ref{sec:preprocessing}), the resize may be contributing negatively to the patterns of this requirement. 
 
-\begin{figure}[tb]
+\begin{figure}[htb]
 \centering
-\subfigure{\includegraphics[width=0.23\linewidth]{images/washed_out/AR_m-007-1_C40.png}}
+\subfigure{\includegraphics[width=0.23\linewidth]{images/reqs/washed_out/AR_m-007-1_C40.png}}
 \hfill
-\subfigure{\includegraphics[width=0.23\linewidth]{images/washed_out/AR_m-048-1_C40.png}}
+\subfigure{\includegraphics[width=0.23\linewidth]{images/reqs/washed_out/AR_m-048-1_C40.png}}
 \hfill
-\subfigure{\includegraphics[width=0.23\linewidth]{images/washed_out/AR_w-018-1_C40.png}}
+\subfigure{\includegraphics[width=0.23\linewidth]{images/reqs/washed_out/AR_w-018-1_C40.png}}
 \hfill
-\subfigure{\includegraphics[width=0.23\linewidth]{images/washed_out/AR_w-054-1_C40.png}}
+\subfigure{\includegraphics[width=0.23\linewidth]{images/reqs/washed_out/AR_w-054-1_C40.png}}
 \caption{Example of preprocessed non-compliant images from the \washedout requirement. Source: own elaboration.}
 \label{fig:washedout}
 \end{figure}
 
-\begin{figure}[tb]
+\begin{figure}[htb]
 \centering
-\subfigure[original image]{\includegraphics[height=1.5in]{images/varied_background/visio_icao_expotec_56.png}}
+\subfigure[original image]{\includegraphics[height=1.5in]{images/reqs/varied_background/visio_icao_expotec_56.png}}
 \hspace{0.5in}
-\subfigure[preprocessed image]{\includegraphics[height=1.5in]{images/varied_background/visio_icao_expotec_56_preprocessed.png}}
+\subfigure[preprocessed image]{\includegraphics[height=1.5in]{images/reqs/varied_background/visio_icao_expotec_56_preprocessed.png}}
 \caption{Example of a non-compliant image from the \variedbackground requirement before and after the preprocessing step. Source: own elaboration.}
 \label{fig:variedbgd}
 \end{figure}
 
-\begin{figure}[tb]
+\begin{figure}[htb]
 \centering
-\subfigure[before resize (1715x1715)]{\includegraphics[height=2in]{images/hair_across_eyes/Fall2003_04853d17_preprocessed.jpg}}
+\subfigure[before resize (1715x1715)]{\includegraphics[height=2in]{images/reqs/hair_across_eyes/Fall2003_04853d17_preprocessed.jpg}}
 \hspace{0.5in}
-\subfigure[after resize (160x160)]{\includegraphics[height=2in]{images/hair_across_eyes/Fall2003_04853d17_resized.jpg}}
+\subfigure[after resize (160x160)]{\includegraphics[height=2in]{images/reqs/hair_across_eyes/Fall2003_04853d17_resized.jpg}}
 \caption{Example of a non-compliant image from the \hairacrosseyes requirement before and after the resizing operation performed by the preprocessing step. Source: own elaboration.}
 \label{fig:hairacrosseyes}
 \end{figure}
 
 The \autoref{fig:eer_unbalancing} shows the \acs{eer} in both FICV datasets (as in \autoref{tab:icaonet-ficv}), but ordering the requirements by the proportion of non-compliant images in the ad-hoc dataset. Through the analysis of this graph, we can make some conclusions. First, as pointed before, the performance on both datasets is similar to each other. It reinforces the premise of FICV that the \ficvtest is a representative set of the \ficvofficial dataset (see section \ref{sec:fvcongoing}). Secondly, there is a moderate correlation between the EER and the degree of unbalancing in our dataset. According to Pearson's correlation, these coefficients are -0.47 and -0.45 for the \ficvtest and \ficvofficial datasets, respectively. In other words, if the proportion of non-compliant images increases, the \acs{eer} tends to decrease. However, it is important to notice that the fifth most unbalanced requirement (\veiloverface), with only 364 non-compliant images (or 6.31\%), is the one that achieved 0.0\% of \acs{eer} in both datasets. Also, these correlations become very weak and positives ($< +0.1$) when computed starting from the seventh most unbalanced requirement (\toodarklight, with 456 non-compliant images or 7.91\%).
 
-\begin{figure}[tb]
+\begin{figure}[htb]
 \centering
 \includegraphics[width=0.8\linewidth]{images/graphs/eer_unbalancing.pdf}
 \caption{EER by the proportion of non-compliant images for each requirement in ascending order. Source: own elaboration.}
@@ -139,22 +140,22 @@ Regarding the \inkmarked requirement, the high level of imbalance is the main fa
 
 \begin{figure}[htb]
 \centering
-\includegraphics[width=\linewidth]{images/inkmarked/inkmarked_samples.pdf}
+\includegraphics[width=\linewidth]{images/reqs/inkmarked/inkmarked_samples.pdf}
 \caption{Example of images augmented with random stamps for \inkmarked requirement. Source: own elaboration.}
 \label{fig:inkmarked_samples}
 \end{figure}
 
-Lastly, the \otherfacesortoys requirement is also influenced by the preprocessing step. As a reminder, the input image was cropped around the facial region. Therefore, if the other faces are too far from the foreground face, they may not be available in the input image of the network. Moreover, there was a case in which the face detected with the highest score was not in the foreground. Therefore, such errors were caused by the face detector itself. As mentioned before, we can use the number of detected faces to improve the results of such a requirement, but this will be left for future work.
+Lastly, the \otherfacesortoys requirement is also influenced by the preprocessing step (see \autoref{fig:otherface_errors}). As a reminder, the input image is cropped around the facial region. Therefore, if the other faces are too far from the foreground face, they may not be available in the input image of the network. Moreover, there was one case in which the face detected with the highest score was not in the foreground. In both cases, such errors were caused by the face detector itself instead of the proposed method. As mentioned before, we can use the number of detected faces to improve the results of such a requirement, but this will be left for future work.
 
 % possível solução: pegar maior face detectada
 
-One alternative that could work for both \pixelation and \otherfacesortoys requirements is to divide the original high-resolution image into grids. This can be achieved by applying convolutional layers with strides equal to the filter’s size in the first layer. In this case, the problems discussed regarding the preprocessing step are diminished, and the results can be improved for these requirements. However, for training, such an approach consumes considerably more memory and takes longer. On the other hand, for inference, these differences may not be significant. Again, this hypothesis should be verified in further work.
+One alternative that could work for both \pixelation and \otherfacesortoys requirements is to divide the original high-resolution image into grids. It can be achieved by applying convolutional layers with strides equal to the filter’s size in the first layer. In this case, the problems discussed regarding the preprocessing step are diminished, and the results can be improved for these requirements. However, for training, such an approach consumes considerably more memory and takes longer. On the other hand, for inference, these differences may not be significant. Again, this hypothesis should be verified in further work.
 
-\begin{figure}[htbp]
+\begin{figure}[htb]
 \centering
-\subfigure[]{\includegraphics[width=0.45\linewidth]{images/other_faces/other_faces_1.pdf}}
+\subfigure[]{\includegraphics[width=0.45\linewidth]{images/reqs/other_faces/other_faces_1.pdf}}
 \hfill
-\subfigure[]{\includegraphics[width=0.45\linewidth]{images/other_faces/other_faces_2.pdf}}    
+\subfigure[]{\includegraphics[width=0.45\linewidth]{images/reqs/other_faces/other_faces_2.pdf}}    
 \caption{Examples of images affected by preprocessing step for \otherfacesortoys requirement. The original image is on the left while the preprocessed image is on the right side. (a) Second face cut off by preprocessing step. (b) Wrongly detected face in the background. Source: own elaboration.}
 \label{fig:otherface_errors}
 \end{figure}
@@ -191,10 +192,10 @@ In addition to the performance results already presented, we decided to apply di
 
 A visualization of the embeddings learned by \methodname is shown in the 3D plots of Figure \ref{fig:embviz}. The embedding dimension was reduced to 3 dimensions and visualized via the PCA and t-SNE methods using TensorBoard\footnote{https://www.tensorflow.org/tensorboard}. Each point in the plot is represented by a face image from the dataset. Although the figure shows only three dimensions, it is possible to observe that some dimensions are related to particular ICAO requirements. For example, in the figure related to PCA, we can observe that images with \variedbackground, \unnaturalskintone, and \veiloverface are closer to each other in a certain degree. On the other hand, in t-SNE, we can notice that the clusters related to such requirements are more well defined, especially for \variedbackground and \veiloverface requirements. Moreover, in both figures, we can see the intersection between some regions. For instance, images with unnatural skin tone and veil over face tend to belong to both clusters. Such information is relevant to the multi-task classification branch of the \methodname architecture. 
 
-\begin{figure}[tb]
+\begin{figure}[htb]
 \centering
-\subfigure[PCA]{\includegraphics[width=0.75\linewidth]{images/pca.pdf}}
-\subfigure[t-SNE]{\includegraphics[width=0.75\linewidth]{images/tsne.pdf}}    
+\subfigure[PCA]{\includegraphics[width=0.75\linewidth]{images/network_viz/pca.pdf}}
+\subfigure[t-SNE]{\includegraphics[width=0.75\linewidth]{images/network_viz/tsne.pdf}}    
 \caption{Visualization of the embeddings learned by \methodname. Original embeddings dimensions were reduced to 3D using (a) PCA and (b) t-SNE. In both visualizations, we highlight the regions of \variedbackground (green), \unnaturalskintone (yellow), and \veiloverface (red) requirements. Source: own elaboration.}
 \label{fig:embviz}
 \end{figure}
@@ -206,7 +207,7 @@ However, we can notice the network was not able to learn relevant patterns in so
 \begin{landscape}
 \begin{figure*}[tb]
 \centering
-\includegraphics[width=\linewidth]{images/shap.png}
+\includegraphics[width=\linewidth]{images/network_viz/shap.png}
 \caption{Visual explanation of \methodname's output using SHAP. The rows represent input images, and the columns denote the requirements from the \icao standard. The first three images are fully compliant, while the remaining images have at least one non-compliant requirement. According to the SHAP values, each pixel contributes negatively (blue), positively (red), or has a low contribution (white) to the network's output. Some requirements related to eyes, skin, and mouth are highlighted for convenience. Source: own elaboration.}
 \label{fig:shap}
 \end{figure*}

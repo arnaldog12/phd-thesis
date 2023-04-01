@@ -28,9 +28,9 @@ Historically, \acs{mtl} methods were classified into hard or soft parameter shar
 
 \begin{figure*}[ht]
 \centering
-\subfigure[Hard Parameter Sharing]{\includegraphics[height=0.35\linewidth]{images/mtl_hard.pdf}}
+\subfigure[Hard Parameter Sharing]{\includegraphics[height=0.35\linewidth]{images/multitask_learning/mtl_hard.pdf}}
 \hfill
-\subfigure[Soft Parameter Sharing]{\includegraphics[height=0.35\linewidth]{images/mtl_soft.pdf}}    
+\subfigure[Soft Parameter Sharing]{\includegraphics[height=0.35\linewidth]{images/multitask_learning/mtl_soft.pdf}}    
 \caption{Types of parameter sharing in \acl{mtl}. The network backbone is represented in blue, while the task-specific heads are indicated in green. Source: own elaboration.}
 \label{fig:mtl_sharing}
 \end{figure*}
@@ -92,7 +92,7 @@ In this work, an encoder-focused architecture is applied since there are require
 
 One of the first studies to address the ICAO requirements was proposed by \citet{sang2009face}. It presents methods to evaluate requirements related to illumination conditions and facial pose based on Gabor wavelet features. Furthermore, a method to evaluate the image blur is proposed through the Discrete Cosine Transform (DCT). The authors assess their methods using images from CMU-PIE and FERET datasets. However, only analytical results are presented.
 
-The popularization of methods for \icao standard can be credited to the Biolab group from the University of Bologna. In 2009, they presented the Biolab-ICAO framework \citep{maltoni2009biolab}, a benchmark tool for systems assessing face image compliance to ICAO requirements. In 2012, the benchmark was refined, and the official ground truth face database (4868 images) and testing protocol were presented \citep{ferrara2012face}. In summary, the dataset has 5588 images collected from different sources or artificially generated. A subset of 720 images are publicly provided for the participants, while the 4468 remaining image are private and used for the evaluation of submitted algorithms. The full description of such dataset is provided in Section \ref{sec:database}. Moreover, the authors proposed the BioLabSDK, the first known method published in the literature able to evaluate all the 23 face-and-pose requirements (8--30 in Table \ref{tab:icao}). The BiolabSDK uses different color spaces, face detection, and points that define the face and its elements to generate a score for each requirement. The paper also compares the BioLabSDK against two anonymous SDKs using the \acs{eer} and Rejection Rates. The results can be seen in the first three columns of Table \ref{tab:comp}.
+The popularization of methods for \icao standard can be credited to the Biolab group from the University of Bologna. In 2009, they presented the Biolab-ICAO framework \citep{maltoni2009biolab}, a benchmark tool for systems assessing face image compliance to ICAO requirements. In 2012, the benchmark was refined, and the official ground truth face database (4868 images) and testing protocol were presented \citep{ferrara2012face}. In summary, the dataset has 5588 images collected from different sources or artificially generated. A subset of 720 images are publicly provided for the participants, while the 4468 remaining image are private and used for the evaluation of submitted algorithms. The full description of such dataset is provided in Section \ref{sec:database}. Moreover, the authors proposed the BioLabSDK, the first known method published in the literature able to evaluate all the 23 face-and-pose requirements (8--30 in Table \ref{tab:icao}). The BiolabSDK uses different color spaces, face detection, and points that define the face and its elements to generate a score for each requirement. The paper also compares the BioLabSDK against two anonymous SDKs using the \acs{eer} and Rejection Rates. The results can be seen in the first three columns of \autoref{tab:comp}.
 
 \input{tables/table_comp}
 

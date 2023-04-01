@@ -79,9 +79,9 @@ There are two common types of pooling methods: \textbf{max pooling} and \textbf{
 
 \begin{figure*}[tb]
 \centering
-\subfigure[Max Pooling]{\includegraphics[width=0.4\linewidth]{images/pool_max.png}}
+\subfigure[Max Pooling]{\includegraphics[width=0.4\linewidth]{images/deep_learning/pool_max.png}}
 \hfill
-\subfigure[Average Pooling]{\includegraphics[width=0.4\linewidth]{images/pool_avg.png}}    
+\subfigure[Average Pooling]{\includegraphics[width=0.4\linewidth]{images/deep_learning/pool_avg.png}}    
 \caption{Example of Max Pooling and Average Pooling operations performed over a feature map of $4 \times 4$ with $pool\_size=2 \times 2$, $stride=2$, and no padding. Adapted from \citep{guissousallaeddine2019}.}
 \label{fig:poolings}
 \end{figure*}
@@ -172,7 +172,7 @@ The architecture of Autoencoders (\autoref{fig:autoencoder}) is usually composed
 
 \begin{figure}[tb]
 \centering
-\includegraphics[width=\linewidth]{images/autoencoder.png}
+\includegraphics[width=\linewidth]{images/deep_learning/autoencoder.png}
 \caption{Architecture of an Autoencoder. Source: \citep{autoencoder_architecture}}
 \label{fig:autoencoder}
 \end{figure}
@@ -275,7 +275,7 @@ The inductive bias obtained through \acs{mtl} is intuitively compelling. In fact
 
 When compared to Transfer Learning, the setting of \acs{mtl} is similar, but it also has some substantial differences. First, in \acs{mtl}, different tasks are treated equally and the goal is to improve the performance over all tasks. In contrast, Transfer Learning is focused on improving the performance of a specific target task, with the help of one or more source tasks. In this case, the target task receives more emphasis than the source tasks. In other words, in \acs{mtl} there is no distinction among different task whereas in Transfer Learning the target tasks attracts more attention. Secondly, from the perspective of knowledge flow, Transfer Learning transfers the knowledge from source task(s) to the target task. On the other hand, \acl{mtl} knowledge sharing occurs between all pairs of tasks \cite{zhang2017survey}.
 
-We can also compare \acs{mtl} with other ways to represent problems. For example, in Continual Learning the tasks are learned one by one sequentially, while in \acs{mtl} all tasks are learned together. Additionaly, In multi-label problems, including multi-output regression, each data point is assigned to multiple categorical/numeric labels. In these cases, if each label is considered as an individual task, they can be considered a special case of \acl{mtl} where different tasks always share the same data during both training and testing phases. Finally, in multi-view learning, a newer paradigm in \acl{ml}, each data point is represented with multiple views, each of which coming from a particular set of features. However, all the views are used together to learn the same task. Therefore, multi-view learning can be seen as single-task learning with multiple sets of features, which is, by definition, unlike \acs{mtl}.
+We can also compare \acs{mtl} with other ways to represent problems. For example, in Continual Learning the tasks are learned one by one sequentially, while in \acs{mtl} all tasks are learned together. Additionally, In multi-label problems, including multi-output regression, each data point is assigned to multiple categorical/numeric labels. In these cases, if each label is considered as an individual task, they can be considered a special case of \acl{mtl} where different tasks always share the same data during both training and testing phases. Finally, in multi-view learning, a newer paradigm in \acl{ml}, each data point is represented with multiple views, each of which coming from a particular set of features. However, all the views are used together to learn the same task. Therefore, multi-view learning can be seen as single-task learning with multiple sets of features, which is, by definition, unlike \acs{mtl}.
 
 \subsection{Network Explainability and Visualization}
 
@@ -590,7 +590,7 @@ Finally, the \acs{eer} is designated by the point where the \acs{far} and \acs{f
 
 \begin{figure}[tb]
 \centering
-\includegraphics[height=2.1in]{images/EER.pdf}
+\includegraphics[height=2.1in]{images/metrics/EER.pdf}
 \caption{The typical curves of the \acs{far} and \acs{frr} error rates, plotted side by side, in relation to the threshold $\tau$ configured for the system. The \acs{eer} is represented by the intersection point of the curves. Source: own elaboration.}
 \label{fig:eer}
 \end{figure}
@@ -614,8 +614,8 @@ where $w$ is a non-negative constant that defines the range of the nonlinear par
 
 \begin{figure}[htb]
 \centering
-\includegraphics[width=0.8\linewidth]{images/wing_loss.png}
-\caption{Wing loss function (\autoref{eq:wingloss}) plotted for different settings of $w$ and $\epsilon$}.
+\includegraphics[width=0.8\linewidth]{images/metrics/wing_loss.png}
+\caption{Wing loss function (\autoref{eq:wingloss}) plotted for different settings of $w$ and $\epsilon$. Source: \citep{wingloss}.}.
 \label{fig:wing_loss}
 \end{figure}
 
@@ -625,13 +625,13 @@ The main characteristic about Wing loss is that it amplifies the impact of the s
 
 In 1980, the \acf{icao} began a project focused on the standardization of automatic biometric identification of people using machines \citep{icao2003report}. A specific working group was established to determine the most suitable way of ``uniquely encoding a particular physical characteristic of a person into a biometric-identifier that can be machine-verified to confirm the presenter's identity'' \citep{icao2003report}. Initially, three physical attributes were chosen for possible applications: face, fingerprint, and iris. Later, in the ``Berlin resolution'' (2002), the ICAO has chosen the face as the primary globally inter-operable biometric trait for machine-assisted identity confirmation in \acf{mrtd} \citep{ferrara2012face}. However, the decision also states the possibility of identity confirmation through fingerprint or iris to support the machine-assisted decision.
 
-Following the ICAO guidelines, the \acf{iso}, together with the \acf{iec}, proposed a standard for facial photography to be used in electronic passports. The \icao \citep{iso-iec} standard specifies rules and a record format for encoding, recording, and transmitting facial image information. It also defines a set of environmental conditions, photographic properties, shooting features, and digital image attributes of facial images. For example, a face image may have a uniform background with the absence of shadows in any region of the image to be included in an electronic passport. The complete list of requirements can be seen in Table \ref{tab:icao} and examples of non-compliant images for each requirement are given in Figure \ref{fig:icao}. The \icao standard is also referenced in the ANSI/NIST-ITL 1–2011 standard \citep{nist2011} as one of the standard profiles for face acquisition. In 2019, a new version of the \icao standard was released. The \icaonew provides more detailed information about each requirement evaluation.
+Following the ICAO guidelines, the \acf{iso}, together with the \acf{iec}, proposed a standard for facial photography to be used in electronic passports. The \icao \citep{iso-iec} standard specifies rules and a record format for encoding, recording, and transmitting facial image information. It also defines a set of environmental conditions, photographic properties, shooting features, and digital image attributes of facial images. For example, a face image may have a uniform background with the absence of shadows in any region of the image to be included in an electronic passport. The complete list of requirements can be seen in \autoref{tab:icao} and examples of non-compliant images for each requirement are given in \autoref{fig:icao}. The \icao standard is also referenced in the ANSI/NIST-ITL 1–2011 standard \citep{nist2011} as one of the standard profiles for face acquisition. In 2019, a new version of the \icao standard was released. The \icaonew provides more detailed information about each requirement evaluation.
 
 \input{tables/table_icao}
 
 \begin{figure}[tb]
 \centering
-\includegraphics[width=\linewidth]{images/icao.png}
+\includegraphics[width=\linewidth]{images/dataset/icao.png}
 \caption{Examples of non-compliant images for the requirements 8-30 listed in Table \ref{tab:icao}. Source: \cite{maltoni2009biolab}.}
 \label{fig:icao}
 \end{figure}
@@ -651,7 +651,7 @@ In 2012, a new benchmark category related to the \icao standard was added to \fv
 
 \begin{figure}[tb]
     \centering
-    \includegraphics[height=3.0in]{images/icao_tokenizable.png}
+    \includegraphics[height=3.0in]{images/dataset/icao_tokenizable.png}
     \caption{Geometric characteristics of the token image format. Source: \citep{fvcongoing}.}
     \label{fig:icao_token}
 \end{figure}
