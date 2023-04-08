@@ -1,18 +1,17 @@
-\section{Preliminary Evaluations} \label{sec:results}
-
-This chapter presents and discusses the preliminary results accomplished by the proposed method so far. First, \methodname results in the training stage are presented, including the loss and metrics computed. Secondly, we discuss the performance of the proposed method in the FICV competition. Then, the \methodname is compared against the best results achieved by the methods shown in Chapter \ref{sec:literature}. Finally, we analyze some visualizations performed over the proposed method to understand its predictions.
-
+\section{Results and Discussions} \label{sec:results}
+ 
+This chapter presents and discusses the results accomplished by the proposed method. First, the \methodname results in the training stage are presented, including the computed loss and metrics. Secondly, we discuss the performance of the proposed method in the FICV competition. Then, \methodname is compared against the best results achieved by the methods shown in Chapter \ref{sec:literature}. Finally, we analyze some visualizations performed over the proposed method to understand its predictions.
+ 
 \subsection{Training Performance}
-
-In this subsection, we discuss the training performance regarding the \icao requirements followed by the results of eye landmarks detect
-ion. We focus on analysing  the loss charts and values of metrics described in Chapter \ref{sec:measures}.
-
+ 
+In this subsection, we discuss the training performance regarding the \icao requirements followed by the results of eye landmarks detection. We focus on analyzing the loss charts and values of metrics described in Chapter \ref{sec:measures}.
+ 
 \subsubsection{Requirements}
-
-We start by presenting the results of \methodname during the training phase. The \autoref{fig:losses} shows the loss in training and validation sets for unsupervised and supervised branches individually. As can be seen, the loss of unsupervised branch was lower and smoother than the supervised during the whole training. This behaviour was expected since (i) the reconstruction task performed by the unsupervised branch is theoretically more straightforward than the multi-label classification carried out by the supervised branch, and (ii) the unsupervised loss has a higher weight during training (see section \ref{sec:hyperparams} and \autoref{eq:loss-final}). 
-
-A more detailed analysis of our loss curves shows that \methodname presented an appropriate balance between bias and variance. In the unsupervised branch, both train and validation loss are approximately zero and similar to each other. Therefore, the network achieved a notable performance in reconstructing the input image from the shared embeddings. Similarly, even though the losses from the supervised branch are more significant than the unsupervised one, they are still close to zero. However, we can notice a noisier loss curve regarding the validation set. Although such loss curves present a higher variance, they keep near the training curve through the epochs. Furthermore, the overfitting was prevented by the regularization techniques employed during training, i.e., batch normalization, dropout layers, Early Stopping, and the architecture itself (as detailed in Section \ref{sec:hyperparams}).
-
+ 
+We begin by presenting the results of \methodname during the training phase. The \autoref{fig:losses} shows the loss in training and validation sets for unsupervised and supervised branches individually. As can be seen, the loss of the unsupervised branch was lower and smoother than the supervised during the entire training. This behavior was expected since (i) the reconstruction task performed by the unsupervised branch is theoretically more straightforward than the multi-label classification carried out by the supervised branch, and (ii) the unsupervised loss has a higher weight during training (see section \ref{sec:hyperparams} and \autoref{eq:loss-final}). 
+ 
+A more detailed analysis of our loss curves shows that \methodname presented an appropriate balance between bias and variance. In the unsupervised branch, the training and validation losses are approximately zero and similar. Therefore, the network achieved notable performance in reconstructing the input image from the shared embeddings. Similarly, even though the losses from the supervised branch are more significant than those from the unsupervised branch, they are still close to zero. However, we can notice a noisier loss curve in the validation set. Although such loss curves present a higher variance, they keep near the training curve through the epochs. Furthermore, overfitting was prevented by the regularization techniques employed during training, i.e., batch normalization, dropout layers, Early Stopping, and the architecture itself (as detailed in Section \ref{sec:hyperparams}).
+ 
 \begin{figure}[htb]
 \centering
 \subfigure[unsupervised]{\includegraphics[width=0.8\linewidth]{images/graphs/loss_unsupervised.png}}
@@ -22,15 +21,15 @@ A more detailed analysis of our loss curves shows that \methodname presented an 
 \caption{Loss of training and validation sets for (a) unsupervised and (b) supervised branches. Source: own elaboration.}
 \label{fig:losses}
 \end{figure}
-
-The final metrics of \methodname are given in \autoref{tab:metrics}. These are the metrics obtained in validation set at the $57^{th}$ epoch, i.e., the best epoch before the Early Stop. Some meaningful insights about the proposed method can be observed. First, it is better to predict the compliant requirements (positive class) than the non-compliant since the Precision and Recall are higher than the \acs{npv} and Specificity. Probably, this is influenced by the unbalanced dataset. Moreover, the \acl{fp} predictions (type-I error) are a more critical problem of \methodname because both Recall and \acs{npv} are greater than Precision and Specificity, respectively. In particular, the Specificity indicates that a reasonable amount of non-compliant requirements are being assigned as compliant. On the other hand, the proposed method achieved considerably high values of F-measure and F-beta, which shows a fair balance between Precision and Recall. Finally, the notable \acs{mcc} score (82.78) indicates that the \methodname was able to learn valuable patterns for both compliant/non-compliant requirements even with the unbalancing present in the \adhoc database.
-
+ 
+The final metrics of \methodname are given in \autoref{tab:metrics}. These metrics are obtained in the validation set at the $57^{th}$ epoch, the best epoch before the Early Stop. Some meaningful insights about the proposed method can be observed. First, it is better to predict the compliant requirements (positive class) than the non-compliant since the Precision and Recall are higher than the \acs{npv} and Specificity. Probably, this is influenced by the unbalanced dataset. Moreover, the \acl{fp} predictions (type-I error) are a more critical problem of \methodname because both Recall and \acs{npv} are greater than Precision and Specificity, respectively. In particular, the Specificity indicates that a reasonable number of non-compliant requirements are assigned as compliant. On the other hand, the proposed method achieved considerably high F-measure and F-beta values, showing a fair balance between Precision and Recall. Finally, the notable \acs{mcc} score (82.78) indicates that the \methodname was able to learn valuable patterns for both compliant/non-compliant requirements even with the unbalancing present in the \adhoc database.
+ 
 \input{tables/table_metrics}
-
+ 
 \subsubsection{Eye Location Accuracy} \label{sec:eye_location_acc}
-
-In contrast to the intuition, the detection of eye landmarks revealed to be a harder task than the assessment of \icao requirements. The \autoref{fig:eye-training} presents the Wing loss and eye location accuracy ($d_{eye} \in [0;0.1[$) in training and validation sets. In contrast to the supervised branch for requirements, we can notice the presence of bias in the loss graph during training (the loss is far away from zero), indicating the network was not able to learn useful patterns and detect eye landmarks accurately. Such behaviour also happens in the validation set. Nonetheless, these results also reflect in the eye location accuracy metric, which reach the maximum value of $46.18\%$ in the \adhoc dataset. 
-
+ 
+In contrast to intuition, the detection of eye landmarks revealed to be a harder task than the assessment of \icao requirements. \autoref{fig:eye-training} presents the Wing loss and eye location accuracy ($d_{eye} \in [0;0.1[$) in the training and validation sets. In contrast to the supervised branch for requirements, we noticed the presence of bias in the loss graph during training (the loss is far from zero), indicating that the network could not learn useful patterns and detect eye landmarks accurately. Such behavior also occurred in the validation set. Nonetheless, these results are also reflected in the eye location accuracy metric, which reached a maximum value of $46.18\%$ in the \adhoc dataset. 
+ 
 \begin{figure}[htb]
 \centering
 \subfigure[Wing Loss]{\includegraphics[height=1.5in]{images/graphs/loss_eyes.png}}
@@ -39,53 +38,53 @@ In contrast to the intuition, the detection of eye landmarks revealed to be a ha
 \caption{Results of eye localization for training (blue) and validation (orange) sets: (a) wing loss and (b) $d_{eye} \in [0;0.1[$. Source: own elaboration.}
 \label{fig:eye-training}
 \end{figure}
-
-A sample of images with the landmarks predicted by \methodname is shown in \autoref{fig:eyes_detection}. In the first two rows, there are arbitrary examples of most precise detections (i.e., $d_{eye} \in [0;0.1[$). We can observe that \methodname can perform accurate detections for frontal face images even with the presence of requirements that could potentially harm accurate localization of the landmarks. For example, we can see the presence of images with \framecoveringeyes and \toodarklight. On the other hand, in the last two rows, there are samples of the worst detections, i.e. $d_{eye} \geq 0.3$. In this case, an evident pattern of highly rotated face images (\rollpitchyaw) is perceptible. Furthermore, the presence of other requirements can be noticed (e.g, \blurred and \framestooheavy).
-
+ 
+A sample of images with landmarks predicted by \methodname is shown in \autoref{fig:eyes_detection}. The first two rows contain arbitrary examples of the most precise detections (i.e., $d_{eye} \in [0;0.1[$). We can observe that \methodname can perform accurate detections for frontal face images even with the presence of requirements that could potentially harm the accurate localization of the landmarks. For example, we can see the presence of images with \framecoveringeyes and \toodarklight. On the other hand, in the last two rows, there are samples of the worst detections, i.e., $d_{eye} \geq 0.3$. In this case, a pattern of highly rotated facial images (\rollpitchyaw) is perceptible. Furthermore, other requirements can be noticed (e.g., \blurred and \framestooheavy).
+ 
 \begin{figure}[htb]
 \centering
 \includegraphics[width=\linewidth]{images/eyes/detections.pdf}
-\caption{Results of eyes landmarks detection by \methodname. The first two rows contains images with $d_{eye} \in [0;0.1[$, and the last rows are for $d_{eye} \geq 0.3$. The ground-truth annotations are shown in green, while network predictions are in yellow.}
+\caption{Results of eyes landmarks detection by \methodname. The first two rows contain images with $d_{eye} \in [0;0.1[$, and the last rows are for $d_{eye} \geq 0.3$. The ground-truth annotations are in green, while network predictions are in yellow.}
 \label{fig:eyes_detection}
 \end{figure}
-
-We analysed the network predictions for eye landmarks to understand the bias observed during training. In \autoref{fig:heatmap_eyes}, we can see a heatmap of landmarks in the validation set. As can be noticed, there are two noticeable clusters for each eye, indicating that the networks is essentially predicting landmarks over the same regions regardless the input image. We suppose this behaviour is caused mainly by the preprocessing step, which centers the face in the input image.
-
-Moreover, we presume the low performance in eye landmark localization can be explained by one or more reasons from below:
-
+ 
+We analyzed the network predictions for eye landmarks to understand the bias observed during training. In \autoref{fig:heatmap_eyes}, we can see a heatmap of landmarks in the validation set. As can be noticed, there are two noticeable clusters for each eye, indicating that the networks essentially predict landmarks over the same regions regardless of the input image. We suppose this behavior is caused mainly by the preprocessing step, which centers the face in the input image.
+ 
+Moreover, we presume that the low performance of eye landmark localization can be explained by one or more of the following reasons:
+ 
 \begin{figure}[htb]
 \centering
 \includegraphics[width=0.6\linewidth]{images/eyes/heatmap_eyes_v0.914.png}
 \caption{Heatmap of detected eye landmarks in the \adhoc dataset.}
 \label{fig:heatmap_eyes}
 \end{figure}
-
+ 
 \begin{enumerate}[i]
-\item \textbf{Preprocessing}: our preprocessing method centralize the face by creating a region around it (see Section \ref{sec:preprocessing}). Therefore, the network can be inducted to predict the mean of landmark positions to minimize the loss function. However, we tried to apply different levels of image augmentation in other experiments. Although the predictions were more distributed over the image, there was no significant changes in the loss and location accuracy.
-
-\item \textbf{Dataset}: our \adhoc image dataset is mostly composed by images with frontal faces with little variation in face poses and alignment. In addition, the amount of images (approximately five thousand) is noticeably low in comparison with other landmarks datasets. For example, there are more than 200 thousand images with labeled landmarks in the 300-VW \citep{tzimiropoulos2015project} or CelebFaces \citep{yang2015facial} datasets. In fact, we ran some experiments with a subset of CelebFaces dataset as our training set (and left the entire \adhoc dataset as validation). In all of them, overfitting was achieved (i.e., high performance in training, but low performance in validation). We believe it comes from the fact that the patterns found in CelebFaces dataset are even easier than in ours. All faces are centered and with corrected orientation (the last is not carried out by our preprocessing step). Again, as mentioned before, we tried data augmentation, but it did not help to improve overall performance.
-
-\item \textbf{Embeddings}: when training the branch for detection of eye landmarks, the remaining parts of \methodname architecture was frozen, including the encoder and corresponding embeddings. We could argue that (i) the embeddings does not contain helpful representation of the eyes that can be relevant for landmark detection; and (ii) it can be harmful to the landmarks branch since it would not have the chance to update the embeddings. Despite of it, we already had empirical evidence that the embeddings contains useful information of the eyes before training the landmarks branch. Later is this work, we will see the regions closer to eyes are important for requirements assessment (see Section \ref{sec:netviz}).
-
-\item \textbf{Training Components}: we ran tests with \acs{mse}, Wing Loss, and $d_{eye}$ as both loss functions and metrics for early stopping.  After all, \methodname was not able to predict the landmarks accurately. It goes against to other works found in the literature that also applies multitask learning for facial landmarks prediction (e.g., \citep{zhang2014facial, ranjan2017hyperface, zhang2015learning}. On the other hand, we could have leveraged the use of more advanced losses and models. It will be left for future works though.
-
+\item \textbf{Preprocessing}: our preprocessing method centralizes the face by creating a region around it (see Section \ref{sec:preprocessing}). Therefore, the network can be induced to predict the mean of the landmark positions to minimize the loss function. However, we attempted to apply different levels of image augmentation in other experiments. Although the predictions were more distributed over the image, there were no significant changes in loss and location accuracy.
+ 
+\item \textbf{Dataset}: our \adhoc image dataset mainly comprises images with frontal faces with slight variation in face poses and alignment. In addition, the number of images (approximately five thousand) is noticeably lower than other landmark datasets. For example, there are more than 200 thousand images with labeled landmarks in the 300-VW \citep{tzimiropoulos2015project} and CelebFaces \citep{yang2015facial} datasets. In fact, we ran some experiments with a subset of the CelebFaces dataset as our training set (and left the entire \adhoc dataset for validation). In all of them, overfitting was achieved (i.e., high performance in training but low performance in validation). We believe it comes from the fact that the patterns found in the CelebFaces dataset are even easier than in ours. All faces are centered and with corrected orientation (the last is not carried out in our preprocessing step). Again, as mentioned before, we attempted data augmentation, but it did not improve the overall performance.
+ 
+\item \textbf{Embeddings}: when training the branch to detect eye landmarks, the remaining parts of \methodname architecture were frozen, including the encoder and corresponding embeddings. We could argue that (i) the embeddings do not contain helpful representations of the eyes that can be relevant for landmark detection, and (ii) they can be harmful to the landmark branch because they do not have the chance to update the embeddings. Despite this, we already had empirical evidence that the embeddings contain helpful information about the eyes before training the landmark branch. Later in this work, we will see that regions closer to the eyes are important for requirements assessment (see Section \ref{sec:netviz}).
+ 
+\item \textbf{Training Components}: we ran tests with \acs{mse}, Wing Loss, and $d_{eye}$ as both loss functions and metrics for early stopping. After all, \methodname was unable to predict the landmarks accurately. This goes against other studies found in the literature that also apply \acs{mtl} for facial landmark prediction (for example, \citep{zhang2014facial, ranjan2017hyperface, zhang2015learning}. On the other hand, we could have leveraged more advanced losses and models. It will be left for future research.
+ 
 \end{enumerate}
-
-In conclusion, considering the scope of the possible reasons mentioned above, we suspect the dataset is the main problem for the low performance on eye localization accuracy. Therefore, by improving the data with more variations in face pose, location and orientations, the results may be improved. Nevertheless, further investigation must be conducted to verify this hypothesis.
-
-
+ 
+In conclusion, considering the scope of the possible reasons mentioned above, we suspect the dataset is the main problem for the low performance of eye localization accuracy. Therefore, the results may be improved by revamping the data with more variations in the face pose, location, and orientation. Nevertheless, further investigations must be conducted to verify this hypothesis.
+ 
+ 
 \subsection{Results in the FICV Competition} \label{sec:ficv_results}
-
-In \autoref{tab:icaonet-ficv}, we can see the \acl{eer} and Rejection Rate for each FICV dataset. In the \ficvtest, the method proposed was able to achieve a perfect \acs{eer} in eight requirements (08, 11, 12, 16, 23, 24, 28, and 29). In the \ficvofficial dataset, it happened only in the \veiloverface, even though most of the other results are considerably low. 
-
+ 
+In \autoref{tab:icaonet-ficv}, we can see the \acl{eer} and Rejection Rate for each FICV dataset. In \ficvtest, the proposed method achieved perfect \acs{eer} in eight requirements (08, 11, 12, 16, 23, 24, 28, and 29). In the \ficvofficial dataset, it occurred only in the \veiloverface, even though most of the other results were considerably low. 
+ 
 \input{tables/table_icaonet_ficv}
-
-Three requirements had high values of \acs{eer} (10, 14, and 30) in both datasets. In common, they all have a high level of unbalancing (as presented in \autoref{tab:req-dist}). However, other requirements with similar or even worse unbalancing achieved better performance (e.g., 25, 13, or 28). In the case of \pixelation, we credit this bad result to the preprocessing since some high-resolution images are pixelated after the resizing step. Moreover, to easily improve the results of the \otherfacesortoys, we could automatically decrease the score of images with two or more detected faces by our detector. However, the development of post-processing methods is not the primary objective of this work, but it could be considered a future work or be released in the next versions of \methodname.
-
-In terms of Rejection Rates, only four requirements had images rejected during evaluation (08, 15, 17, and 18). According to our implementation, we only reject images for evaluation when a face is not detected. Therefore, such rejections represent the false negatives from the face detector used to preprocess input images (see section \ref{sec:preprocessing} of Chapter \ref{sec:method}). Furthermore, by analyzing these requirements, all of them may hamper face detection in extreme cases. 
-
-We highlight the substantial differences in \acs{eer} between both datasets in \autoref{tab:icaonet-ficv} for requirements 13, 15, and 17. In the case of \washedout, we believe it is caused because all the non-compliant images of this requirement in the \ficvtest belong to the AR database (see \autoref{fig:washedout}). Therefore the pattern learned by the network might not have been generalized to the official database. For the \variedbackground requirement, it may be affected by the cropping applied during preprocessing step of our method (see \autoref{fig:preprocessing}). The cropping can either (i) generate black borders to the input image or (ii) exclude artifacts that introduce variability to the background. According to our analysis to understand our network's output, we could observe that the black borders do not substantially influence the predictions (more details are provided further in section \ref{sec:netviz}). Thus, as can be seen in \autoref{fig:variedbgd}, the artifacts excluded by crop can have a noticeable effect on network learning. Lastly, one possible reason for the \hairacrosseyes requirement can be the resizing operation performed by the preprocessing step (see \autoref{fig:hairacrosseyes}). Since the \adhoc dataset images are mostly of high resolution and they are reduced to 160x160, it can affect the images where thin locks of hair are crossing the eyes region. These cases are not rare to occur in the dataset and, even using the recommended method for image decimation (see section \ref{sec:preprocessing}), the resize may be contributing negatively to the patterns of this requirement. 
-
+ 
+Three requirements had high values of \acs{eer} (10, 14, and 30) in both datasets. In common, they all have a high level of imbalance (as presented in \autoref{tab:req-dist}). However, other requirements with similar or even worse unbalancing achieved better performance (e.g., 25, 13, or 28). In the case of \pixelation, we credit this poor result to the preprocessing step because some high-resolution images are pixelated after the resizing step. Moreover, to quickly improve the results of the \otherfacesortoys, we could automatically decrease the score of images with two or more faces detected by our detector. However, the development of post-processing methods is not the primary objective of this work, but it could be considered a future work or be released in the subsequent versions of \methodname.
+ 
+Regarding Rejection Rates, only four requirements had images rejected during evaluation (08, 15, 17, and 18). According to our implementation, we only reject images for evaluation when a face is not detected. Therefore, such rejections represent false negatives from the face detector used to preprocess the input images (see section \ref{sec:preprocessing} of Chapter \ref{sec:method}). Furthermore, by analyzing these requirements, all of them may hamper face detection in extreme cases. 
+ 
+We highlight the substantial differences in \acs{eer} between both datasets in \autoref{tab:icaonet-ficv} for requirements 13, 15, and 17. In the case of \washedout, we believe it is caused because all the non-compliant images of this requirement in the \ficvtest belong to the AR database (see \autoref{fig:washedout}). Therefore, the pattern learned by the network may not have been generalized to the official database. For the \variedbackground requirement, it may be affected by the cropping applied during the preprocessing step of our method (see \autoref{fig:preprocessing}). The cropping can either (i) generate black borders in the input image or (ii) exclude artifacts that introduce variability to the background. According to our analysis, to understand our network's output, we could observe that black borders do not substantially influence the predictions (more details are provided in section \ref{sec:netviz}). Thus, as can be seen in \autoref{fig:variedbgd}, the artifacts excluded by crop can have a noticeable effect on network learning. Lastly, one possible reason for the \hairacrosseyes requirement can be the resizing operation performed by the preprocessing step (see \autoref{fig:hairacrosseyes}). Since the \adhoc dataset images are primarily of high resolution and are reduced to 160x160, it can affect the images where thin locks of hair cross the eye region. These cases are not rare to occur in the dataset, and even using the recommended method for image decimation (see section \ref{sec:preprocessing}), the resize may be contributing negatively to the patterns of this requirement. 
+ 
 \begin{figure}[htb]
 \centering
 \subfigure{\includegraphics[width=0.23\linewidth]{images/reqs/washed_out/AR_m-007-1_C40.png}}
@@ -98,7 +97,7 @@ We highlight the substantial differences in \acs{eer} between both datasets in \
 \caption{Example of preprocessed non-compliant images from the \washedout requirement. Source: own elaboration.}
 \label{fig:washedout}
 \end{figure}
-
+ 
 \begin{figure}[htb]
 \centering
 \subfigure[original image]{\includegraphics[height=1.5in]{images/reqs/varied_background/visio_icao_expotec_56.png}}
@@ -107,7 +106,7 @@ We highlight the substantial differences in \acs{eer} between both datasets in \
 \caption{Example of a non-compliant image from the \variedbackground requirement before and after the preprocessing step. Source: own elaboration.}
 \label{fig:variedbgd}
 \end{figure}
-
+ 
 \begin{figure}[htb]
 \centering
 \subfigure[before resize (1715x1715)]{\includegraphics[height=2in]{images/reqs/hair_across_eyes/Fall2003_04853d17_preprocessed.jpg}}
@@ -116,99 +115,100 @@ We highlight the substantial differences in \acs{eer} between both datasets in \
 \caption{Example of a non-compliant image from the \hairacrosseyes requirement before and after the resizing operation performed by the preprocessing step. Source: own elaboration.}
 \label{fig:hairacrosseyes}
 \end{figure}
-
-The \autoref{fig:eer_unbalancing} shows the \acs{eer} in both FICV datasets (as in \autoref{tab:icaonet-ficv}), but ordering the requirements by the proportion of non-compliant images in the ad-hoc dataset. Through the analysis of this graph, we can make some conclusions. First, as pointed before, the performance on both datasets is similar to each other. It reinforces the premise of FICV that the \ficvtest is a representative set of the \ficvofficial dataset (see section \ref{sec:fvcongoing}). Secondly, there is a moderate correlation between the EER and the degree of unbalancing in our dataset. According to Pearson's correlation, these coefficients are -0.47 and -0.45 for the \ficvtest and \ficvofficial datasets, respectively. In other words, if the proportion of non-compliant images increases, the \acs{eer} tends to decrease. However, it is important to notice that the fifth most unbalanced requirement (\veiloverface), with only 364 non-compliant images (or 6.31\%), is the one that achieved 0.0\% of \acs{eer} in both datasets. Also, these correlations become very weak and positives ($< +0.1$) when computed starting from the seventh most unbalanced requirement (\toodarklight, with 456 non-compliant images or 7.91\%).
-
+ 
+The \autoref{fig:eer_unbalancing} shows the \acs{eer} in both FICV datasets (as in \autoref{tab:icaonet-ficv}), but orders the requirements by the proportion of non-compliant images in the ad-hoc dataset. Through the analysis of this graph, we can draw several conclusions. First, as pointed out earlier, the performances on both datasets are similar. It reinforces the premise that \ficvtest is a representative set of the \ficvofficial dataset (see section \ref{sec:fvcongoing}). Secondly, there is a moderate correlation between the EER and the degree of imbalance in our dataset. According to Pearson's correlation, these coefficients are -0.47 and -0.45 for the \ficvtest and \ficvofficial datasets, respectively. In other words, if the proportion of non-compliant images increases, the \acs{eer} tends to decrease. However, it is important to note that the fifth most unbalanced requirement (\veiloverface), with only 364 non-compliant images (or 6.31\%), achieved 0.0\% of \acs{eer} in both datasets. Also, these correlations become very weak and positive ($< +0.1$) when computed starting from the seventh most unbalanced requirement (\toodarklight, with 456 non-compliant images or 7.91\%).
+ 
 \begin{figure}[htb]
 \centering
 \includegraphics[width=0.8\linewidth]{images/graphs/eer_unbalancing.pdf}
 \caption{EER by the proportion of non-compliant images for each requirement in ascending order. Source: own elaboration.}
 \label{fig:eer_unbalancing}
 \end{figure}
-
-Regarding the eye location accuracy, the results in \acs{ficv} can be seen in \autoref{tab:eyes_ficv}. In both datasets of the competition, the results were close to the observed locally during training ($d_{eye} \in [0;0.1[ = 46.18\%$, see Section \ref{sec:eye_location_acc}). Even though $d_{eye} \in [0;0.1[$ is not as high as expected, we can notice that $d_{eye} \leq 0.2$ of \methodname is higher than $90\%$ in both official datasets. Hence, if we can improve the landmark detection of our method, acceptable levels of eye locations accuracy can be accomplished. Despite of it, significant results of tokenizable were achieved already.
-
+ 
+Regarding eye location accuracy, the results in \acs{ficv} can be seen in \autoref{tab:eyes_ficv}. In both datasets of the competition, the results were close to those observed locally during training ($d_{eye} \in [0;0.1[ = 46.18\%$, see Section \ref{sec:eye_location_acc}). Even though $d_{eye} \in [0;0.1[$ is not as high as expected, we notice that $d_{eye} \leq 0.2$ of \methodname is higher than $90\%$ in both official datasets. Hence, if we can improve landmark detection of our method, acceptable levels of eye location accuracy can be accomplished. Despite this, significant tokenisable results have been achieved.
+ 
 \input{tables/table_eyes_ficv.tex}
-
+ 
 \subsubsection{Analysis of the Worst Requirements}
-
-The \methodname achieved non-competitive values of \acs{eer} for three requirements: \inkmarked, \pixelation, and \otherfacesortoys. We performed some analysis to understand what could be helpful for these requirements. Additionally, experiments were conducted to try improving the results. The deliberations regarding each requirement are provided as follows.
-
-As discussed in Section \ref{sec:ficv_results}, the \pixelation requirement is primarily influenced by the preprocessing step. Because the high-resolution images presented in the dataset are resized to $160 \times 160$ pixels, they can generate artificial pixelation effects that may harm the network. In fact, the pixelation branch of \methodname was placed in shallow layers for this purpose. Thus, the network can use more high-level features from an input image. According to our experiments, without the pixelation branch, our best result for this requirement was 42.7\% in terms of \acs{eer}. However, with the pixelation branch, we could improve \acs{eer} to 29\%. Although such a result is still not competitive, it helped decrease our mean \acs{eer} from 9.3\% to 8.8\%.
-
-Regarding the \inkmarked requirement, the high level of imbalance is the main factor for the poor result in this requirement. Hence, the dataset was improved using data augmentation techniques. We manually collected almost 40 stamp images with a transparent background across the internet. Then, for approximately half of the dataset, an arbitrary stamp with random affine transformations (i.e., rotation, zoom, and horizontal/vertical flip) was added to the input image via alpha blending. \autoref{fig:inkmarked_samples} shows some examples of augmented images. However, in our experiments, there were no significant improvements in this requirement. Thus, in this case, our main hypothesis is that images from the competition have a different distribution or pattern in comparison to the generated images.
-
+ 
+The \methodname achieved non-competitive values of \acs{eer} for three requirements: \inkmarked, \pixelation, and \otherfacesortoys. We performed analyses to understand what could be helpful for these requirements. Additionally, experiments were conducted to try to improve the results. The deliberations regarding each requirement are as follows.
+ 
+As discussed in Section \ref{sec:ficv_results}, the \pixelation requirement is primarily affected by the preprocessing step. Because the high-resolution images presented in the dataset are resized to $160 \times 160$ pixels, they can generate artificial pixelation effects that may harm the network. In fact, the pixelation branch of \methodname was placed in shallow layers for this purpose. Thus, the network can use more high-level features from the input image. According to our experiments, without the pixelation branch, the best result for this requirement was 42.7\% in terms of \acs{eer}. However, with the pixelation branch, we could improve \acs{eer} to 29\%. Although this result is still not competitive, it helped decrease our mean \acs{eer} from 9.3\% to 8.8\%.
+ 
+Regarding the \inkmarked requirement, the high level of imbalance is the main factor for the poor result. Hence, the dataset was improved using data augmentation techniques. We manually collected almost 40 stamp images with a transparent background across the internet. Then, an arbitrary stamp with random affine transformations (i.e., rotation, zoom, and horizontal/vertical flip) was added to the input image via alpha blending for approximately half of the dataset. \autoref{fig:inkmarked_samples} shows some examples of augmented images. However, in our experiments, there were no significant improvements in this requirement. Thus, in this case, our central hypothesis is that images from the competition have a different distribution or pattern compared to the generated images.
+ 
 \begin{figure}[htb]
 \centering
 \includegraphics[width=\linewidth]{images/reqs/inkmarked/inkmarked_samples.pdf}
 \caption{Example of images augmented with random stamps for \inkmarked requirement. Source: own elaboration.}
 \label{fig:inkmarked_samples}
 \end{figure}
-
-Lastly, the \otherfacesortoys requirement is also influenced by the preprocessing step (see \autoref{fig:otherface_errors}). As a reminder, the input image is cropped around the facial region. Therefore, if the other faces are too far from the foreground face, they may not be available in the input image of the network. Moreover, there was one case in which the face detected with the highest score was not in the foreground. In both cases, such errors were caused by the face detector itself instead of the proposed method. As mentioned before, we can use the number of detected faces to improve the results of such a requirement, but this will be left for future work.
-
+ 
+Lastly, the \otherfacesortoys requirement is also influenced by the preprocessing step (see \autoref{fig:otherface_errors}). As a reminder, the input image is cropped around the facial region. Therefore, if other faces are too far from the foreground face, they may not be available in the input image of the network. Moreover, there was one case in which the face detected with the highest score was not in the foreground. In both cases, such errors were caused by the face detector instead of the proposed method. As mentioned before, we can use the number of detected faces to improve the results of such a requirement, but this will be left for future work.
+ 
 % possível solução: pegar maior face detectada
-
-One alternative that could work for both \pixelation and \otherfacesortoys requirements is to divide the original high-resolution image into grids. It can be achieved by applying convolutional layers with strides equal to the filter’s size in the first layer. In this case, the problems discussed regarding the preprocessing step are diminished, and the results can be improved for these requirements. However, for training, such an approach consumes considerably more memory and takes longer. On the other hand, for inference, these differences may not be significant. Again, this hypothesis should be verified in further work.
-
+ 
+One alternative that could work for both \pixelation and \otherfacesortoys requirements is to divide the original high-resolution image into grids. It can be achieved by applying convolutional layers with strides equal to the filter size in the first layer. In this case, the problems discussed regarding the preprocessing step are diminished, and the results can be improved for these requirements. However, for training, this approach consumes considerably more memory and takes longer. On the other hand, these differences may not be significant for inference. Again, this hypothesis needs to be verified in future studies.
+ 
 \begin{figure}[htb]
 \centering
 \subfigure[]{\includegraphics[width=0.45\linewidth]{images/reqs/other_faces/other_faces_1.pdf}}
 \hfill
-\subfigure[]{\includegraphics[width=0.45\linewidth]{images/reqs/other_faces/other_faces_2.pdf}}    
-\caption{Examples of images affected by preprocessing step for \otherfacesortoys requirement. The original image is on the left while the preprocessed image is on the right side. (a) Second face cut off by preprocessing step. (b) Wrongly detected face in the background. Source: own elaboration.}
+\subfigure[]{\includegraphics[width=0.45\linewidth]{images/reqs/other_faces/other_faces_2.pdf}} 
+\caption{Examples of images affected by preprocessing step for \otherfacesortoys requirement. The original image is on the left side, while the preprocessed image is on the right. (a) The second face cut off by preprocessing step. (b) Wrongly detected faces in the background. Source: own elaboration.}
 \label{fig:otherface_errors}
 \end{figure}
-
+ 
 \subsection{Comparison Against Other Methods}
-
-We start by comparing the results of \methodname with well-known architectures fine-tuned for \icao requirements. Because of the \acs{ficv} constraint for submission files (up to 50MB, see Section \ref{sec:fvcongoing}), only three architectures could be evaluated in the competition: MobileNet v1/v2 and NasNetMobile. All networks were previously trained for the general purpose ImageNet dataset \citep{imagenetdataset} and fine-tuned using the same hyperparameters used for \methodname training (see Section \ref{sec:hyperparams}).
-
-As can be seen in \autoref{tab:comp_finetune}, \methodname outperforms the other architectures in almost all requirements (18 out of 23). There is a draw for \veiloverface, in which MobileNet v1/v2 and our method achieved a perfect EER. Also, MobileNet v1 was able to achieve the best results in 3 other requirements (\pixelation, \hatcap, and \otherfacesortoys), while NasNet had the worst results within all methods compared. In addition, \methodname obtained the lowest results in terms of mean/median \acs{eer}, running time, and memory consumption.
-
-A detailed analysis of the results shown in \autoref{tab:comp_finetune} can expose some interesting patterns. First, we can cite the eyes-related requirements. For \lookingaway, \eyesclosed, \redeyes, \darktintedlenses, \flashlenses, \framestooheavy, and \framecoveringeyes, our method achieved considerable improvements in terms of \acs{eer} (more than 50\% lower). In fact, the only requirement related to eyes that our method accomplished similar results with the other architectures was \hairacrosseyes. As mentioned before (see Section \ref{sec:ficv_results}), this results was probably influenced by our preprocessing step. We can also observe noticeable improvements for illumination-related requirements as \toodarklight, \shadowsbehindhead and \shadowsacrossface. Finally, when considering the highest unbalanced requirements, all methods had high \acs{eer} values for \inkmarked and \otherfacesortoys, but the proposed method performed substantially better for \washedout and \framestooheavy.
-
+ 
+We begin by comparing the results of \methodname with well-known architectures fine-tuned for \icao requirements. Because of the \acs{ficv} constraint for submission files (up to 50MB, see Section \ref{sec:fvcongoing}), only three architectures could be evaluated in the competition: MobileNet v1/v2 and NasNetMobile. All networks were previously trained for the general-purpose ImageNet dataset \citep{imagenetdataset} and fine-tuned using the same hyperparameters as those used for \methodname training (see Section \ref{sec:hyperparams}).
+ 
+As seen in \autoref{tab:comp_finetune}, \methodname outperformed the other architectures in almost all requirements (18 out of 23). There is a draw for \veiloverface, in which MobileNet v1/v2 and our method achieved a perfect EER. Also, MobileNet v1 achieved the best results in three other requirements (\pixelation, \hatcap, and \otherfacesortoys), whereas NasNet had the worst results among all methods compared. In addition, \methodname obtained the lowest results regarding the mean/median \acs{eer}, running time, and memory consumption.
+ 
+A detailed analysis of the results in \autoref{tab:comp_finetune} reveals some interesting patterns. First, we can cite eye-related requirements. For \lookingaway, \eyesclosed, \redeyes, \darktintedlenses, \flashlenses, \framestooheavy, and \framecoveringeyes, our method achieved considerable improvements in terms of \acs{eer} (more than 50\% lower). The only requirement related to eyes that our method accomplished results similar to those of the other architectures was \hairacrosseyes. As mentioned previously (see Section \ref{sec:ficv_results}), these results were probably influenced by our preprocessing step. We can also observe noticeable improvements in illumination-related requirements, such as \toodarklight, \shadowsbehindhead, and \shadowsacrossface. Finally, when considering the highest unbalanced requirements, all methods had high \acs{eer} values for \inkmarked and \otherfacesortoys, but the proposed method performed substantially better for \washedout and \framestooheavy.
+ 
 \input{tables/table_comp_finetune.tex}
-
-Table \ref{tab:best-results} summarizes the best results by requirement among all the methods shown in Table \ref{tab:comp}. Also, it includes the results of \methodname for easy comparison. All methods were evaluated using the FICV competition benchmark tool and the official dataset (\ficvofficial). As can be seen, the proposed method has the best results in 9 out of 23 requirements of the \icao standard. Thus, the proposed method has the highest amount of best results in terms of requirements. We can also notice that \methodname has low rejection rates, with only four requirements rejecting at most 0.4\% of the evaluated images. Such rejections represent the false negatives from the face detector used to preprocess input images.
-
+ 
+Table \ref{tab:best-results} summarizes the best results by requirement among all methods listed in Table \ref{tab:comp}. Also, it includes the results of \methodname for ease of comparison. All methods were evaluated using the FICV competition benchmark tool and official dataset (\ficvofficial). As can be seen, the proposed method has the best results in 9 out of the 23 requirements of the \icao standard. Thus, the proposed method has the highest number of best results in terms of the requirements. We can also observe that \methodname has low rejection rates, with only four requirements rejecting at most 0.4\% of the evaluated images. Such rejections represent false negatives from the face detector used to preprocess the input images.
+ 
 \input{tables/table_best_results}
-
-There are four methods with public results published in the \fvcongoing: BioPass Face \citep{fvcVsoft}, BioTest \citep{fvcBioTest}, id3 \citep{fvcICAOCompliance}, and ICAOSDK \citep{fvcSeamfix}. In comparison to them, we have the best results in 11 out of all 23 requirements. Therefore, the \methodname is also the method with the highest amount of best results in terms of requirements in the FICV competition. Additionally, the proposed method has the second-best Median EER (3.3\%).
-
-In terms of performance, the \methodname takes on average 1.8 seconds per image according to the official benchmark results on the FICV competition of the \fvcongoing website. In comparison with methods that evaluate all requirements, the proposed method is the fastest. However, according to our benchmarks, almost 90\% of the \methodname running time is dominated by the face detector (1.6s on average), which is a preprocessing step. On the other hand, the architecture of the proposed network takes only 0.15s of this total time. Furthermore, since the FICV competition runs the benchmarks in CPU-only computers, our network could be even faster by using a GPU. In the future, we intend to change our face detector to a faster alternative so that our total time in CPU will be reduced even more.
-
-To improve these results, two distinct approaches can be followed. First, our dataset quality can be improved by increasing (i) the number of images and (ii) the variability of patterns of some requirements (like hat/cap). Thereby, the network can learn more effective descriptors and decrease our EER in these requirements. Secondly, we may change the network or try other loss functions. For instance, we can test loss functions designed for multi-label classification problems, like the Contrastive Loss \citep{khosla2020supervised}.
-
-With respect to eye location accuracy, \autoref{tab:comp_eyes} compares the \methodname with the other methods published in the \acs{ficv} competition. Despite \methodname has the worst performance for $d_{eye} \in [0;0.1[$ ($42.68\%$), as discussed before, our $d_{eye} \leq 0.2$ is greater than 90\%. Thus, if we improve our landmark prediction, we can achieve performance results comparable to \biopass and id3 methods. Moreover, it is important to highlight that \methodname is the only method that does not reject images. Finally, the landmarks detected by our method are already able to allow the tokenization of almost 90\% of the input images, being better than \biotest algorithm.
-
-We believe the most effective way to improve our landmark predictions is by improving our dataset. First, the amount of samples must be increased to follow other landmark datasets with hundreds of thousands images. Furthermore, the variation of landmarks is an important factor as well. It includes, for example, more face positions with a higher range of head rotations in all axis (which can not be achieved by classic image augmentation techniques). Lastly, we could also try other custom loss functions specially designed for landmark localization.
-
+ 
+Four methods with public results have been published in \fvcongoing: BioPass Face \citep{fvcVsoft}, BioTest \citep{fvcBioTest}, id3 \citep{fvcICAOCompliance}, and ICAOSDK \citep{fvcSeamfix}. Compared to them, we obtained the best results in 11 out of all 23 requirements. Therefore, \methodname is also the method with the highest number of best results in terms of requirements in FICV competition. Additionally, the proposed method had the second-best Median EER (3.3\%).
+ 
+In terms of performance, the \methodname takes an average of 1.8 seconds per image, according to the official benchmark results on the FICV competition of the \fvcongoing website. Compared with methods that evaluate all requirements, the proposed method is the fastest. However, according to our benchmarks, almost 90\% of the \methodname running time is dominated by the face detector (1.6s on average), which is a preprocessing step. On the other hand, the architecture of the proposed network takes only 0.15s of this total time. Furthermore, since the FICV competition runs the benchmarks in CPU-only computers, our network could be even faster using a GPU. In the future, we intend to change our face detector to a faster alternative so that the total CPU time will be further reduced.
+ 
+To improve these results, two distinct approaches can be followed. First, our dataset quality can be improved by increasing (i) the number of images and (ii) the variability of patterns of specific requirements (such as hat/cap). Thereby, the network can learn more effective descriptors and decrease the EER for these requirements. Secondly, we may change the network or attempt other loss functions. For instance, we can test loss functions designed for multi-label classification problems, like the Contrastive Loss \citep{khosla2020supervised}.
+ 
+With respect to eye location accuracy, \autoref{tab:comp_eyes} compares \methodname with the other methods published in the \acs{ficv} competition. Despite \methodname has the worst performance for $d_{eye} \in [0;0.1[$ ($42.68\%$), as previously discussed, our $d_{eye} \leq 0.2$ is greater than 90\%. Thus, if we improve our landmark prediction, we can achieve performance results comparable to \biopass and id3 methods. Moreover, it is noteworthy that \methodname is the only method that does not reject images. Finally, the landmarks detected by our method can already allow tokenization of almost 90\% of the input images, which is better than the \biotest algorithm.
+ 
+We believe improving our dataset is the most effective way to enhance our landmark predictions. First, the number of samples must be increased to follow other landmark datasets with hundreds of thousands of images. Furthermore, variations in landmarks are an essential factor. For example, it includes more face positions with a higher range of head rotations in all axes (which cannot be achieved using classic image augmentation techniques). Lastly, we could try other custom loss functions specially designed for landmark localization.
+ 
 \input{tables/table_comp_eyes}
-
+ 
 \subsection{Network Visualization} \label{sec:netviz}
-
-In addition to the performance results already presented, we decided to apply different techniques to understand the network outputs. First, we analyzed the embeddings learned by the network using algorithms for dimensionality reduction. Secondly, we applied network visualization techniques to understand which image regions are the most relevant to each requirement. More details can be found in the following paragraphs.
-
-A visualization of the embeddings learned by \methodname is shown in the 3D plots of Figure \ref{fig:embviz}. The embedding dimension was reduced to 3 dimensions and visualized via the PCA and t-SNE methods using TensorBoard\footnote{https://www.tensorflow.org/tensorboard}. Each point in the plot is represented by a face image from the dataset. Although the figure shows only three dimensions, it is possible to observe that some dimensions are related to particular ICAO requirements. For example, in the figure related to PCA, we can observe that images with \variedbackground, \unnaturalskintone, and \veiloverface are closer to each other in a certain degree. On the other hand, in t-SNE, we can notice that the clusters related to such requirements are more well defined, especially for \variedbackground and \veiloverface requirements. Moreover, in both figures, we can see the intersection between some regions. For instance, images with unnatural skin tone and veil over face tend to belong to both clusters. Such information is relevant to the multi-task classification branch of the \methodname architecture. 
-
+ 
+In addition to the presented performance results, we applied different techniques to understand the network outputs. First, we analyzed the embeddings learned by the network using algorithms for dimensionality reduction. Secondly, we applied network visualization techniques to understand which image regions are the most relevant to each requirement. More details can be found in the following paragraphs.
+ 
+A visualization of the embeddings learned by \methodname is shown in the 3D plots in Figure \ref{fig:embviz}. The embedding dimension was reduced to 3 dimensions and visualized via the PCA and t-SNE methods using TensorBoard\footnote{https://www.tensorflow.org/tensorboard}. Each point in the plot is represented by a facial image from the dataset. Although the figure shows only three dimensions, it is possible to observe that some dimensions are related to particular ICAO requirements. For example, in the figure related to PCA, we can observe that the images with \variedbackground, \unnaturalskintone, and \veiloverface are closer to each other to a certain degree. On the other hand, in t-SNE, we notice that the clusters related to such requirements are more well-defined, especially for \variedbackground and \veiloverface requirements. Moreover, in both figures, we can see the intersection of some regions. For instance, images with unnatural skin tones and veils over the face tend to belong to both clusters. Such information is relevant to the multitask classification branch of the \methodname architecture. 
+ 
 \begin{figure}[htb]
 \centering
 \subfigure[PCA]{\includegraphics[width=0.75\linewidth]{images/network_viz/pca.pdf}}
-\subfigure[t-SNE]{\includegraphics[width=0.75\linewidth]{images/network_viz/tsne.pdf}}    
-\caption{Visualization of the embeddings learned by \methodname. Original embeddings dimensions were reduced to 3D using (a) PCA and (b) t-SNE. In both visualizations, we highlight the regions of \variedbackground (green), \unnaturalskintone (yellow), and \veiloverface (red) requirements. Source: own elaboration.}
+\subfigure[t-SNE]{\includegraphics[width=0.75\linewidth]{images/network_viz/tsne.pdf}} 
+\caption{Visualization of the embeddings learned by \methodname. The original embedding dimensions were reduced to 3D using (a) PCA and (b) t-SNE. In both visualizations, we highlight the regions of \variedbackground (green), \unnaturalskintone (yellow), and \veiloverface (red) requirements. Source: own elaboration.}
 \label{fig:embviz}
 \end{figure}
-
-Figure \ref{fig:shap} contains a visual representation of input images with local region contributions associated with each pose and photograph requirements. The SHAP method was used to create that visualization. The figure provides evidence that the network learned useful representations for most of the requirements. In the fully compliant images (first three rows), the classification output is usually increased by the image regions related to that requirement. For example, in the eye-region dependent requirements (09, 15, 16, 20, 23, 24, and 26), the output is mainly influenced by regions closer to the eyes. Similar behaviors can be observed in requirements related to the mouth (28 and 29), skin (11, 19, 22), and the image aspect (08, 12, 13). 
-
-However, we can notice the network was not able to learn relevant patterns in some requirements like \inkmarked, \pixelation, \framestooheavy, \hatcap, and \otherfacesortoys. For requirements 10, 25, and 30, we believe the low amount of non-compliant images was the most crucial factor in contributing to the worst results of the proposed architecture, found in Table \ref{tab:req-dist}. In the case of \pixelation, a possible cause for the high EER (42.7\%) could be the image resizing step applied in the input images. Finally, the random patterns in \hatcap may show that the variability of head props in our dataset must be insufficient to distinguish them from other patterns. 
-
+ 
+Figure \ref{fig:shap} shows a visual representation of the input images with local region contributions associated with each pose and photograph requirements. The SHAP method was used to create the visualization. The figure provides evidence that the network learned useful representations for most requirements. In fully compliant images (first three rows), the classification output is usually increased by the image regions related to that requirement. For example, in the eye-region dependent requirements (09, 15, 16, 20, 23, 24, and 26), the output is mainly influenced by regions closer to the eyes. Similar behaviors can be observed in requirements related to the mouth (28 and 29), skin (11, 19, and 22), and image aspects (08, 12, and 13). 
+ 
+However, we can notice the network could not learn relevant patterns in some requirements like \inkmarked, \pixelation, \framestooheavy, \hatcap, and \otherfacesortoys. For requirements 10, 25, and 30, we believe that the low number of non-compliant images was the most crucial factor contributing to the worst results of the proposed architecture, as shown in Table \ref{tab:req-dist}. In the case of \pixelation, a possible cause for the high EER (42.7\%) could be the image resizing step applied to the input images. Finally, the random patterns in \hatcap may show that the variability of head props in our dataset must be insufficient to distinguish them from other patterns. 
+ 
 \begin{landscape}
 \begin{figure*}[tb]
 \centering
 \includegraphics[width=\linewidth]{images/network_viz/shap.png}
-\caption{Visual explanation of \methodname's output using SHAP. The rows represent input images, and the columns denote the requirements from the \icao standard. The first three images are fully compliant, while the remaining images have at least one non-compliant requirement. According to the SHAP values, each pixel contributes negatively (blue), positively (red), or has a low contribution (white) to the network's output. Some requirements related to eyes, skin, and mouth are highlighted for convenience. Source: own elaboration.}
+\caption{Visual explanation of \methodname's output using SHAP. The rows represent the input images, and the columns denote the requirements from the \icao standard. The first three images are fully compliant, whereas the remaining images have at least one non-compliant requirement. According to the SHAP values, each pixel contributes negatively (blue), positively (red), or has a low contribution (white) to the network output. Some requirements related to the eyes, skin, and mouth were highlighted for convenience. Source: own elaboration.}
 \label{fig:shap}
 \end{figure*}
 \end{landscape}
+ 
