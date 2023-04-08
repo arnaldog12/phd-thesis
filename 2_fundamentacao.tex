@@ -1,14 +1,6 @@
 \section{Background} \label{sec:background}
 
-In this chapter, we explain the essential concepts used in this work. We start by introducing Deep Learning and its main aspects. Then, we present \aclp{cnn} and Autoencoders, two types of Deep Architectures used by the proposed method. Also, an explanation about \acl{mtl} and its variants is presented. Later, we detail methods to explain Deep Networks, like \acs{shap}, and for dimensionality reduction, like \acl{pca} and \acs{tsne}. Next, the metrics used to evaluate the proposed work are detailed. Finally, the \icao standard is described, as well as the \fvcongoing competition and its protocol.
-
-\subsection{Deep Learning}
-
-\acf{ai} is a study field of Computer Science focused on simulating the human intelligence process through machines. It can include, for example, learning, reasoning, and self-correction. In the early days of AI, the first systems were heavily based on a set of rules previously provided by an expert from some subject area. Usually, large rule-based problems are intellectually harder for humans than for computers; thus, machines could take advantage. Also, such systems were developed for small and restricted environments. For example, we can cite Deep Blue \citep{hsu2002behind}, a successful chess-playing system developed by IBM which defeated the world champion, Garry Kasparov, in 1997.\section{Background} \label{sec:background}
-
-
 In this chapter, we explain the essential concepts used in this work. We start by introducing Deep Learning and its main aspects. Then, we present \aclp{cnn} and Autoencoders, two types of Deep Architectures used by the proposed method. In addition, an explanation of \acl{mtl} and its variants is presented. Later, we detail methods to explain Deep Networks, like \acs{shap}, and for dimensionality reduction, like \acl{pca} and \acs{tsne}. Next, the metrics used to evaluate the proposed method are described in detail. Finally, the \icao standard is described, along with the \fvcongoing competition and its protocol.
-
 
 \subsection{Deep Learning}
 
@@ -522,7 +514,7 @@ Recall = \frac{TP}{TP + FN}
 
 Even though the Precision and Recall metrics are considered more robust than accuracy for evaluating binary classifiers, both metrics present some drawbacks. First, they are purpose-specific. For example, precision is a better choice when we want to trust the prediction of the positive class. However, if a model is optimized to maximize precision only, it can bias the classifier to avoid uncertain positive samples, thereby increasing the number of false negatives. On the other hand, recall is more pertinent when we need a classifier that may correctly identify positive samples, although it can generate more false positives. Hence, in the case of a problem where Precision and Recall are equally important, the f-measure can be computed to generate a balanced score between these two metrics. The f-measure is better described in the following subsection.
 
-Secondly, by taking a closer look at the Equations \ref{eq: precision} and \ref{eq: recall}, we can notice that they do not consider the True Negatives. Therefore, both metrics are more appropriate when the positive class is more important than the negative class. This is the case for detection problems, for example, where identifying the negative class (usually background) is less important than the positive class (object of interest). Nevertheless, this is not always true for some classification problems. For instance, we can cite fraud-detection problems, where the correct prediction of the True Negatives has a higher priority over the True Positives. For these cases, we can compute the negative predictive value and Specificity metrics, which will be described later.
+Secondly, by taking a closer look at the Equations \ref{eq:precision} and \ref{eq:recall}, we can notice that they do not consider the True Negatives. Therefore, both metrics are more appropriate when the positive class is more important than the negative class. This is the case for detection problems, for example, where identifying the negative class (usually background) is less important than the positive class (object of interest). Nevertheless, this is not always true for some classification problems. For instance, we can cite fraud-detection problems, where the correct prediction of the True Negatives has a higher priority over the True Positives. For these cases, we can compute the negative predictive value and Specificity metrics, which will be described later.
 
 \subsubsection{F-measure}
 
