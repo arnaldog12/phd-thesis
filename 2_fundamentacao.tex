@@ -670,7 +670,7 @@ d_{eye} = \frac{max(\left\| C_l - \hat{C_l} \right\|, \left\| C_r -\hat{C_r}|\ri
 \end{equation}
 
 \noindent
-where $C_{l/r}$ and $\hat{C_{l/r}}$ represent the ground truth and positions returned by the algorithm for the left and right eyes, respectively. This measure is scale-independent and allows for comparing datasets with different image resolutions. In the \acs{ficv} competition, the $d_{eye}$ is also evaluated using four particular intervals: $d_{eye} \in [0;0.1[$, $d_{eye} \in [0.1;0.2[$, $d_{eye} \in [0.2;0.3[$, and $d_{eye} \geq 0.3$.
+where $C_{l/r}$ and $\hat{C_{l/r}}$ represent the ground truth and positions returned by the algorithm for the left and right eyes, respectively. This measure is scale-independent and allows for comparing datasets with different image resolutions. In the \acs{ficv} competition, the $d_{eye}$ is evaluated using four particular intervals: $d_{eye} \in [0;0.1[$, $d_{eye} \in [0.1;0.2[$, $d_{eye} \in [0.2;0.3[$, and $d_{eye} \geq 0.3$.
 
 Furthermore, to evaluate the performance of the photographic and pose-specific requirements, the benchmark datasets are divided into 23 subsets, each related to a specific requirement. Also, each subset contains the same number of compliant and non-compliant images. Then, for each requirement, the following performance metrics are computed and reported:
 
