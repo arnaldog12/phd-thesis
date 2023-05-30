@@ -4,7 +4,7 @@ In this chapter, we explain the essential concepts used in this thesis. We start
 
 \subsection{Deep Learning}
 
-\acf{ai} is a study field of Computer Science focused on simulating the human intelligence process through machines. It can include, for example, learning, reasoning, and self-correction. In the early days of \acs{ai}, the first systems were heavily based on a set of rules previously provided by experts from certain subject areas. Usually, large rule-based problems are intellectually more difficult for humans than for computers; thus, machines can take advantage of them. Also, such systems have been developed for small and restricted environments. For example, we can cite Deep Blue \citep{hsu2002behind}, a successful chess-playing system developed by IBM that defeated the world champion Garry Kasparov in 1997.
+\acf{ai} is a study field of Computer Science focused on the design and construction of intelligent agent that receives inputs from the environment and take actions that affect that environemnt \citep{russell}. It can include, for example, learning, reasoning, and self-correction. In the early days of \acs{ai}, the first systems were heavily based on a set of rules previously provided by experts from certain subject areas. Usually, large rule-based problems are intellectually more difficult for humans than for computers; thus, machines can take advantage of them. Also, such systems have been developed for small and restricted environments. For example, we can cite Deep Blue \citep{hsu2002behind}, a successful chess-playing system developed by IBM that defeated the world champion Garry Kasparov in 1997.
 
 As the scale and amount of data have increased over the years, traditional \acs{ai} methods have been replaced by a more data-driven approach called \acf{ml}. Instead of manually providing rules for the system, an algorithm automatically learns intrinsic patterns based on data. When the desired answers are also provided as inputs, we call it \textit{Supervised Learning}; otherwise, it is called \textit{Unsupervised Learning}. Many algorithms have been developed for both types of learning, for instance: Support Vector Machines \citep{boser1992training}, Decision Trees \citep{breiman1984classification}, and Mean Shift \citep{fukunaga1975estimation}. 
 
@@ -33,7 +33,7 @@ The rest of this section focuses on some specific types of neural networks and l
 
 \acfp{cnn}, also known as Convolutional Networks, are a specific kind of feedforward neural network specially developed to process grid-like data. For example, we can think of time-series data as a 1--D grid of time intervals with samples. Likewise, images can be considered as 2--D grid of pixels. In recent years, \acsp{cnn} have achieved exceptional performance in several practical applications. It includes, but is not limited to, image classification \citep{li2014medical, guo2017simple, paoletti2018new}, object detection \citep{cai2016unified, wu2017squeezedet}, and instance segmentation \citep{wang2020solov2, xu2020convolutional, zhang2020mask}.
 
-The convolution is the basic operation of a \acs{cnn}. In summary, it is a well-known mathematical operation that performs a linear calculation over two functions \citep{goodfellow2016deep}. This is similar to the cross-correlation, but one of the functions is reversed and shifted. Given the functions $x$ and $w$, the convolution operation between $x$ and $w$ - denoted by $h(t)$ - can be defined according to \autoref{eq:convolution}, for the continuous domain:
+The convolution is the basic operation of a \acs{cnn}. In summary, it is a well-known mathematical operation that performs a linear calculation over two functions \citep{goodfellow2016deep}. This is similar to the cross-correlation, but one of the functions is reversed and shifted. Given the functions $x$ and $w$, the convolution operation over an age of measurement $\tau$ between $x$ and $w$ - denoted by $h(t)$ - can be defined according to \autoref{eq:convolution}, for the continuous domain:
 
 \begin{equation}
 \label{eq:convolution}
@@ -53,7 +53,7 @@ where $x$ represent the input, $w$ is the kernel, and $t$ is the point where the
 
 \begin{equation}
 \label{eq:conv_discrete}
-h(t) = \sum_{a=-\infty}^{\infty} x(\tau)w(t - \tau)
+h(t) = \sum_{\tau=-\infty}^{\infty} x(\tau)w(t - \tau)
 \end{equation}
 
 Usually, \acsp{cnn} are primarily applied to process images as inputs. In these cases, the input $x$ is represented by 4--D vectors, also called tensors, of $N \times H \times W \times C$ dimensions, where $N$ denotes the number of images in the dataset (samples), $H$ and $W$ are the image dimensions, and $C$ corresponds to the number of channels (e.g. colors) in each image. The kernel $w$ is also a multidimensional array that represents the parameters to be learned by the algorithm.
@@ -61,7 +61,7 @@ Usually, \acsp{cnn} are primarily applied to process images as inputs. In these 
 As pointed out by \cite{goodfellow2016deep}, convolution has three essential characteristics that help improve the performance of ML-based systems:
 
 \begin{itemize}
-\item \textbf{sparse interactions}: unlike dense neural networks, the output units do not need to interact with each input unit. Instead, the kernel $w$ is commonly smaller than the input. Therefore, fewer parameters must be stored, reducing the amount of memory required by the model, the number of operations and improving its statistical efficiency.
+\item \textbf{sparse interactions}: unlike dense neural networks, the output units do not need to interact with each input unit. Instead, the kernel $w$ is commonly smaller than the input. Therefore, fewer parameters must be stored, reducing the amount of memory and the number of operations the model requires, beyond improving its statistical efficiency.
 
 \item \textbf{parameter sharing}: refers to reusing the same kernel across the whole image. In traditional neural nets, each weight is strictly applied only once to compute the output of a layer. However, in \acsp{cnn}, the weights presented in the kernel $w$ are applied to every image pixel (except, in some cases, for the boundary pixels or when  undersampling is employed - the stride hyperparameter). Therefore, convolutions are dramatically more effective than dense matrix multiplications.
 
@@ -76,7 +76,7 @@ Besides convolution, pooling layers are one of the essential components of \aclp
 
 There are two common types of pooling methods: \textbf{max pooling} and \textbf{average pooling}. They compute the maximum and the average value for each patch of a feature map, respectively. An example of both operations can be seen in \autoref{fig:poolings}.
 
-\begin{figure*}[tb]
+\begin{figure*}[h]
 \centering
 \subfigure[Max Pooling]{\includegraphics[width=0.4\linewidth]{images/deep_learning/pool_max.png}}
 \hfill
@@ -100,7 +100,7 @@ Another significant factor is related to the expectations around layer distribut
 
 Batch Normalization is a regularization technique proposed by \cite{ioffe2015batch} to mitigate the effect of Internal Covariate Shift. It normalizes the inputs of hidden layers by using the first (mean) and second (variance) statistical moments of the current batch. This normalization step is usually applied before the activation function but can also be employed after the nonlinear function. The batch normalization makes the training of deep neural networks faster, more stable, and less likely to overfit. Also, batch normalization may substitute Dropout as a regularization technique.
 
-Given a mini-batch $B$ of size $m$, the mean and variance of $B$ are denoted by Equations \ref{eq:bn_mean} and \ref{eq:bn_stddev}, respectively:
+Given a mini-batch $B$ $\{x_i, \ldots, x_m\}$ of size $m$, the mean and variance of $B$ are denoted by Equations \ref{eq:bn_mean} and \ref{eq:bn_stddev}, respectively:
 
 \begin{equation}
 \label{eq:bn_mean}
@@ -130,7 +130,7 @@ y_i = \gamma\hat{x}_i + \beta
 \noindent
 where $\gamma$ and $\beta$ are new learnable parameters introduced by batch normalization. 
 
-One crucial aspect to notice is that the network can automatically avoid batch normalization operations. That is, if the network during training realizes that the input $x_i$ does not need to be normalized, it can set $\gamma=1$ and $\beta=0$; thus, the input $x_i$ remains unchanged.
+One crucial aspect to highlight is that the network can automatically avoid batch normalization operations. That is, if the network during training converges to $\gamma=1$ and $\beta=0$, it means that the input $x_i$ does not need to be normalized; thus, the input $x_i$ remains unchanged.
 
 During the training phase, the normalization steps are computed based on mini-batches to ensure reliable and efficient training. On the other hand, during inference, the network is generally asked to perform predictions for a given sample. For this reason, the normalization step is performed with the estimated population statistics. The population mean and variance are estimated during training and defined by Equations \ref{eq:bn_pop_mean} and \ref{eq:bn_pop_var}, respectively: 
 
@@ -170,7 +170,7 @@ Autoencoders are a specific type of neural network capable of discovering struct
 
 The architecture of Autoencoders (\autoref{fig:autoencoder}) is usually composed of two parts:
 
-\begin{figure}[tb]
+\begin{figure}[h]
 \centering
 \includegraphics[width=\linewidth]{images/deep_learning/autoencoder.png}
 \caption{Architecture of an Autoencoder. Source: \citep{autoencoder_architecture}}
@@ -270,12 +270,12 @@ The inductive bias obtained through \acs{mtl} is intuitively compelling. In fact
 
 \item \textbf{Representation Bias}: \acs{mtl} biases the model in a way to build representations that are useful for multiple tasks. As stated by \cite{baxter2000model}, it aids a model to generalize better on new tasks in the future, as a hypothesis space that performs well for a significantly large number of training tasks will also perform well when learning new tasks as long as they are from the same environment.
 
-\item \textbf{Regularization}: as discussed before, \acl{mtl} serves as a regularization technique by introducing an inductive bias to the model. This approach mitigates the risk of overfitting and decreases the Rademacher complexity of the model, i.e., the capacity to fit random noise.
+\item \textbf{Regularization}: as discussed before, \acl{mtl} serves as a regularization technique by introducing an inductive bias to the model. This approach mitigates the risk of overfitting and decreases the Rademacher complexity of the model \citep{shalevshwartz2014understanding}, i.e., the capacity to fit random noise.
 \end{itemize}
 
 Compared to Transfer Learning, the setting of \acs{mtl} is similar but has some substantial differences. First, in \acs{mtl}, different tasks are treated equally, and the goal is to improve performance among all tasks. In contrast, Transfer Learning is focused on improving the performance of a specific target task with the help of one or more source tasks. In this case, the target task receives more emphasis than the source tasks. In other words, in \acs{mtl}, there is no distinction between different tasks, whereas, in Transfer Learning, the target tasks attract more attention. Second, from the perspective of knowledge flow, Transfer Learning transfers knowledge from the source task(s) to the target task. In contrast, \acl{mtl} knowledge sharing occurs between all pairs of tasks \citep{zhang2017survey}.
 
-We can also compare \acs{mtl} with other methods to represent problems. For example, in Continual Learning, the tasks are learned one by one sequentially, whereas, in \acs{mtl}, all tasks are learned together. Additionally, in multi-label problems, including multi-output regression, each data point is assigned to multiple categorical/numeric labels. In these cases, if each label is considered an individual task, they can be considered a particular case of \acl{mtl}, where different tasks always share the same data during the training and testing phases. Finally, in multi-view learning, a newer paradigm in \acl{ml}, each data point is represented with multiple views, each of which comes from a particular set of features. However, all the views are used together to learn the same task. Therefore, multi-view learning can be seen as single-task learning with multiple sets of features, which is, by definition, unlike \acs{mtl}.
+We can also compare \acs{mtl} with other methods to represent problems. For example, in Continual Learning \citep{chen2018lifelong}, the tasks are learned one by one sequentially, whereas, in \acs{mtl}, all tasks are learned together. Additionally, in multi-label problems, including multi-output regression, each data point is assigned to multiple categorical/numeric labels. In these cases, if each label is considered an individual task, they can be considered a particular case of \acl{mtl}, where different tasks always share the same data during the training and testing phases. Finally, in multi-view learning \citep{ZHAO201743}, a newer paradigm in \acl{ml}, each data point is represented with multiple views, each of which comes from a particular set of features. However, all the views are used together to learn the same task. Therefore, multi-view learning can be seen as single-task learning with multiple sets of features, which is, by definition, unlike \acs{mtl}.
 
 \subsection{Network Explainability and Visualization}
 
@@ -387,7 +387,7 @@ The \acf{tsne}, developed by \cite{tsne}, is a nonlinear dimensionality reductio
 
 The \acs{tsne} algorithm comprises two main stages. First, the symmetric probability of points in the original high-dimensional space is computed. Higher probabilities are assigned to similar points, whereas dissimilar points are assigned a lower probability. Such probabilities are computed using a \textit{t}-Student kernel with a given degree of freedom. Secondly, a similar probability distribution is defined over the points mapped into the low-dimensional space. The Kullback-Leibler divergence (also called relative entropy) between these two distributions is minimized through a gradient descent technique. A simplified version of \acs{tsne} is shown in Algorithm \ref{alg:tsne}, and the details are explained below.
 
-\begin{algorithm}[t]
+\begin{algorithm}[h]
 \caption{Simple version of t-Distributed Stochastic Neighbor Embedding}
 \label{alg:tsne}
 \begin{algorithmic}
@@ -588,7 +588,7 @@ where $p(s|impostor)$ and $p(s|genuine)$ correspond to the probability distribut
 
 Finally, the \acs{eer} is designated by the point at which the \acs{far} and \acs{frr} curves intercept each other (see \autoref{fig:eer}). Therefore, \acs{eer} represents the rate at which both acceptance and rejection errors are equal, i.e., $FAR = FRR$ or $p(s|impostor) = p(s|genuine)$. All the mentioned metrics (\acs{far}, \acs{frr}, and \acs{eer}) are inversely proportional to the performance of the biometric system (the lower, the better).
 
-\begin{figure}[tb]
+\begin{figure}[h]
 \centering
 \includegraphics[height=2.1in]{images/metrics/EER.pdf}
 \caption{The typical curves of the \acs{far} and \acs{frr} error rates, plotted side by side, in relation to the threshold $\tau$ configured for the system. The \acs{eer} is represented by the intersection point of the curves. Source: own elaboration.}
@@ -629,7 +629,7 @@ Following the ICAO guidelines, the \acf{iso}, together with the \acf{iec}, propo
 
 \input{tables/table_icao}
 
-\begin{figure}[tb]
+\begin{figure}[h]
 \centering
 \includegraphics[width=\linewidth]{images/dataset/icao.png}
 \caption{Examples of non-compliant images for the requirements 8-30 listed in Table \ref{tab:icao}. Source: \cite{maltoni2009biolab}.}
@@ -649,7 +649,7 @@ In 2012, a new benchmark category related to the \icao standard was added to \fv
 \item the rectangular region of size $W \times H$ (with $W=4\cdot E_{Dist}$ and $H=W \cdot 4/3$), determined so that the eyes are horizontally aligned and their center is in position $C_E=(W\cdot1/2,W\cdot3/5)$, is totally enclosed in the original image (see \autoref{fig:icao_token}).
 \end{itemize}
 
-\begin{figure}[tb]
+\begin{figure}[h]
     \centering
     \includegraphics[height=3.0in]{images/dataset/icao_tokenizable.png}
     \caption{Geometric characteristics of the token image format. Source: \citep{fvcongoing}.}
