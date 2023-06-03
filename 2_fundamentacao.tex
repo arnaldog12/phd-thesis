@@ -76,7 +76,7 @@ Besides convolution, pooling layers are one of the essential components of \aclp
 
 There are two common types of pooling methods: \textbf{max pooling} and \textbf{average pooling}. They compute the maximum and the average value for each patch of a feature map, respectively. An example of both operations can be seen in \autoref{fig:poolings}.
 
-\begin{figure*}[h]
+\begin{figure*}[ht]
 \centering
 \subfigure[Max Pooling]{\includegraphics[width=0.4\linewidth]{images/deep_learning/pool_max.png}}
 \hfill
@@ -204,7 +204,7 @@ Although the training of Autoencoders is similar to regular Neural Networks, som
 \begin{itemize}
 \item \textbf{Embedding size}: the size of the latent representation represents a tradeoff between compression and accurate reconstruction. A smaller size results in more compression, but the Autoencoder may be forced to drop relevant features for reconstruction. On the other hand, the higher the embedding size, the more likely it is that the Autoencoder will memorize or overfit the training data. Usually, this effect can be diminished by adding a term to the loss function that discourages memorization/overfitting (e.g., a regularizer).
 
-\item \textbf{Number of Layers}: Vanilla Autoencoders are trained with a single hidden layer. However, training multilayer Autoencoders offers several advantages. First, depth can exponentially reduce the computational cost associated with representing a function. Furthermore, depth can also decrease the amount of training data required to train a useful Autoencoder \citep[p.~506]{goodfellow2016deep}. Finally, experiments have shown that deep Autoencoders yield significantly better compression than equivalent shallow or linear Autoencoders \citep{hinton2006reducing}.
+\item \textbf{Number of Layers}: Vanilla Autoencoders are trained with a single hidden layer. However, training multilayer Autoencoders offers several advantages. First, depth can exponentially reduce the computational cost associated with representing a function. Furthermore, depth can also decrease the amount of training data required to train a useful Autoencoder \citep[p.~506]{goodfellow2016deep}, as the compact and expressive representations enable them to learn more robust and abstract features. Finally, experiments have shown that deep Autoencoders yield significantly better compression than equivalent shallow or linear Autoencoders \citep{hinton2006reducing}.
 
 \item \textbf{Number of nodes per layer}: usually, Autoencoders have symmetric architecture. The number of nodes per layer in the encoder is the same as that in the decoder part, but inversely. In the case of undercomplete Autoencoders, as described earlier, the number of neurons per layer decreases at each layer and increases back in the decoder. In fact, symmetric architecture is not a mandatory rule but is commonly adopted in practice.
 
