@@ -387,7 +387,7 @@ The \acf{tsne}, developed by \cite{tsne}, is a nonlinear dimensionality reductio
 
 The \acs{tsne} algorithm comprises two main stages. First, the symmetric probability of points in the original high-dimensional space is computed. Higher probabilities are assigned to similar points, whereas dissimilar points are assigned a lower probability. Such probabilities are computed using a \textit{t}-Student kernel with a given degree of freedom. Secondly, a similar probability distribution is defined over the points mapped into the low-dimensional space. The Kullback-Leibler divergence (also called relative entropy) between these two distributions is minimized through a gradient descent technique. A simplified version of \acs{tsne} is shown in Algorithm \ref{alg:tsne}, and the details are explained below.
 
-\begin{algorithm}[h]
+\begin{algorithm}[ht]
 \caption{Simple version of t-Distributed Stochastic Neighbor Embedding}
 \label{alg:tsne}
 \begin{algorithmic}
