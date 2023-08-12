@@ -33,7 +33,7 @@ The rest of this section focuses on some specific types of neural networks and l
 
 \acfp{cnn}, also known as Convolutional Networks, are a specific kind of feedforward neural network specially developed to process grid-like data. For example, we can think of time-series data as a 1--D grid of time intervals with samples. Likewise, images can be considered as 2--D grid of pixels. In recent years, \acsp{cnn} have achieved exceptional performance in several practical applications. It includes, but is not limited to, image classification \citep{li2014medical, guo2017simple, paoletti2018new}, object detection \citep{cai2016unified, wu2017squeezedet}, and instance segmentation \citep{wang2020solov2, xu2020convolutional, zhang2020mask}.
 
-The convolution is the basic operation of a \acs{cnn}. In summary, it is a well-known mathematical operation that performs a linear calculation over two functions \citep{goodfellow2016deep}. This is similar to the cross-correlation, but one of the functions is reversed and shifted. Given the functions $x$ and $w$, the convolution operation over an age of measurement $\tau$ between $x$ and $w$ - denoted by $h(t)$ - can be defined according to \autoref{eq:convolution}, for the continuous domain:
+The convolution is the basic operation of a \acs{cnn}. In summary, it is a well-known mathematical operation that performs a linear calculation over two functions \citep{goodfellow2016deep}. This is similar to the cross-correlation, but one of the functions is reversed and shifted. Given the functions $x$ and $w$, the convolution operation over a period of measurement $\tau$ between $x$ and $w$ - denoted by $h(t)$ - can be defined according to \autoref{eq:convolution}, for the continuous domain:
 
 \begin{equation}
 \label{eq:convolution}
@@ -72,7 +72,7 @@ In \aclp{cnn}, beyond the convolutional layers, there are also other common type
 
 \paragraph{Pooling Layers}
 
-Besides convolution, pooling layers are one of the essential components of \aclp{cnn}. Pooling is an operation that provides an approach to reduce the spatial size of feature maps, also called downsampling, and summarizes the features present in patches of the feature map. It helps to: (i) reduce the number of parameters; (ii) the number of computations performed in the network; and (iii) make the model more robust to slight variations in the position of features in the input image, controlling overfitting. In general, pooling layers are applied after the activation function of the convolutional layers and operate independently on each feature map.
+Besides convolution, pooling layers are one of the essential components of \aclp{cnn}. Pooling is an operation that provides an approach to reduce the spatial size of feature maps, also called downsampling, and summarizes the features present in patches of the feature map. It helps to: (i) reduce the number of parameters; (ii) reduce the number of computations performed in the network; and (iii) make the model more robust to slight variations in the position of features in the input image, controlling overfitting. In general, pooling layers are applied after the activation function of the convolutional layers and operate independently on each feature map.
 
 There are two common types of pooling methods: \textbf{max pooling} and \textbf{average pooling}. They compute the maximum and the average value for each patch of a feature map, respectively. An example of both operations can be seen in \autoref{fig:poolings}.
 
@@ -224,7 +224,7 @@ The success of an \acs{ml} system is closely tied to the choice and quality of d
 \begin{itemize}
 \item \textbf{Distribution}: expressive representation can be a proxy for an exponential amount of configuration for their size.
 
-\item \textbf{Abstraction and Invariance}: helpful representations can capture more abstract concepts that are also invariant to local and small changes in the input data.
+\item \textbf{Abstraction and Invariance}: valuable representations can capture more abstract concepts that are also invariant to local and small changes in the input data.
 
 \item \textbf{Disentangled representation}: a well-designed representation should effectively capture the relevant factors of the data while retaining as much information as possible. At the same time, it is desirable to disentangle these factors, as this allows the reuse of learned features in other learning systems and may be beneficial for explainability. 
 \end{itemize}
@@ -615,7 +615,7 @@ where $w$ is a non-negative constant that defines the range of the nonlinear par
 \begin{figure}[htb]
 \centering
 \includegraphics[width=0.8\linewidth]{images/metrics/wing_loss.png}
-\caption{Wing loss function (\autoref{eq:wingloss}) plotted for different settings of $w$ and $\epsilon$. Source: \citep{wingloss}.}.
+\caption{Wing loss function (\autoref{eq:wingloss}) plotted for different settings of $w$ and $\epsilon$. Source: \citep{wingloss}.}
 \label{fig:wing_loss}
 \end{figure}
 
@@ -660,7 +660,7 @@ Two datasets are used to benchmark the algorithms submitted to the \acs{ficv} co
 
 All the participants who wish to submit an algorithm for evaluation in the \acs{ficv} competition must follow a well-defined protocol. The algorithm must be submitted as a Windows 32 bits (Win32) console application as an executable file of up to 50MB compressed using the zip format. Such executable receives a face image as input and must output the coordinates $(x, y)$ of the left and right eye centers and a score in the range of $[0, 100]$ to indicate the compliance degree of the input image for each photographic requirement of \autoref{tab:icao}.
 
-Additionally to the submission protocol, the algorithm must still comply with certain constraints. For example, the maximum time to process each image is 10 seconds. In the case of time violations, the current image evaluation is considered a failure. Also, there is a minimum break of 12 hours between two consecutive submissions by the same participant in the \ficvtest dataset. For the \ficvofficial, this interval is 15 days. However, there are no constraints on the memory allocation limit.
+Additionally to the submission protocol, the algorithm must still comply with certain constraints. For example, the maximum time to process each image is 10 seconds. In the case of time violations, the current image evaluation is considered a failure. Also, there is a minimum break of 12 hours between two consecutive submissions by the same participant in the \ficvtest dataset. For the \ficvofficial, this interval is 15 days. However, there are no constraints on the memory allocation limit. Also, the memory consumption reported refers to the maximum amount of MB allocated by the method to perform predictions during evaluation.
 
 Finally, since the requirements \#1 and \#8--30 (see \autoref{tab:icao}) represent distinct types of problems, they are evaluated differently. The \eyecenterlocation performance is measured by the relative error according to the distance between the expected and estimated eye positions ($d_{eye}$). This is the same metric introduced by \cite{jesorsky2001robust} and is calculated as follows (\autoref{eq:icao-eyes}):
 

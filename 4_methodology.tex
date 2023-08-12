@@ -53,7 +53,7 @@ Usually, \acl{dl}-based methods require a large dataset for learning, primarily 
  
 These problems can be found in the \ficvtest dataset. First, the \icao standard represents a unique type of problem, and thus, Transfer Learning may not be a valid option. Although some face datasets are available for research, Neural Networks are typically trained for face recognition in these datasets. Hence, although some features learned by these networks might be helpful for ICAO, some requirements are not present in these databases (e.g., \inkmarked) or may be ignored by the network (e.g., \variedbackground). Finally, Data Augmentation might not help with the \ficvtest database due to the high imbalance in specific requirements. Also, some transformations applied by Data Augmentation procedures can affect some requirements. For example, random brightness may affect the \toodarklight requirement, and random rotations can change the angles of the face and disturb \rollpitchyaw.
  
-With only 571 images available in the \ficvtest database for all 23 requirements, we decided to increase the dataset by following a procedure similar to that adopted by \acs{ficv}. Therefore, we manually gathered additional images from the AR, FRGC, and PUT databases. We also included images from the AFW database \citep{databaseAFW} and acquired new images according to the \icao requirements. In this case, we created a dataset of pictures by asking hundreds of volunteers to reproduce the characteristics of non-compliant photographic requirements (\#8--\#30 of Table \ref{tab:icao}). The images were later annotated by three people from our research group, specially trained for this task. As in \citep{Nowak2010}, we provided an annotation tool in which the task of annotators was to select the compliance level of each requirement: compliant (C), non-compliant (NC) or Dummy (D). It was developed with Pybossa\footnote{https://pybossa.com} and provided as a web application tool. To produce the final labels, we followed an approach similar to that used by \citep{Chang2017}. Thus, expert annotators compared and discussed conflicting labels in an iterative and collaborative workflow. In total, we ended up with a training set of 5763 images. The image distribution per dataset is defined as follows:
+With only 571 images available in the \ficvtest database for all 23 requirements, we decided to increase the dataset by following a procedure similar to that adopted by \acs{ficv}. Therefore, we manually gathered additional images from the AR, FRGC, and PUT databases. We also included images from the AFW database \citep{databaseAFW} and acquired new images according to the \icao requirements. In this case, we created a dataset of pictures by instructing hundreds of volunteers to reproduce the characteristics of non-compliant photographic requirements (\#8--\#30 of Table \ref{tab:icao}). The images were later annotated by three people from our research group, specially trained for this task. As in \citep{Nowak2010}, we provided an annotation tool in which the task of annotators was to select the compliance level of each requirement: compliant (C), non-compliant (NC) or Dummy (D). It was developed with Pybossa\footnote{https://pybossa.com} and provided as a web application tool. To produce the final labels, we followed an approach similar to that used by \citep{Chang2017}. Thus, expert annotators compared and discussed conflicting labels in an iterative and collaborative workflow. In total, we ended up with a training set of 5763 images. The image distribution per dataset is defined as follows:
  
 \begin{itemize}
 \item 22 images from AFW database of sizes from 362$\times$362 to 1984$\times$1984 pixels;
@@ -138,7 +138,7 @@ The overall architecture of \methodname can be seen in Figure \ref{fig:icaonet}.
  
 \begin{figure*}[tb]
 \centering
-\includegraphics[width=\linewidth]{images/icaonet/icaonet.pdf}
+\includegraphics[width=\linewidth]{images/icaonet/icaonet.png}
 \caption{Architecture of \methodname. Source: own elaboration.}
 \label{fig:icaonet}
 \end{figure*}
@@ -172,31 +172,38 @@ The unsupervised branch uses the Mean Squared Error (MSE) to measure the image r
  
 There are three supervised branches in \methodname: (i) \textbf{requirements}, (ii) \textbf{ eye-landmark localization}, and (iii) \textbf{pixelation}. The requirements and landmark localization branches take the shared embeddings as input and apply a fully connected network to perform multi-label classification and regression, respectively. On the other hand, the pixelation branch leverages information from shallow layers to use low-level features in the evaluation of \pixelation requirement. 
  
-The first layer of the requirement branch performs GlobalAveragePooling on the shared embeddings. It transforms the 4-D dimensional vector of the embeddings into the 2-D dimensions required by dense networks. We chose GlobalAveragePooling layers instead of MaxPooling layers because they are known to perform better in practice, as stated in \cite{zhou2016learning}. Then, there are two consecutive dense layers with 64 and 32 neurons, respectively. Dropout layers are included between each layer to prevent overfitting. Finally, the output layer contains 23 neurons with sigmoid activation. Therefore, each neuron of the final layer outputs a normalized score between 0 and 1 for each corresponding requirement. In practice, the supervised branch's output is considered the likelihood that a given input image is compliant with each requirement of the \icao standard.
- 
-The landmark localization branch is almost identical to the requirement branch. It also shares the GlobalAveragePooling, but the final layer has 4 neurons representing each eye's center $(x, y)$. The activation function of the output layer is also sigmoid since the eye positions are normalized to the input size. However, in this case, we are performing a regression task.
- 
-The pixelation branch also starts with GlobalAveragePooling applied after the second Max-Pooling layer of the Shared Network. Then, there are 3 consecutive layers of Dropout and fully connected layers with 64, 128, and 128 neurons, respectively. Finally, the last layer has a single neuron with sigmoid activation. It outputs the likelihood of the input image being compliant/non-compliant regarding the \pixelation requirement.
- 
-The pixelation branch deserves special considerations. First, unlike the other branches, it is the only branch that does not use the embeddings learned by the Shared Network as inputs. This branch begins after the second Max-Pooling layer of the Shared Network. Therefore, the low-level features present in these shallow layers are used to assess this specific requirement. Moreover, this is a particular case of \acl{mtl} since there is a task-specific head decoupled from the joint representation. Finally, the pixelation branch is trained with face patches of the original image, i.e., before preprocessing. In this way, the image resolution is preserved, and it avoids undesired pixelation effects artificially generated by the resize operation of preprocessing step. 
- 
-The Multi-label Cross-Entropy is used as the loss function for the requirements branch, defined by \autoref{eq:loss-supervised}:
+The first layer of the requirement branch performs GlobalAveragePooling on the shared embeddings. It transforms the 4-D dimensional vector of the embeddings into the 2-D dimensions required by dense networks. We chose GlobalAveragePooling layers instead of MaxPooling layers because they are known to perform better in practice, as stated in \cite{zhou2016learning}. Then, there are two consecutive dense layers with 64 and 32 neurons, respectively. Dropout layers are included between each layer to prevent overfitting. Finally, the output layer contains 23 neurons with sigmoid activation and the Multi-label Cross-Entropy is used as the loss function for the requirements branch, defined by \autoref{eq:loss-requirements}: 
  
 \begin{equation}
-\label{eq:loss-supervised}
-\mathcal{L}_4 = -\frac{1}{M} \sum_i^M {y_i \cdot log(\hat{y}_i)}
+\label{eq:loss-requirements}
+\mathcal{L}_2 = -\frac{1}{M} \sum_i^M {y_i \cdot log(\hat{y}_i)}
+\end{equation}
+
+\noindent where $M$ represents the number of requirements; $y_i$ is the ground-truth for each requirement (0: non-compliant, 1: compliant); and $\hat{y}_i$ is the predicted score for each requirement. Therefore, each neuron of the final layer outputs a normalized score between 0 and 1 for each corresponding requirement. In practice, the output of requirements branch can be considered as the likelihood that a given input image is compliant with each requirement of the \icao standard.
+ 
+The landmark localization branch is almost identical to the requirement branch. It also shares the GlobalAveragePooling, but the final layer has 4 neurons representing each eye's center $(x, y)$. The activation function of the output layer is also sigmoid, since the eye positions are normalized to the input size. However, in this case, we are performing a regression task and the Wing loss ($\mathcal{L}_3$) is applied as the loss function (see Section \ref{sec:wingloss}).
+ 
+The pixelation branch also starts with GlobalAveragePooling applied after the second Max-Pooling layer of the Shared Network. Then, there are 3 consecutive layers of Dropout and fully connected layers with 64, 128, and 128 neurons, respectively. Finally, the last layer has a single neuron with sigmoid activation. It outputs the likelihood of the input image being compliant/non-compliant regarding the \pixelation requirement using the regular Cross-Entropy loss ($\mathcal{L}_4$), defined by \autoref{eq:loss-pixelation}:
+
+\begin{equation}
+\label{eq:loss-pixelation}
+\mathcal{L}_4 = -\frac{1}{M} \sum_i^M {y_i \cdot log(\hat{y}_i) + (1-y_i)*log(1-\hat{y}_i})
 \end{equation}
  
-\noindent where $M$ represents the number of requirements; $y_i$ is the ground-truth for each requirement (0: non-compliant, 1: compliant); and $\hat{y}_i$ is the predicted score for each requirement.
- 
-The landmark localization branch employs the Wing loss ($\lambda_3$) as the loss function (see Section \ref{sec:wingloss}). The pixelation branch applies the regular Cross-Entropy loss ($\lambda_4$). Since the network has supervised and unsupervised branches, and they are optimized using different loss functions, the final loss function $\mathcal{L}(I, \hat{I}, y, \hat{y})$ is defined by \autoref{eq:loss-final}:
+The pixelation branch deserves special considerations. First, unlike the other branches, it is the only branch that does not use the embeddings learned by the Shared Network as inputs. This branch begins after the second Max-Pooling layer of the Shared Network. Therefore, the low-level features present in these shallow layers are used to assess this specific requirement. Moreover, this is a particular case of \acl{mtl} since there is a task-specific head decoupled from the joint representation. Finally, the pixelation branch is trained with face patches of the original image, i.e., before preprocessing. In this way, the image resolution is preserved, and it avoids undesired pixelation effects artificially generated by the resize operation of the preprocessing step. 
+
+Since the network has supervised and unsupervised branches, and they are optimized using different loss functions, the final loss function $\mathcal{L}(I, \hat{I}, y, \hat{y})$ is defined by \autoref{eq:loss-final}:
  
 \begin{equation}
 \label{eq:loss-final}
 \mathcal{L}(I, \hat{I}, y, \hat{y}) = \lambda_1\mathcal{L}_1 + \lambda_2\mathcal{L}_2 + \lambda_3\mathcal{L}_3 + \lambda_4\mathcal{L}_4
 \end{equation}
  
-\noindent where $\lambda_{1...4}$ are hyperparameters to control the trade-off between each loss function. One important point to mention is that by using \autoref{eq:loss-final}, all branches will be optimized individually up to the the point where they are merged during backpropagation step. When it happens, the gradients of each loss function ($\mathcal{L}_{1...4}$) are summed. As discussed later in the subsection \ref{sec:hyperparams}, we experimentally tested different values of $\lambda_{1...4}$ via a grid-search approach. Nonetheless, more extensive searches are likely to yield more significant improvements, but these are left as future work.
+\noindent where $\lambda_{1...4}$ are hyperparameters to control the trade-off between each loss function. \autoref{tab:branches} summarizes the loss function used by all \methodname branches.
+
+\input{tables/table_branches}
+
+There are three important points to mention about \autoref{eq:loss-final}. First, each loss function can output values in different ranges, which can significantly impact the training process of the neural network. Secondly, although each individual loss ($\mathcal{L}_{1...4}$) is known to be continuous and differentiable, it may not be true when they are all summed together in the final loss function. Finally, all branches will be optimized individually up to the point where they are merged during the backpropagation step. When it happens, the gradients of each loss function ($\mathcal{L}_{1...4}$) are summed. Therefore, all these aspects may pose challenges in balancing the optimization process, potentially resulting in slower convergence, vanishing or exploding gradients, and difficulties in finding an optimal solution. Careful consideration and experimentation are crucial to mitigate such issues and enhance the overall effectiveness of \methodname.
  
 \subsubsection{Training} 
  
